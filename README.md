@@ -8,7 +8,7 @@ dungeon game and looking for an adequate challenge.**
 
 The application will generate a *map*, 
 with a single entry and exit point, containing 
-several rooms, obstacles, and enemies that the 
+several rooms, obstacles (spikes), and enemies that the 
 player will have to circumvent to progress to each 
 next level. The level of difficulty will increase 
 with each level completion. 
@@ -40,3 +40,15 @@ of mine, while simultaneously implementing a pathfinding
 algorithm in a game-like context and also a simple 
 procedural generation algorithm like The Drunkard 
 Walk Algorithm.
+
+## *User Stories*
+As part of Phase 1 of this project, the following user stories have been implemented:
+
+- As a user, I want to be able to navigate a room using the arrow keys.
+- As a user, I want to be able to interact with the exit point to complete the level. 
+- As a user, I want to be able to be able die if I walk into an obstacle.  
+- As a user, I want to be able to add coins to my wallet as a count of my score.
+
+The pathfinding and procedural generation will be added in later phases of this project.
+
+
