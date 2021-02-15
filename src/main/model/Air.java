@@ -12,4 +12,14 @@ public class Air {
         System.out.print(AIR_TILE_SYMBOL + s);
         return AIR_TILE_SYMBOL + s;
     }
+
+    // MODIFIES: this
+    // EFFECTS: adds an air tile to the set of positions
+    public void addPosition(Position p) {
+        this.positionSet.add(p);
+    }
+
+    public HashSet<Position> getPositionSet() {
+        return this.positionSet;
+    }
 }

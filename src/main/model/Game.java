@@ -7,17 +7,16 @@ public class Game {
     private EntryPoint entryPoint = new EntryPoint();
     private ExitPoint exitPoint = new ExitPoint();
     private Player player = new Player();
-    private Spike  spike = new Spike();
+    private Spike spike = new Spike();
     private Coin coin = new Coin();
-
 
 
     // MODIFIES: this
     // EFFECTS: sets up the initial game map
     public Game() {
-        initializePlayer(new Position(1,6));
-        initializeEntryPoint(new Position(1,6));
-        initializeExitPoint(new Position(11,6));
+        initializePlayer(new Position(1, 6));
+        initializeEntryPoint(new Position(1, 6));
+        initializeExitPoint(new Position(11, 6));
         initializeSpikes();
         initializeCoins();
         initializeWalls();
@@ -44,34 +43,34 @@ public class Game {
     // MODIFIES: this
     // EFFECTS: sets up the Spike positions
     public void initializeSpikes() {
-        spike.addPosition(new Position(9,3));
-        spike.addPosition(new Position(9,4));
-        spike.addPosition(new Position(9,8));
-        spike.addPosition(new Position(9,9));
+        spike.addPosition(new Position(9, 3));
+        spike.addPosition(new Position(9, 4));
+        spike.addPosition(new Position(9, 8));
+        spike.addPosition(new Position(9, 9));
     }
 
     // MODIFIES: this
     // EFFECTS: sets up the Coin positions
     public void initializeCoins() {
-        coin.addPosition(new Position(2,6));
-        coin.addPosition(new Position(3,6));
-        coin.addPosition(new Position(4,6));
-        coin.addPosition(new Position(4,5));
-        coin.addPosition(new Position(4,4));
-        coin.addPosition(new Position(4,3));
-        coin.addPosition(new Position(4,2));
-        coin.addPosition(new Position(4,1));
-        coin.addPosition(new Position(5,1));
-        coin.addPosition(new Position(6,1));
-        coin.addPosition(new Position(7,1));
-        coin.addPosition(new Position(7,2));
-        coin.addPosition(new Position(7,3));
-        coin.addPosition(new Position(7,4));
-        coin.addPosition(new Position(7,5));
-        coin.addPosition(new Position(7,6));
-        coin.addPosition(new Position(8,6));
-        coin.addPosition(new Position(9,6));
-        coin.addPosition(new Position(10,6));
+        coin.addPosition(new Position(2, 6));
+        coin.addPosition(new Position(3, 6));
+        coin.addPosition(new Position(4, 6));
+        coin.addPosition(new Position(4, 5));
+        coin.addPosition(new Position(4, 4));
+        coin.addPosition(new Position(4, 3));
+        coin.addPosition(new Position(4, 2));
+        coin.addPosition(new Position(4, 1));
+        coin.addPosition(new Position(5, 1));
+        coin.addPosition(new Position(6, 1));
+        coin.addPosition(new Position(7, 1));
+        coin.addPosition(new Position(7, 2));
+        coin.addPosition(new Position(7, 3));
+        coin.addPosition(new Position(7, 4));
+        coin.addPosition(new Position(7, 5));
+        coin.addPosition(new Position(7, 6));
+        coin.addPosition(new Position(8, 6));
+        coin.addPosition(new Position(9, 6));
+        coin.addPosition(new Position(10, 6));
     }
 
     // MODIFIES: this
@@ -81,17 +80,17 @@ public class Game {
         final int TWELVE = 12;
 
         // adding corners
-        wall.addPosition(new Position(ZERO,ZERO));
-        wall.addPosition(new Position(TWELVE,ZERO));
-        wall.addPosition(new Position(ZERO,TWELVE));
-        wall.addPosition(new Position(TWELVE,TWELVE));
+        wall.addPosition(new Position(ZERO, ZERO));
+        wall.addPosition(new Position(TWELVE, ZERO));
+        wall.addPosition(new Position(ZERO, TWELVE));
+        wall.addPosition(new Position(TWELVE, TWELVE));
 
         // adding boundaries
         for (int i = 1; i < 12; ++i) {
-            wall.addPosition(new Position(i,ZERO));
-            wall.addPosition(new Position(i,TWELVE));
-            wall.addPosition(new Position(ZERO,i));
-            wall.addPosition(new Position(TWELVE,i));
+            wall.addPosition(new Position(i, ZERO));
+            wall.addPosition(new Position(i, TWELVE));
+            wall.addPosition(new Position(ZERO, i));
+            wall.addPosition(new Position(TWELVE, i));
 
         }
     }
@@ -124,3 +123,5 @@ public class Game {
         return this.air;
     }
 }
+
+

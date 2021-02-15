@@ -90,4 +90,11 @@ public class GameTest {
         testInitializeSpikes();
         testInitializeWalls();
     }
+
+    @Test
+    public void testGetAir() {
+        Position pos = new Position(2,3);
+        game.air().addPosition(pos);
+        assertTrue(game.air().getPositionSet().contains(pos));
+    }
 }

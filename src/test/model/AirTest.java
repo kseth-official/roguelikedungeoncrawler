@@ -18,4 +18,11 @@ public class AirTest {
     public void testDisplay() {
         assertEquals(air.display("hello"), " hello");
     }
+
+    @Test
+    public void testAddPosition() {
+        Position temp = new Position(0,0);
+        air.addPosition(temp);
+        assertTrue(air.getPositionSet().contains(temp));
+    }
 }
