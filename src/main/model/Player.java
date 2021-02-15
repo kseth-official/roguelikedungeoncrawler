@@ -30,31 +30,29 @@ public class Player  {
 
     // MODIFIES: this
     // EFFECTS: moves the player in the given direction, unless movement in the direction is forbidden due to a wall
-    public void move(String direction, Game game) {
-        int currentXPosition = this.position.getX();
-        int currentYPosition = this.position.getY();
-
-        switch (direction) {
-            case "w":
-                if (!game.wall().getPositionSet().contains(new Position(currentXPosition, currentYPosition - DY))) {
-                    this.position.setPosition(currentXPosition, currentYPosition - DY);
-                }
-                break;
-            case "a":
-                if (!game.wall().getPositionSet().contains(new Position(currentXPosition - DX, currentYPosition))) {
-                    this.position.setPosition(currentXPosition - DX, currentYPosition);
-                }
-                break;
-            case "s":
-                if (!game.wall().getPositionSet().contains(new Position(currentXPosition, currentYPosition + DY))) {
-                    this.position.setPosition(currentXPosition, currentYPosition + DY);
-                }
-                break;
-            case "d":
-                if (!game.wall().getPositionSet().contains(new Position(currentXPosition + DX, currentYPosition))) {
-                    this.position.setPosition(currentXPosition + DX, currentYPosition);
-                }
+    public boolean move(String direction, Game game) {
+        if (direction.equals("w")) {
+            if (!game.wall().getPositionSet().contains(new Position(this.position.getX(), this.position.getY() - DY))) {
+                this.position.setPosition(this.position.getX(), this.position.getY() - DY);
+            }
+            return true;
+        } else if (direction.equals("a")) {
+            if (!game.wall().getPositionSet().contains(new Position(this.position.getX() - DX, this.position.getY()))) {
+                this.position.setPosition(this.position.getX() - DX, this.position.getY());
+            }
+            return true;
+        } else if (direction.equals("s")) {
+            if (!game.wall().getPositionSet().contains(new Position(this.position.getX(), this.position.getY() + DY))) {
+                this.position.setPosition(this.position.getX(), this.position.getY() + DY);
+            }
+            return true;
+        } else if (direction.equals("d")) {
+            if (!game.wall().getPositionSet().contains(new Position(this.position.getX() + DX, this.position.getY()))) {
+                this.position.setPosition(this.position.getX() + DX, this.position.getY());
+            }
+            return true;
         }
+        return false;
     }
 
     // EFFECTS: allows the player to perform certain interactions

@@ -71,11 +71,17 @@ public class PlayerTest {
     }
 
     @Test
+    public void testMoveNotADirection() {
+        assertFalse(game.player().move("q",game));
+    }
+
+    @Test
     public void testInteract() {
         assertFalse(game.player().interact("i",game));
         game.initializePlayer(new Position(2,2));
         game.initializeExitPoint(new Position(2,2));
         assertTrue(game.player().interact("i",game));
+        assertFalse(game.player().interact("k",game));
     }
 
     @Test
