@@ -14,7 +14,6 @@ public class GameTest {
         game = new Game();
     }
 
-
     @Test
     public void testInitializePlayer() {
         game.initializePlayer(new Position(0,0));
@@ -80,5 +79,15 @@ public class GameTest {
             assertTrue(game.wall().getPositionSet().contains(new Position(0,i)));
             assertTrue(game.wall().getPositionSet().contains(new Position(12,i)));
         }
+    }
+
+    @Test
+    public void testConstructor() {
+        testInitializePlayer();
+        testInitializeEntryPoint();
+        testInitializeExitPoint();
+        testInitializeCoins();
+        testInitializeSpikes();
+        testInitializeWalls();
     }
 }

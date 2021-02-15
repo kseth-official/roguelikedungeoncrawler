@@ -9,6 +9,7 @@ public class Player  {
     private Position position = new Position();
     private Wallet wallet;
 
+    // EFFECTS: initializes the player's wallet with a balance of 0
     public Player() {
         wallet = new Wallet(0);
     }
@@ -28,8 +29,7 @@ public class Player  {
     }
 
     // MODIFIES: this
-    // EFFECTS: moves the player in the given direction, unless movement in the direction would cause a collision with
-    //          a wall
+    // EFFECTS: moves the player in the given direction, unless movement in the direction is forbidden due to a wall
     public void move(String direction, Game game) {
         int currentXPosition = this.position.getX();
         int currentYPosition = this.position.getY();

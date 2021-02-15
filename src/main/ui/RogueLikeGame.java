@@ -4,6 +4,7 @@ import model.*;
 
 import java.util.Scanner;
 
+// A class that sets up the game's user interface.
 public class RogueLikeGame {
     private static final String CONSOLE_CLEANER = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     private static final int BASIC_COIN_WORTH = 1;
@@ -22,11 +23,11 @@ public class RogueLikeGame {
     }
 
     public int getGameTerminalWidth() {
-        return gameTerminalWidth;
+        return RogueLikeGame.gameTerminalWidth;
     }
 
     public int getGameTerminalHeight() {
-        return gameTerminalHeight;
+        return RogueLikeGame.gameTerminalHeight;
     }
 
     // EFFECTS: clears the console screen by printing newline characters
@@ -37,7 +38,7 @@ public class RogueLikeGame {
         System.out.print("\r");
     }
 
-    // MODIFIES: a lot
+    // MODIFIES: game
     // EFFECTS: performs the map setup, enters the game loop, and exits on game over or level complete
     public void runRogueLikeGame() {
         boolean gameIsRunning = true;
@@ -46,7 +47,7 @@ public class RogueLikeGame {
         initialize();
 
         while (gameIsRunning && (!levelIsOver)) {
-            displayControls();
+            displayControlsAndInformation();
             displayWallet();
             displayMap();
             levelIsOver = handleKeyEvent();
@@ -65,12 +66,19 @@ public class RogueLikeGame {
     // MODIFIES: this
     // EFFECTS: initializes the game map
     public void initialize() {
-        game = new Game();
+        this.game = new Game();
     }
 
-    // EFFECTS: displays the game controls
-    public void displayControls() {
+    // EFFECTS: displays the game controls and game map information
+    public void displayControlsAndInformation() {
         System.out.println("Use WASD to move, I to interact with an exit, and E to quit the game");
+        System.out.println("P represents the Player");
+        System.out.println("E represents the Entry Point");
+        System.out.println("e represents the Exit Point");
+        System.out.println("¤ represents a Coin");
+        System.out.println("░ represents a Spike Tile");
+        System.out.println("W represents a Wall");
+        System.out.println();
     }
 
     // EFFECTS: displays the player's wallet balance
@@ -115,7 +123,7 @@ public class RogueLikeGame {
         }
     }
 
-    // REQUIRES: a running game
+    // REQUIRES: the game must be initialized
     // MODIFIES: game
     // EFFECTS: takes the user's input for the player character
     //          returns true if the level is over otherwise returns false
@@ -141,9 +149,9 @@ public class RogueLikeGame {
         return false;
     }
 
-    // MODIFIES: map, and ???
+    // MODIFIES: game
     // EFFECTS: checks if the player has collided with a coin, an obstacle, or an enemy and creates the
-    //          corresponding outcome.
+    //          corresponding outcome. returns false if the game has ended else returns true
     public boolean handleCollisions() {
         Position currentPlayerPosition = game.player().getPosition();
 

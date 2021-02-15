@@ -97,30 +97,30 @@ public class Game {
     }
 
     public Wall wall() {
-        return wall;
+        return this.wall;
     }
 
     public EntryPoint entryPoint() {
-        return entryPoint;
+        return this.entryPoint;
     }
 
     public ExitPoint exitPoint() {
-        return exitPoint;
+        return this.exitPoint;
     }
 
     public Player player() {
-        return player;
+        return this.player;
     }
 
     public Spike spike() {
-        return spike;
+        return this.spike;
     }
 
     public Coin coin() {
-        return coin;
+        return this.coin;
     }
 
     public Air air() {
-        return air;
+        return this.air;
     }
 }

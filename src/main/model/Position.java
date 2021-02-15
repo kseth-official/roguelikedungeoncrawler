@@ -7,6 +7,7 @@ public class Position {
     private int abscissaCoordinate;
     private int ordinateCoordinate;
 
+    // EFFECTS: instantiates a position allowing later position assignment
     public Position() {
     }
 

@@ -19,11 +19,7 @@ public class Wall {
         this.positionSet.add(p);
     }
 
-    // EFFECTS: returns the wall's position set
     public HashSet<Position> getPositionSet() {
         return this.positionSet;
     }
-
-
-
 }
