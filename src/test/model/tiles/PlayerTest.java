@@ -1,5 +1,8 @@
-package model;
+package model.tiles;
 
+import model.Game;
+import model.Position;
+import model.tiles.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

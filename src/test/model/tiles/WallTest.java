@@ -1,28 +1,30 @@
-package model;
+package model.tiles;
 
+import model.Position;
+import model.tiles.Wall;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// Test class for the Spike Class
-public class SpikeTest {
-    Spike spike;
+// Test Class for the Wall Class
+public class WallTest {
+    Wall wall;
 
     @BeforeEach
     public void setup() {
-        spike = new Spike();
+        wall = new Wall();
     }
 
     @Test
     public void testDisplay() {
-        assertEquals(spike.display("hello"), "░hello");
+        assertEquals(wall.display("hello"), "Whello");
     }
 
     @Test
     public void testAddPosition() {
         Position temp = new Position(0,0);
-        spike.addPosition(temp);
-        assertTrue(spike.getPositionSet().contains(temp));
+        wall.addPosition(temp);
+        assertTrue(wall.getPositionSet().contains(temp));
     }
 }

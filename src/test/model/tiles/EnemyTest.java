@@ -1,5 +1,6 @@
-package model;
+package model.tiles;
 
+import model.tiles.Enemy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,7 @@
-package model;
+package model.tiles;
 
+import model.Position;
+import model.tiles.EntryPoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

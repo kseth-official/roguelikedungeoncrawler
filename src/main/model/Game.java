@@ -1,5 +1,7 @@
 package model;
 
+import model.tiles.*;
+
 // A class for modeling the Game
 public class Game {
     private Air air = new Air();

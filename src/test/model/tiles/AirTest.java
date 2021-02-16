@@ -1,28 +1,30 @@
-package model;
+package model.tiles;
 
+import model.Position;
+import model.tiles.Air;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// Test Class for the Wall Class
-public class CoinTest {
-    Coin coin;
+// Test class for the Air Class
+public class AirTest {
+    Air air;
 
     @BeforeEach
     public void setup() {
-        coin = new Coin();
+        air = new Air();
     }
 
     @Test
     public void testDisplay() {
-        assertEquals(coin.display("hello"), "¤hello");
+        assertEquals(air.display("hello"), " hello");
     }
 
     @Test
     public void testAddPosition() {
         Position temp = new Position(0,0);
-        coin.addPosition(temp);
-        assertTrue(coin.getPositionSet().contains(temp));
+        air.addPosition(temp);
+        assertTrue(air.getPositionSet().contains(temp));
     }
 }

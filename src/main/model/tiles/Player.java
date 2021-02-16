@@ -1,13 +1,18 @@
-package model;
+package model.tiles;
+
+import model.Game;
+import model.Position;
+import model.SingleTile;
+import model.Wallet;
 
 // A class for modeling the player on the map.
+// The player is a subclass of SingleTile meaning that the player has only a single position.
 // This player may move around, pick up coins, and interact with the exit.
-public class Player  {
+public class Player extends SingleTile {
     private static final String PLAYER_CHARACTER_SYMBOL = "P";
     private static final int DX = 1;
     private static final int DY = 1;
-    private Position position = new Position();
-    private Wallet wallet;
+    private final Wallet wallet;
 
     // EFFECTS: initializes the player's wallet with a balance of 0
     public Player() {
@@ -16,16 +21,7 @@ public class Player  {
 
     // EFFECTS: displays the symbol for the player character + an optional string
     public String display(String s) {
-        System.out.print(PLAYER_CHARACTER_SYMBOL + s);
-        return PLAYER_CHARACTER_SYMBOL + s;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position p) {
-        this.position = p;
+        return super.display(PLAYER_CHARACTER_SYMBOL,s);
     }
 
     // MODIFIES: this
