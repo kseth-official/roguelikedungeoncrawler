@@ -92,8 +92,11 @@ public class Game {
             wall.addPosition(new Position(i, ZERO));
             wall.addPosition(new Position(i, TWELVE));
             wall.addPosition(new Position(ZERO, i));
+//            if (i == 6) {
+//                continue;
+//            } else {
             wall.addPosition(new Position(TWELVE, i));
-
+//            }
         }
     }
 

@@ -1,6 +1,6 @@
 package model;
 
-// A class representing the game wallet
+// A class representing the game wallet.
 // A player may add coins to the wallet by moving into a tile with a Coin on it.
 public class Wallet {
     private int balance;

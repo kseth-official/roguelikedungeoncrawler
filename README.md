@@ -42,13 +42,20 @@ procedural generation algorithm like The Drunkard
 Walk Algorithm.
 
 ## *User Stories*
-As part of Phase 1 of this project, the following user stories have been implemented:
+As part of *Phase 1* of this project, the following user stories have been implemented:
 
 - As a user, I want to be able to navigate a room using the arrow keys.
 - As a user, I want to be able to interact with the exit point to complete the level. 
-- As a user, I want to be able to be able die if I walk into an obstacle.  
+- As a user, I want to be able to be able to die if I walk into an obstacle.  
 - As a user, I want to be able to add coins to my wallet as a count of my score.
 
 The pathfinding and procedural generation will be added in later phases of this project.
 
+## *Post Phase 1*
+The following user stories will be implemented post phase 1 before beginning phase 2:
 
+- As a user, I want to be able to die upon interaction with an enemy.
+- As a user, I want to be able to be able to open my inventory.
+- As a user, I want to be able to pick up items and add them to my inventory.
+- As a user, I want to be able to use items in my inventory.
+- As a user, I want to be able to see my current health.

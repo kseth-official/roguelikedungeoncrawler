@@ -9,7 +9,6 @@ public class Enemy extends SingleTile {
 
     // EFFECTS: displays the symbol for the enemy character + an optional string
     public String display(String s) {
-        System.out.print(ENEMY_CHARACTER_SYMBOL + s);
         return super.display(ENEMY_CHARACTER_SYMBOL,s);
     }
 }

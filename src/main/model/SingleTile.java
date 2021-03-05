@@ -3,7 +3,6 @@ package model;
 // Represents tiles which are single entities.
 // This class holds their position and corresponding operations.
 public abstract class SingleTile extends Tile {
-
     protected Position position = new Position();
 
     // MODIFIES: this
