@@ -1,33 +1,52 @@
 # ***A Procedurally Generated Rogue-like Dungeon***
 
 **This application is designed for anyone interested 
-in playing something similar to a rogue-like 
-dungeon game and looking for an adequate challenge.**
+in playing a rogue-like dungeon crawler that 
+provides an adequate challenge.**
 
 ## *Game Specification*
+### *Map*
+The game procedurally generate a *map* 
+, with a single entry and exit point, containing 
+several rooms, obstacles (spikes), enemies, and coins.
+ 
+### *Objective*
+The player starts at the entry point and must circumvent 
+or eliminate all obstacles and enemies to reach the exit point 
+and progress to the next level. 
+The game consists of 5 levels, and the player wins
+if they successfully complete all five.
 
-The application will generate a *map*, 
-with a single entry and exit point, containing 
-several rooms, obstacles (spikes), and enemies that the 
-player will have to circumvent to progress to each 
-next level. The level of difficulty will increase 
+### *Mechanics*
+- The player has a single life.
+- The player dies when the player's health 
+bar reaches zero.
+- The level of difficulty increases 
 with each level completion. 
+- The player has a wallet for coin storage.
+- The player may collect coins by walking on to coin tiles or 
+by defeating enemies.
+- The player has access to a shop where the
+player may purchase items using coins.
+- The player may buy additional power-ups in the shop that may
+enhance gameplay.
 
-The player will have a single life and access to 
-a menu where the player may utilize up to 3 
-types of hints to complete a level, including a hint 
-indicating the path from the entry point to the exit.
-The player will be unable to use the same hint again 
-for the rest of the game once the hint has been 
-utilized.
+#### *Power-ups*
+##### *Map-level power-ups*
+|Number    |Name    |Usage    |Description    |
+|----------|--------|---------|---------------|
+|1. |Find exit-point power-up |One-time |Displays the path from the entry-point to the exit-point.|
 
-The game will end once the player dies through contact with an obstacle or
-an enemy or the player successfully completes 5 levels.
+##### *Player-level power-ups*
+|Number    |Name    |Usage    |Description    |
+|----------|--------|---------|---------------|
+|1. |||||
+
+*More power-ups will be added in the future.*
 
 ## *Inspiration*
 
-Throughout my life, I have played several Rogue-like 
-dungeon games:
+I've played several Rogue-like dungeon games before:
 
 - *The Pokemon Mystery Dungeon Games*
 - *The Enchanted Cave 2*
@@ -37,11 +56,11 @@ I’ve always wondered about how the games were made.
 
 This project will allow me to explore this curiosity 
 of mine, while simultaneously implementing a pathfinding
-algorithm in a game-like context and also a simple 
-procedural generation algorithm like The Drunkard 
-Walk Algorithm.
+algorithm in a game-like context and also a procedural generation 
+algorithm like The Drunkard Walk Algorithm.
 
 ## *User Stories*
+### *Phase 1*`
 As part of *Phase 1* of this project, the following user stories have been implemented:
 
 - As a user, I want to be able to navigate a room using the arrow keys.
@@ -51,7 +70,7 @@ As part of *Phase 1* of this project, the following user stories have been imple
 
 The pathfinding and procedural generation will be added in later phases of this project.
 
-## *Post Phase 1*
+### *Post Phase 1*
 The following user stories will be implemented post phase 1 before beginning phase 2:
 
 - As a user, I want to be able to die upon interaction with an enemy.
@@ -59,3 +78,12 @@ The following user stories will be implemented post phase 1 before beginning pha
 - As a user, I want to be able to pick up items and add them to my inventory.
 - As a user, I want to be able to use items in my inventory.
 - As a user, I want to be able to see my current health.
+- As a user, I want to be able to access the shop menu.
+
+### *Phase 2*
+
+The following user stories have been implemented as part of phase 2.
+- As a user, I want to be able to access a menu on starting the application.
+- As a user, I want to be able to start a new game or load a saved game from a save file.
+- As a user, I want to be able to save the current game to a save file.
+- As a user, I want to be able to create up to 3 save files.

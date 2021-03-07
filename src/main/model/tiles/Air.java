@@ -10,4 +10,6 @@ public class Air extends MultipleTile {
     public String display(String s) {
         return super.display(AIR_TILE_SYMBOL, s);
     }
+
+
 }

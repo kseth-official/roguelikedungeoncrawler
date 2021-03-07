@@ -7,6 +7,7 @@ import java.util.Scanner;
 // A class that sets up the game's user interface.
 public class RogueLikeGame {
     private static final String CONSOLE_CLEANER = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    private static final int NUMBER_OF_CONSOLE_CLEANER_REPEATS = 3;
     private static final int BASIC_COIN_WORTH = 1;
 
     private static int gameTerminalWidth;
@@ -32,7 +33,7 @@ public class RogueLikeGame {
 
     // EFFECTS: clears the console screen by printing newline characters
     public void clearScreen() {
-        for (int i = 0;i < 3;++i) {
+        for (int i = 0;i < NUMBER_OF_CONSOLE_CLEANER_REPEATS;++i) {
             System.out.print(CONSOLE_CLEANER);
         }
         System.out.print("\r");
