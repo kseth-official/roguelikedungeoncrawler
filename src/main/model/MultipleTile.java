@@ -18,4 +18,8 @@ public abstract class MultipleTile extends Tile {
         return this.positionSet;
     }
 
+    public void setPositionSet(HashSet<Position> positionSet) {
+        this.positionSet = positionSet;
+    }
+
 }

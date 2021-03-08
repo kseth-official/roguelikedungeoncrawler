@@ -22,7 +22,7 @@ public class Wall extends MultipleTile {
     }
 
     // EFFECTS: returns position set of wall tiles as a JSON array
-    private JSONArray wallTilePositionSetToJson() {
+    public JSONArray wallTilePositionSetToJson() {
         JSONArray jsonArray = new JSONArray();
 
         for (Position p : positionSet) {

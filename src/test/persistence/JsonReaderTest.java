@@ -11,13 +11,13 @@ class JsonReaderTest {
     private static final String JSON_STORE_TEST_JSON_READER = "./data/testJsonReader.json";
 
     @Test
-    void testConstructor() {
+    public void testConstructor() {
         JsonReader jsonReader = new JsonReader(JSON_STORE_TEST_JSON_READER);
         assertTrue(jsonReader.getSource().equals(JSON_STORE_TEST_JSON_READER));
     }
 
     @Test
-    void testReaderNonExistentFile() {
+    public void testReaderNonExistentFile() {
         JsonReader reader = new JsonReader("./data/noSuchFile.json");
         try {
             Game game = reader.read();
@@ -29,7 +29,7 @@ class JsonReaderTest {
 
 
     @Test
-    void testReader() {
+    public void testReader() {
         JsonReader reader = new JsonReader(JSON_STORE_TEST_JSON_READER);
         try {
             Game game = reader.read();

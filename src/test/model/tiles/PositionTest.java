@@ -29,12 +29,24 @@ public class PositionTest {
         assertEquals(position.getY(), 5);
     }
 
+//    @Test
+//    public void testTrivialEquals() {
+//        Position nullPosition = null;
+//        Wall wall = new Wall();
+//        assertTrue(position.equals(position));
+//        assertFalse(position.equals(nullPosition));
+//        assertFalse(position.equals(wall));
+//    }
+
     @Test
-    public void testEquals() {
-        Position nullPosition = null;
-        Wall wall = new Wall();
-        assertTrue(position.equals(position));
-        assertFalse(position.equals(nullPosition));
-        assertFalse(position.equals(wall));
+    void testEquals() {
+        Position other = new Position(3,4);
+        assertEquals(position, other);
+    }
+
+    @Test
+    void testHashCode() {
+        Position other = new Position(3,4);
+        assertEquals(position.hashCode(), other.hashCode());
     }
 }

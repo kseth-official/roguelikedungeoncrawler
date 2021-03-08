@@ -23,7 +23,7 @@ public class Enemy extends MultipleTile {
     }
 
     // EFFECTS: returns position set of enemy tiles as a JSON array
-    private JSONArray enemyTilePositionSetToJson() {
+    public JSONArray enemyTilePositionSetToJson() {
         JSONArray jsonArray = new JSONArray();
 
         for (Position p : positionSet) {

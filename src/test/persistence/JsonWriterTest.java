@@ -14,8 +14,9 @@ class JsonWriterTest {
     //write data to a file and then use the reader to read it back in and check that we
     //read in a copy of what was written out.
     private static final String JSON_STORE_TEST_JSON_WRITER = "./data/testJsonWriter.json";
+
     @Test
-    void testWriterInvalidFile() {
+    public void testWriterInvalidFile() {
         try {
             Game game = new Game();
             JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
@@ -27,13 +28,13 @@ class JsonWriterTest {
     }
 
     @Test
-    void testConstructor() {
+    public void testConstructor() {
         JsonWriter jsonWriter = new JsonWriter(JSON_STORE_TEST_JSON_WRITER);
         assertTrue(jsonWriter.getDestination().equals(JSON_STORE_TEST_JSON_WRITER));
     }
 
     @Test
-    void testWriter() {
+    public void testWriter() {
         try {
             Game game = new Game();
             JsonWriter writer = new JsonWriter(JSON_STORE_TEST_JSON_WRITER);

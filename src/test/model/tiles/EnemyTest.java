@@ -1,6 +1,8 @@
 package model.tiles;
 
+import model.Game;
 import model.tiles.Enemy;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,4 +21,5 @@ public class EnemyTest {
     public void testDisplay() {
         assertEquals(enemy.display("hello"), "Ohello");
     }
+
 }

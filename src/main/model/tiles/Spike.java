@@ -22,7 +22,7 @@ public class Spike extends MultipleTile {
     }
 
     // EFFECTS: returns position set of spike tiles as a JSON array
-    private JSONArray spikeTilePositionSetToJson() {
+    public JSONArray spikeTilePositionSetToJson() {
         JSONArray jsonArray = new JSONArray();
 
         for (Position p : positionSet) {

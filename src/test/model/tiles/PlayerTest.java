@@ -3,6 +3,7 @@ package model.tiles;
 import model.Game;
 import model.Position;
 import model.tiles.Player;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -91,5 +92,22 @@ public class PlayerTest {
     public void testAddToWallet() {
         game.player().addToWallet(1000);
         assertEquals(game.player().getWalletBalance(),1000);
+    }
+
+    @Test
+    public void testToJson() {
+        JSONObject jsonObject;
+        JSONObject otherJsonObject = new JSONObject();
+
+        player.setPosition(game.player().getPosition());
+        player.setWalletBalance(game.player().getWalletBalance());
+
+        jsonObject = player.toJson();
+        String jsonObjectString = jsonObject.toString();
+        otherJsonObject.put("position",player.getPosition().toJson());
+        otherJsonObject.put("wallet",player.getWallet().toJson());
+        String otherJsonObjectString = otherJsonObject.toString();
+
+        assertTrue(jsonObjectString.equals(otherJsonObjectString));
     }
 }

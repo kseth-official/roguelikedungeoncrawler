@@ -1,7 +1,9 @@
 package model.tiles;
 
+import model.Game;
 import model.Position;
 import model.tiles.Air;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,5 +28,21 @@ public class AirTest {
         Position temp = new Position(0,0);
         air.addPosition(temp);
         assertTrue(air.getPositionSet().contains(temp));
+    }
+
+    @Test
+    public void testToJson() {
+        Game game = new Game();
+        JSONObject jsonObject;
+        JSONObject otherJsonObject = new JSONObject();
+
+        air.setPositionSet(game.air().getPositionSet());
+
+        jsonObject = air.toJson();
+        String jsonObjectString = jsonObject.toString();
+        otherJsonObject.put("positions",air.airTilePositionSetToJson());
+        String otherJsonObjectString = otherJsonObject.toString();
+
+        assertTrue(jsonObjectString.equals(otherJsonObjectString));
     }
 }

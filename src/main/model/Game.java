@@ -13,6 +13,7 @@ public class Game implements Writable {
     private Player player = new Player();
     private Spike spike = new Spike();
     private Coin coin = new Coin();
+    private Enemy enemy = new Enemy();
 
     // EFFECTS: sets up the initial game map
     public Game() {

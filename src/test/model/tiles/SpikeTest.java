@@ -1,7 +1,9 @@
 package model.tiles;
 
+import model.Game;
 import model.Position;
 import model.tiles.Spike;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,5 +28,21 @@ public class SpikeTest {
         Position temp = new Position(0,0);
         spike.addPosition(temp);
         assertTrue(spike.getPositionSet().contains(temp));
+    }
+
+    @Test
+    public void testToJson() {
+        Game game = new Game();
+        JSONObject jsonObject;
+        JSONObject otherJsonObject = new JSONObject();
+
+        spike.setPositionSet(game.spike().getPositionSet());
+
+        jsonObject = spike.toJson();
+        String jsonObjectString = jsonObject.toString();
+        otherJsonObject.put("positions",spike.spikeTilePositionSetToJson());
+        String otherJsonObjectString = otherJsonObject.toString();
+
+        assertTrue(jsonObjectString.equals(otherJsonObjectString));
     }
 }

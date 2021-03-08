@@ -66,6 +66,10 @@ public class Player extends SingleTile {
         return false;
     }
 
+    public Wallet getWallet() {
+        return this.wallet;
+    }
+
     // EFFECTS: returns the player's current wallet balance
     public int getWalletBalance() {
         return wallet.getBalance();

@@ -23,7 +23,7 @@ public class Coin extends MultipleTile {
     }
 
     // EFFECTS: returns position set of coin tiles as a JSON array
-    private JSONArray coinTilePositionSetToJson() {
+    public JSONArray coinTilePositionSetToJson() {
         JSONArray jsonArray = new JSONArray();
 
         for (Position p : positionSet) {

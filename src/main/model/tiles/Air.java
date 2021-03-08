@@ -22,7 +22,7 @@ public class Air extends MultipleTile {
     }
 
     // EFFECTS: returns position set of air tiles as a JSON array
-    private JSONArray airTilePositionSetToJson() {
+    public JSONArray airTilePositionSetToJson() {
         JSONArray jsonArray = new JSONArray();
         for (Position p : positionSet) {
             jsonArray.put(p.toJson());
