@@ -41,7 +41,7 @@ public class PositionTest {
     @Test
     void testEquals() {
         Position other = new Position(3,4);
-        assertEquals(position, other);
+        assertTrue(position.equals(other));
     }
 
     @Test

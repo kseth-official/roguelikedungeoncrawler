@@ -24,6 +24,7 @@ public class Game implements Writable {
         initializeCoins();
         initializeWalls();
         initializeAir();
+        initializeEnemies();
     }
 
     // EFFECTS: initializes a game with all the given objects
@@ -123,6 +124,12 @@ public class Game implements Writable {
     // EFFECTS: sets up the air positions
     public void initializeAir() {
         air.addPosition(new Position(2,6));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets up the enemy positions
+    public void initializeEnemies() {
+        enemy.addPosition(new Position(8,8));
     }
 
     public Wall wall() {
