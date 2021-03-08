@@ -51,7 +51,7 @@ public class JsonReader {
         Spike spike;
         Coin coin;
 
-        air = new Air();
+        air = deserializeAir(jsonObject);
         wall = deserializeWall(jsonObject);
         entryPoint = deserializeEntryPoint(jsonObject);
         exitPoint = deserializeExitPoint(jsonObject);
@@ -63,18 +63,18 @@ public class JsonReader {
         return game;
     }
 
-//    // EFFECTS: parses airTiles from JSON object and returns it as an air object
-//    private Air deserializeAir(JSONObject jsonObject) {
-//        JSONObject jsonTileObject = jsonObject.getJSONObject("airTile");
-//        JSONArray jsonArray = jsonTileObject.getJSONArray("positions");
-//        Air air = new Air();
-//        for (Object json : jsonArray) {
-//            JSONObject jsonPositionObject = (JSONObject) json;
-//            Position position = new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
-//            air.addPosition(position);
-//        }
-//        return air;
-//    }
+    // EFFECTS: parses airTiles from JSON object and returns it as an air object
+    private Air deserializeAir(JSONObject jsonObject) {
+        JSONObject jsonTileObject = jsonObject.getJSONObject("airTile");
+        JSONArray jsonArray = jsonTileObject.getJSONArray("positions");
+        Air air = new Air();
+        for (Object json : jsonArray) {
+            JSONObject jsonPositionObject = (JSONObject) json;
+            Position position = new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
+            air.addPosition(position);
+        }
+        return air;
+    }
 
     // EFFECTS: parses wallTiles from JSON object and returns it as a wall object
     private Wall deserializeWall(JSONObject jsonObject) {

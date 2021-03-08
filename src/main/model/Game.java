@@ -23,6 +23,7 @@ public class Game implements Writable {
         initializeSpikes();
         initializeCoins();
         initializeWalls();
+        initializeAir();
     }
 
     // EFFECTS: initializes a game with all the given objects
@@ -118,6 +119,12 @@ public class Game implements Writable {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets up the air positions
+    public void initializeAir() {
+        air.addPosition(new Position(2,6));
+    }
+
     public Wall wall() {
         return this.wall;
     }
@@ -144,6 +151,10 @@ public class Game implements Writable {
 
     public Air air() {
         return this.air;
+    }
+
+    public Enemy enemy() {
+        return this.enemy;
     }
 
     @Override

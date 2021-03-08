@@ -57,7 +57,7 @@ class JsonWriterTest {
     }
 
     void testAirTileReadCorrectly(Game game) {
-        assertTrue(game.air().getPositionSet().isEmpty());
+        assertTrue(game.air().getPositionSet().contains(new Position(2,6)));
     }
 
     void testCoinTileReadCorrectly(Game game) {

@@ -29,14 +29,14 @@ public class PositionTest {
         assertEquals(position.getY(), 5);
     }
 
-//    @Test
-//    public void testTrivialEquals() {
-//        Position nullPosition = null;
-//        Wall wall = new Wall();
-//        assertTrue(position.equals(position));
-//        assertFalse(position.equals(nullPosition));
-//        assertFalse(position.equals(wall));
-//    }
+    @Test
+    public void testTrivialEquals() {
+        Position nullPosition = null;
+        Wall wall = new Wall();
+        assertTrue(position.equals(position));
+        assertFalse(position.equals(nullPosition));
+        assertFalse(position.equals(wall));
+    }
 
     @Test
     void testEquals() {

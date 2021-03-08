@@ -304,5 +304,8 @@
         "x": 11,
         "y": 6
     }},
-    "airTile": {"positions": []}
+    "airTile": {"positions": [{
+        "x": 2,
+        "y": 6
+    }]}
 }

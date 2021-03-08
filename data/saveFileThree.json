@@ -7,7 +7,7 @@
         "wallet": {"walletBalance": 3},
         "position": {
             "x": 5,
-            "y": 9
+            "y": 6
         }
     },
     "wallTile": {"positions": [
@@ -292,5 +292,8 @@
         "x": 11,
         "y": 6
     }},
-    "airTile": {"positions": []}
+    "airTile": {"positions": [{
+        "x": 2,
+        "y": 6
+    }]}
 }
