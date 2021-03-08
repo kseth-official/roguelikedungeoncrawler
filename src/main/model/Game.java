@@ -1,9 +1,11 @@
 package model;
 
 import model.tiles.*;
+import org.json.JSONObject;
+import persistence.Writable;
 
 // A class for modeling the Game
-public class Game {
+public class Game implements Writable {
     private Air air = new Air();
     private Wall wall = new Wall();
     private EntryPoint entryPoint = new EntryPoint();
@@ -12,8 +14,6 @@ public class Game {
     private Spike spike = new Spike();
     private Coin coin = new Coin();
 
-
-    // MODIFIES: this
     // EFFECTS: sets up the initial game map
     public Game() {
         initializePlayer(new Position(1, 6));
@@ -22,6 +22,23 @@ public class Game {
         initializeSpikes();
         initializeCoins();
         initializeWalls();
+    }
+
+    // EFFECTS: initializes a game with all the given objects
+    public Game(Air air,
+                Wall wall,
+                EntryPoint entryPoint,
+                ExitPoint exitPoint,
+                Player player,
+                Spike spike,
+                Coin coin) {
+        this.air = air;
+        this.wall = wall;
+        this.entryPoint = entryPoint;
+        this.exitPoint = exitPoint;
+        this.player = player;
+        this.spike = spike;
+        this.coin = coin;
     }
 
     // MODIFIES: this
@@ -126,6 +143,19 @@ public class Game {
 
     public Air air() {
         return this.air;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("airTile", air.toJson());
+        json.put("wallTile", wall.toJson());
+        json.put("entryPointTile", entryPoint.toJson());
+        json.put("exitPointTile", exitPoint.toJson());
+        json.put("playerTile", player.toJson());
+        json.put("spikeTile", spike.toJson());
+        json.put("coinTile", coin.toJson());
+        return json;
     }
 }
 

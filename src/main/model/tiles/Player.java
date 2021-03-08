@@ -4,6 +4,7 @@ import model.Game;
 import model.Position;
 import model.SingleTile;
 import model.Wallet;
+import org.json.JSONObject;
 
 // A class for modeling the player on the map.
 // The player is a subclass of SingleTile meaning that the player has only a single position.
@@ -16,7 +17,7 @@ public class Player extends SingleTile {
 
     // EFFECTS: initializes the player's wallet with a balance of 0
     public Player() {
-        wallet = new Wallet(0);
+        this.wallet = new Wallet(0);
     }
 
     // EFFECTS: displays the symbol for the player character + an optional string
@@ -70,9 +71,21 @@ public class Player extends SingleTile {
         return wallet.getBalance();
     }
 
+    public void setWalletBalance(int balance) {
+        this.wallet.setBalance(balance);
+    }
+
     // MODIFIES: this
     // EFFECTS: adds coins to the players wallet
     public void addToWallet(int amount) {
         wallet.addAmount(amount);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("position", position.toJson());
+        json.put("wallet", wallet.toJson());
+        return json;
     }
 }

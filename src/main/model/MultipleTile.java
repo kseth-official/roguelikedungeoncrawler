@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 import java.util.HashSet;
 
 // Represents tiles which have multiple positions. This class holds their set and corresponding operations.

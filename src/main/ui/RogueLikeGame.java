@@ -1,14 +1,23 @@
 package ui;
 
 import model.*;
+//import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
-// A class that sets up the game's user interface.
+// A class that sets up the game's user interface. Allows the user to save the game to a file as well.
 public class RogueLikeGame {
+    private static final String JSON_STORE_SAVE_FILE_ONE = "./data/saveFileOne.json";
+    private static final String JSON_STORE_SAVE_FILE_TWO = "./data/saveFileTwo.json";
+    private static final String JSON_STORE_SAVE_FILE_THREE = "./data/saveFileThree.json";
     private static final String CONSOLE_CLEANER = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     private static final int NUMBER_OF_CONSOLE_CLEANER_REPEATS = 3;
     private static final int BASIC_COIN_WORTH = 1;
+    private JsonWriter jsonWriter;
+
 
     private static int gameTerminalWidth;
     private static int gameTerminalHeight;
@@ -16,11 +25,25 @@ public class RogueLikeGame {
     private Game game;
 
     // MODIFIES: this
-    // EFFECTS: sets up the width and height of the game arena and runs the game
+    // EFFECTS: sets up the width and height of the game arena, creates a new game, and runs it
     RogueLikeGame(int width, int height) {
         RogueLikeGame.gameTerminalWidth = width;
         RogueLikeGame.gameTerminalHeight = height;
+        this.game = new Game();
         runRogueLikeGame();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads the game from another Game instance
+    RogueLikeGame(Game other, int width, int height) {
+        RogueLikeGame.gameTerminalWidth = width;
+        RogueLikeGame.gameTerminalHeight = height;
+        this.game = other;
+        runRogueLikeGame();
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public int getGameTerminalWidth() {
@@ -39,13 +62,23 @@ public class RogueLikeGame {
         System.out.print("\r");
     }
 
+//    // EFFECTS:  moves main menu arrow if possible or else constrains it within the main menu option bounds
+//    public int isArrowInBoundsAfterInput(int arrowPosition, char input) {
+//        if (input == 'w' && (arrowPosition + 1 <= NUMBER_OF_MAIN_MENU_OPTIONS)) {
+//            return arrowPosition + 1;
+//        } else if (arrowPosition - 1 >= 1) {
+//            return arrowPosition - 1;
+//        }
+//        return arrowPosition;
+//    }
+
+
+
     // MODIFIES: game
     // EFFECTS: performs the map setup, enters the game loop, and exits on game over or level complete
     public void runRogueLikeGame() {
         boolean gameIsRunning = true;
         boolean levelIsOver = false;
-
-        initialize();
 
         while (gameIsRunning && (!levelIsOver)) {
             displayControlsAndInformation();
@@ -64,15 +97,9 @@ public class RogueLikeGame {
 
     }
 
-    // MODIFIES: this
-    // EFFECTS: initializes the game map
-    public void initialize() {
-        this.game = new Game();
-    }
-
     // EFFECTS: displays the game controls and game map information
     public void displayControlsAndInformation() {
-        System.out.println("Use WASD to move, I to interact with an exit, and E to quit the game");
+        System.out.println("Use wasd to move, i to interact with an exit, p to save the game, and e to quit the game");
         System.out.println("P represents the Player");
         System.out.println("E represents the Entry Point");
         System.out.println("e represents the Exit Point");
@@ -142,6 +169,9 @@ public class RogueLikeGame {
                 break;
             case "i":
                 return game.player().interact(keyPress, game);
+            case "p":
+                saveGame();
+                break;
             case "e":
                 System.exit(0);
             default:
@@ -169,5 +199,43 @@ public class RogueLikeGame {
     // EFFECTS: displays the ending message
     public void endScreen(String endMessage) {
         System.out.println(endMessage);
+        System.exit(0);
+    }
+
+    // EFFECTS: saves the game to a save file
+    private void saveGame() {
+        clearScreen();
+        System.out.println("Select the save file you wish to save your game to");
+        System.out.println("\tSave File 1");
+        System.out.println("\tSave File 2");
+        System.out.println("\tSave File 3");
+        System.out.print("Enter here: ");
+
+        Scanner input = new Scanner(System.in);
+        String keyPress = input.next();
+
+        if (keyPress.equals("1")) {
+            writeToSaveFile("1",JSON_STORE_SAVE_FILE_ONE);
+        } else if (keyPress.equals("2")) {
+            writeToSaveFile("2",JSON_STORE_SAVE_FILE_TWO);
+        } else if (keyPress.equals("3")) {
+            writeToSaveFile("3",JSON_STORE_SAVE_FILE_THREE);
+        }
+
+    }
+
+    // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
+    // EFFECTS: writes a save file of given number to a source
+    public void writeToSaveFile(String number, String source) {
+        System.out.println();
+        try {
+            jsonWriter = new JsonWriter(source);
+            jsonWriter.open();
+            jsonWriter.write(game);
+            jsonWriter.close();
+            System.out.println("Saved to save file " + number + " at " + source);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + source);
+        }
     }
 }

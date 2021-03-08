@@ -1,5 +1,6 @@
 package model;
 
+
 // Represents tiles which are single entities.
 // This class holds their position and corresponding operations.
 public abstract class SingleTile extends Tile {
@@ -14,5 +15,6 @@ public abstract class SingleTile extends Tile {
     public Position getPosition() {
         return this.position;
     }
+
 
 }

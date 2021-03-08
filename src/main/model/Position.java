@@ -1,9 +1,12 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.Objects;
 
 // Represents the (x,y) positions of members on the map
-public class Position {
+public class Position implements Writable {
     private int abscissaCoordinate;
     private int ordinateCoordinate;
 
@@ -52,6 +55,14 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(abscissaCoordinate, ordinateCoordinate);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("x", abscissaCoordinate);
+        json.put("y", ordinateCoordinate);
+        return json;
     }
 
 }

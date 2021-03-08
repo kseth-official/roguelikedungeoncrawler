@@ -2,6 +2,6 @@ package ui;
 
 public class Main {
     public static void main(String[] args) {
-        new RogueLikeGame(13,13);
+        new RogueLikeGameMainMenu();
     }
 }

@@ -1,8 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // A class representing the game wallet.
 // A player may add coins to the wallet by moving into a tile with a Coin on it.
-public class Wallet {
+public class Wallet implements Writable {
     private int balance;
 
     // EFFECTS: Creates a new wallet with balance
@@ -21,4 +24,16 @@ public class Wallet {
         return this.balance;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the current wallets balance
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("walletBalance", balance);
+        return json;
+    }
 }

@@ -1,6 +1,9 @@
 package model.tiles;
 
 import model.MultipleTile;
+import model.Position;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 // A class representing the Air tile on the map. This has no special interaction.
 public class Air extends MultipleTile {
@@ -11,5 +14,20 @@ public class Air extends MultipleTile {
         return super.display(AIR_TILE_SYMBOL, s);
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("positions", airTilePositionSetToJson());
+        return json;
+    }
 
+    // EFFECTS: returns position set of air tiles as a JSON array
+    private JSONArray airTilePositionSetToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Position p : positionSet) {
+            jsonArray.put(p.toJson());
+        }
+
+        return jsonArray;
+    }
 }

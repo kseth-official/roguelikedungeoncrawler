@@ -1,5 +1,7 @@
 package model;
 
+import persistence.Writable;
+
 /* Represents a tile in the game.
 List of tiles:
 a) Air
@@ -11,7 +13,7 @@ f) Player
 g) Spike
 h) Wall
  */
-public abstract class Tile {
+public abstract class Tile implements Writable {
     // EFFECTS: displays the symbol for a tile + an optional string
     protected String display(String tileSymbol, String s) {
         System.out.print(tileSymbol + s);
