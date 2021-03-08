@@ -4,10 +4,10 @@
         "y": 6
     }},
     "playerTile": {
-        "wallet": {"walletBalance": 0},
+        "wallet": {"walletBalance": 3},
         "position": {
-            "x": 1,
-            "y": 6
+            "x": 5,
+            "y": 9
         }
     },
     "wallTile": {"positions": [
@@ -220,18 +220,6 @@
         {
             "x": 4,
             "y": 5
-        },
-        {
-            "x": 4,
-            "y": 6
-        },
-        {
-            "x": 3,
-            "y": 6
-        },
-        {
-            "x": 2,
-            "y": 6
         },
         {
             "x": 7,

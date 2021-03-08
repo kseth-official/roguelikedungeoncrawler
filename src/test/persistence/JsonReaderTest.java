@@ -4,8 +4,6 @@ import model.Position;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
