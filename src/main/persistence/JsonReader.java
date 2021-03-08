@@ -148,33 +148,7 @@ public class JsonReader {
         return coin;
     }
 
-
-
-
-
-
-
-
-
-
-
-//
-//    // MODIFIES: game
-//    // EFFECTS: parses thingies from JSON object and adds them to workroom ???
-//    private void addThingies(Game game, JSONObject jsonObject) {
-//        JSONArray jsonArray = jsonObject.getJSONArray("thingies");
-//        for (Object json : jsonArray) {
-//            JSONObject nextThingy = (JSONObject) json;
-//            addThingy(game, nextThingy);
-//        }
-//    }
-//
-//    // MODIFIES: wr
-//    // EFFECTS: parses thingy from JSON object and adds it to workroom
-//    private void addThingy(WorkRoom wr, JSONObject jsonObject) {
-//        String name = jsonObject.getString("name");
-//        Category category = Category.valueOf(jsonObject.getString("category"));
-//        Thingy thingy = new Thingy(name, category);
-//        wr.addThingy(thingy);
-//    }
+    public String getSource() {
+        return this.source;
+    }
 }
