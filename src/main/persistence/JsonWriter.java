@@ -3,7 +3,6 @@ package persistence;
 import model.Game;
 import org.json.JSONObject;
 
-
 import java.io.*;
 
 // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
@@ -16,6 +15,10 @@ public class JsonWriter {
     // EFFECTS: constructs writer to write to destination file
     public JsonWriter(String destination) {
         this.destination = destination;
+    }
+
+    public String getDestination() {
+        return this.destination;
     }
 
     // MODIFIES: this
@@ -42,9 +45,5 @@ public class JsonWriter {
     // EFFECTS: writes string to file
     private void saveToFile(String json) {
         writer.print(json);
-    }
-
-    public String getDestination() {
-        return this.destination;
     }
 }

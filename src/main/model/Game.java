@@ -44,6 +44,38 @@ public class Game implements Writable {
         this.coin = coin;
     }
 
+    public Wall wall() {
+        return this.wall;
+    }
+
+    public EntryPoint entryPoint() {
+        return this.entryPoint;
+    }
+
+    public ExitPoint exitPoint() {
+        return this.exitPoint;
+    }
+
+    public Player player() {
+        return this.player;
+    }
+
+    public Spike spike() {
+        return this.spike;
+    }
+
+    public Coin coin() {
+        return this.coin;
+    }
+
+    public Air air() {
+        return this.air;
+    }
+
+    public Enemy enemy() {
+        return this.enemy;
+    }
+
     // MODIFIES: this
     // EFFECTS: sets up the player's position
     public void initializePlayer(Position p) {
@@ -130,38 +162,6 @@ public class Game implements Writable {
     // EFFECTS: sets up the enemy positions
     public void initializeEnemies() {
         enemy.addPosition(new Position(8,8));
-    }
-
-    public Wall wall() {
-        return this.wall;
-    }
-
-    public EntryPoint entryPoint() {
-        return this.entryPoint;
-    }
-
-    public ExitPoint exitPoint() {
-        return this.exitPoint;
-    }
-
-    public Player player() {
-        return this.player;
-    }
-
-    public Spike spike() {
-        return this.spike;
-    }
-
-    public Coin coin() {
-        return this.coin;
-    }
-
-    public Air air() {
-        return this.air;
-    }
-
-    public Enemy enemy() {
-        return this.enemy;
     }
 
     @Override

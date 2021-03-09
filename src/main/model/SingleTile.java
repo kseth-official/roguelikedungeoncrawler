@@ -6,15 +6,13 @@ package model;
 public abstract class SingleTile extends Tile {
     protected Position position = new Position();
 
+    public Position getPosition() {
+        return this.position;
+    }
+
     // MODIFIES: this
     // EFFECTS: sets the tile's point position
     public void setPosition(Position p) {
         this.position = p;
     }
-
-    public Position getPosition() {
-        return this.position;
-    }
-
-
 }

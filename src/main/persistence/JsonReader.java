@@ -21,6 +21,10 @@ public class JsonReader {
         this.source = source;
     }
 
+    public String getSource() {
+        return this.source;
+    }
+
     // EFFECTS: reads game from file and returns it;
     // throws IOException if an error occurs reading data from file
     public Game read() throws IOException {
@@ -124,6 +128,7 @@ public class JsonReader {
         return player;
     }
 
+    // EFFECTS: parses spikeTiles from the JSON object and returns it as a player object
     private Spike deserializeSpike(JSONObject jsonObject) {
         JSONObject jsonTileObject = jsonObject.getJSONObject("spikeTile");
         JSONArray jsonArray = jsonTileObject.getJSONArray("positions");
@@ -136,6 +141,7 @@ public class JsonReader {
         return spike;
     }
 
+    // EFFECTS: parses coinTiles from the JSON object and returns it as a player object
     private Coin deserializeCoin(JSONObject jsonObject) {
         JSONObject jsonTileObject = jsonObject.getJSONObject("coinTile");
         JSONArray jsonArray = jsonTileObject.getJSONArray("positions");
@@ -146,9 +152,5 @@ public class JsonReader {
             coin.addPosition(position);
         }
         return coin;
-    }
-
-    public String getSource() {
-        return this.source;
     }
 }

@@ -8,12 +8,6 @@ import java.util.HashSet;
 public abstract class MultipleTile extends Tile {
     protected HashSet<Position> positionSet = new HashSet<>();
 
-    // MODIFIES: this
-    // EFFECTS: adds a tile at a given position to the set of tiles
-    public void addPosition(Position p) {
-        this.positionSet.add(p);
-    }
-
     public HashSet<Position> getPositionSet() {
         return this.positionSet;
     }
@@ -22,4 +16,9 @@ public abstract class MultipleTile extends Tile {
         this.positionSet = positionSet;
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds a tile at a given position to the set of tiles
+    public void addPosition(Position p) {
+        this.positionSet.add(p);
+    }
 }

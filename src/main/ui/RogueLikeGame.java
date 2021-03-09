@@ -1,7 +1,6 @@
 package ui;
 
 import model.*;
-//import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
@@ -17,7 +16,6 @@ public class RogueLikeGame {
     private static final int NUMBER_OF_CONSOLE_CLEANER_REPEATS = 3;
     private static final int BASIC_COIN_WORTH = 1;
     private JsonWriter jsonWriter;
-
 
     private static int gameTerminalWidth;
     private static int gameTerminalHeight;
@@ -71,8 +69,6 @@ public class RogueLikeGame {
 //        }
 //        return arrowPosition;
 //    }
-
-
 
     // MODIFIES: game
     // EFFECTS: performs the map setup, enters the game loop, and exits on game over or level complete
@@ -202,6 +198,7 @@ public class RogueLikeGame {
         System.exit(0);
     }
 
+    // MODIFIES: this
     // EFFECTS: saves the game to a save file
     private void saveGame() {
         clearScreen();
@@ -225,7 +222,9 @@ public class RogueLikeGame {
     }
 
     // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
+    // MODIFIES: this
     // EFFECTS: writes a save file of given number to a source
+    //          catches a FileNotFoundException if is unable to write to the file
     public void writeToSaveFile(String number, String source) {
         System.out.println();
         try {

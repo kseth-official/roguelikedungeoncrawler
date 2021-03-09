@@ -81,7 +81,6 @@ class JsonReaderTest {
         assertEquals(game.player().getPosition(),new Position(5,9));
     }
 
-
     void testSpikeTileReadCorrectly(Game game) {
         assertTrue(game.spike().getPositionSet().contains(new Position(9,8)));
         assertTrue(game.spike().getPositionSet().contains(new Position(9,9)));
@@ -90,11 +89,13 @@ class JsonReaderTest {
     }
 
     void testWallTileReadCorrectly(Game game) {
+        // read boundaries
         assertTrue(game.wall().getPositionSet().contains(new Position(0,0)));
         assertTrue(game.wall().getPositionSet().contains(new Position(12,0)));
         assertTrue(game.wall().getPositionSet().contains(new Position(0,12)));
         assertTrue(game.wall().getPositionSet().contains(new Position(12,12)));
 
+        // read walls
         for (int i = 1; i < 12; ++i) {
             assertTrue(game.wall().getPositionSet().contains(new Position(i,0)));
             assertTrue(game.wall().getPositionSet().contains(new Position(i,12)));

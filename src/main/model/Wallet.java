@@ -13,12 +13,6 @@ public class Wallet implements Writable {
         this.balance = balance;
     }
 
-    // MODIFIES: this
-    // EFFECTS: adds coins to the wallet of a given amount
-    public void addAmount(int amount) {
-        this.balance += amount;
-    }
-
     // EFFECTS: gives the current wallet balance
     public int getBalance() {
         return this.balance;
@@ -28,6 +22,12 @@ public class Wallet implements Writable {
     // EFFECTS: sets the current wallets balance
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds coins to the wallet of a given amount
+    public void addAmount(int amount) {
+        this.balance += amount;
     }
 
     @Override

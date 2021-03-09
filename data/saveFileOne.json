@@ -4,9 +4,9 @@
         "y": 6
     }},
     "playerTile": {
-        "wallet": {"walletBalance": 0},
+        "wallet": {"walletBalance": 4},
         "position": {
-            "x": 1,
+            "x": 11,
             "y": 6
         }
     },
@@ -206,10 +206,6 @@
     ]},
     "coinTile": {"positions": [
         {
-            "x": 4,
-            "y": 3
-        },
-        {
             "x": 7,
             "y": 6
         },
@@ -220,18 +216,6 @@
         {
             "x": 4,
             "y": 5
-        },
-        {
-            "x": 4,
-            "y": 6
-        },
-        {
-            "x": 3,
-            "y": 6
-        },
-        {
-            "x": 2,
-            "y": 6
         },
         {
             "x": 7,
@@ -304,5 +288,8 @@
         "x": 11,
         "y": 6
     }},
-    "airTile": {"positions": []}
+    "airTile": {"positions": [{
+        "x": 2,
+        "y": 6
+    }]}
 }

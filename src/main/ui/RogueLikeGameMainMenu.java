@@ -26,9 +26,7 @@ public class RogueLikeGameMainMenu {
         System.out.print("\r");
     }
 
-    // MODIFIES: this
-    // EFFECTS: displays the main menu and allows the user to
-    //          create a new game, load an old game, or quit
+    // EFFECTS: displays the main menu and allows the user to create a new game, load an old game, or quit
     public RogueLikeGameMainMenu() {
         while (true) {
             clearScreen();
@@ -52,7 +50,6 @@ public class RogueLikeGameMainMenu {
         }
     }
 
-    // MODIFIES: RogueLikeGame
     // EFFECTS: reads a rogue like game from one of three save files and loads it
     private void loadRogueLikeGame() {
         clearScreen();
