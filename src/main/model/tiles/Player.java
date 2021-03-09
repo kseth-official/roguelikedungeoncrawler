@@ -1,9 +1,6 @@
 package model.tiles;
 
-import model.Game;
-import model.Position;
-import model.SingleTile;
-import model.Wallet;
+import model.*;
 import org.json.JSONObject;
 
 // A class for modeling the player on the map.
@@ -14,10 +11,14 @@ public class Player extends SingleTile {
     private static final int DX = 1;
     private static final int DY = 1;
     private final Wallet wallet;
+    private final HealthBar healthBar = new HealthBar();
 
-    // EFFECTS: initializes the player's wallet with a balance of 0
+    // EFFECTS: initializes the player's
+    //          1. wallet with a balance of 0
+    //          2. health bar
     public Player() {
         this.wallet = new Wallet(0);
+        // create a test for healthBar initialization
     }
 
     // EFFECTS: displays the symbol for the player character + an optional string
