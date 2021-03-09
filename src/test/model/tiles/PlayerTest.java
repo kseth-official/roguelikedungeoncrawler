@@ -1,6 +1,7 @@
 package model.tiles;
 
 import model.Game;
+import model.HealthBar;
 import model.Position;
 import model.tiles.Player;
 import org.json.JSONObject;
@@ -23,6 +24,7 @@ public class PlayerTest {
     @Test
     public void testConstructor() {
         assertEquals(player.getWalletBalance(),0);
+        assertEquals(player.getHealthBar().getHealth(), 100);
     }
 
     @Test
@@ -110,4 +112,6 @@ public class PlayerTest {
 
         assertTrue(jsonObjectString.equals(otherJsonObjectString));
     }
+
+
 }

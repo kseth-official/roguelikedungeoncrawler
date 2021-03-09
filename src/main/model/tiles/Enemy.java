@@ -10,11 +10,15 @@ import org.json.JSONObject;
 // This enemy moves around within a set boundary and causes the player to die upon interaction.
 public class Enemy extends MultipleTile {
     private static final String ENEMY_CHARACTER_SYMBOL = "O";
-    private final HealthBar healthBar = new HealthBar();
+    private final HealthBar healthBar;
 
     // EFFECTS: initializes the enemy's health bar
     public Enemy() {
-        // stub
+        this.healthBar = new HealthBar();
+    }
+
+    public HealthBar getHealthBar() {
+        return this.healthBar;
     }
 
     // EFFECTS: displays the symbol for the enemy character + an optional string

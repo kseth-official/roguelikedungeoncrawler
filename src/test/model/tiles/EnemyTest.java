@@ -18,6 +18,10 @@ public class EnemyTest {
     }
 
     @Test
+    public void testConstructor() {
+        assertEquals(enemy.getHealthBar().getHealth(),100);
+    }
+    @Test
     public void testDisplay() {
         assertEquals(enemy.display("hello"), "Ohello");
     }
