@@ -29,7 +29,6 @@ public class RogueLikeGameMainMenu {
     // EFFECTS: displays the main menu and allows the user to create a new game, load an old game, or quit
     public RogueLikeGameMainMenu() {
         while (true) {
-            clearScreen();
             System.out.println("MAIN MENU");
             System.out.println("\t1. New Game");
             System.out.println("\t2. Load Game");
@@ -39,6 +38,8 @@ public class RogueLikeGameMainMenu {
             Scanner input = new Scanner(System.in);
             String keyPress = input.next();
 
+            clearScreen();
+
             if (keyPress.equals("1")) {
                 new RogueLikeGame(GAME_TERMINAL_WIDTH,GAME_TERMINAL_HEIGHT);
             } else if (keyPress.equals("2")) {
@@ -47,6 +48,7 @@ public class RogueLikeGameMainMenu {
                 System.out.println("Come again!");
                 System.exit(0);
             }
+
         }
     }
 
@@ -71,7 +73,7 @@ public class RogueLikeGameMainMenu {
         }
     }
 
-    // cited from JsonSerializationDemo
+    // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
     // EFFECTS: loads a save file of given number from a source
     public void loadSaveFile(String number, String source) {
         System.out.println();
@@ -79,6 +81,7 @@ public class RogueLikeGameMainMenu {
             jsonReader = new JsonReader(source);
             Game fromSource  = jsonReader.read();
             System.out.println("Loaded " + "Save File " + number + " from " + source);
+            clearScreen();
             new RogueLikeGame(fromSource, GAME_TERMINAL_WIDTH, GAME_TERMINAL_HEIGHT);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + source);

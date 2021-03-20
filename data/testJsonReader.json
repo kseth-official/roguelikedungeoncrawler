@@ -288,6 +288,12 @@
             "y": 4
         }
     ]},
+    "enemyTile": {"positions": [
+        {
+            "x": 1,
+            "y": 11
+        }
+    ]},
     "exitPointTile": {"position": {
         "x": 11,
         "y": 6

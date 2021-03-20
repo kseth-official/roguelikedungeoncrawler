@@ -2,7 +2,7 @@ package model.tiles;
 
 import model.Game;
 import model.Position;
-import model.tiles.Air;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ public class AirTest {
 
         jsonObject = air.toJson();
         String jsonObjectString = jsonObject.toString();
-        otherJsonObject.put("positions",air.airTilePositionSetToJson());
+        otherJsonObject.put("positions",new JSONArray(air.getPositionSet()));
         String otherJsonObjectString = otherJsonObject.toString();
 
         assertTrue(jsonObjectString.equals(otherJsonObjectString));

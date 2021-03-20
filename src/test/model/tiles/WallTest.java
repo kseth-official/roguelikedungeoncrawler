@@ -2,7 +2,7 @@ package model.tiles;
 
 import model.Game;
 import model.Position;
-import model.tiles.Wall;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,9 +40,8 @@ public class WallTest {
 
         jsonObject = wall.toJson();
         String jsonObjectString = jsonObject.toString();
-        otherJsonObject.put("positions",wall.wallTilePositionSetToJson());
+        otherJsonObject.put("positions",new JSONArray(wall.getPositionSet()));
         String otherJsonObjectString = otherJsonObject.toString();
-
         assertTrue(jsonObjectString.equals(otherJsonObjectString));
     }
 }

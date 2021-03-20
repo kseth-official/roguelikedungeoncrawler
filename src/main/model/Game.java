@@ -34,7 +34,8 @@ public class Game implements Writable {
                 ExitPoint exitPoint,
                 Player player,
                 Spike spike,
-                Coin coin) {
+                Coin coin,
+                Enemy enemy) {
         this.air = air;
         this.wall = wall;
         this.entryPoint = entryPoint;
@@ -42,6 +43,7 @@ public class Game implements Writable {
         this.player = player;
         this.spike = spike;
         this.coin = coin;
+        this.enemy = enemy;
     }
 
     public Wall wall() {
@@ -161,7 +163,8 @@ public class Game implements Writable {
     // MODIFIES: this
     // EFFECTS: sets up the enemy positions
     public void initializeEnemies() {
-        enemy.addPosition(new Position(8,8));
+        enemy.addPosition(new Position(3,9));
+//        enemy.addPosition(new Position(1,1));
     }
 
     @Override
@@ -174,6 +177,7 @@ public class Game implements Writable {
         json.put("playerTile", player.toJson());
         json.put("spikeTile", spike.toJson());
         json.put("coinTile", coin.toJson());
+        json.put("enemyTile", enemy.toJson());
         return json;
     }
 }

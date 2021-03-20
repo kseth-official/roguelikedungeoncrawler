@@ -1,7 +1,7 @@
 package model.tiles;
 
 import model.Game;
-import model.tiles.Enemy;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,10 +17,11 @@ public class EnemyTest {
         enemy = new Enemy();
     }
 
-    @Test
-    public void testConstructor() {
-        assertEquals(enemy.getHealthBar().getHealth(),100);
-    }
+//    @Test
+//    public void testConstructor() {
+//        assertEquals(enemy.getHealthBar().getHealth(),100);
+//    }
+
     @Test
     public void testDisplay() {
         assertEquals(enemy.display("hello"), "Ohello");
@@ -36,7 +37,7 @@ public class EnemyTest {
 
         jsonObject = enemy.toJson();
         String jsonObjectString = jsonObject.toString();
-        otherJsonObject.put("positions",enemy.enemyTilePositionSetToJson());
+        otherJsonObject.put("positions",new JSONArray(enemy.getPositionSet()));
         String otherJsonObjectString = otherJsonObject.toString();
 
         assertTrue(jsonObjectString.equals(otherJsonObjectString));

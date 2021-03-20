@@ -1,46 +1,19 @@
 package model.tiles;
 
-import model.HealthBar;
-import model.MultipleTile;
-import model.Position;
+import model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.HashSet;
+import java.util.Set;
 
 // A class representing the standard game enemy.
 // This enemy moves around within a set boundary and causes the player to die upon interaction.
 public class Enemy extends MultipleTile {
     private static final String ENEMY_CHARACTER_SYMBOL = "O";
-    private final HealthBar healthBar;
-
-    // EFFECTS: initializes the enemy's health bar
-    public Enemy() {
-        this.healthBar = new HealthBar();
-    }
-
-    public HealthBar getHealthBar() {
-        return this.healthBar;
-    }
 
     // EFFECTS: displays the symbol for the enemy character + an optional string
     public String display(String s) {
         return super.display(ENEMY_CHARACTER_SYMBOL,s);
-    }
-
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("positions", enemyTilePositionSetToJson());
-        return json;
-    }
-
-    // EFFECTS: returns position set of enemy tiles as a JSON array
-    public JSONArray enemyTilePositionSetToJson() {
-        JSONArray jsonArray = new JSONArray();
-
-        for (Position p : positionSet) {
-            jsonArray.put(p.toJson());
-        }
-
-        return jsonArray;
     }
 }

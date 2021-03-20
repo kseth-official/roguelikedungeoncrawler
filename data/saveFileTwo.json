@@ -3,11 +3,15 @@
         "x": 1,
         "y": 6
     }},
+    "enemyTile": {"positions": [{
+        "x": 1,
+        "y": 11
+    }]},
     "playerTile": {
-        "wallet": {"walletBalance": 8},
+        "wallet": {"walletBalance": 3},
         "position": {
-            "x": 6,
-            "y": 2
+            "x": 5,
+            "y": 8
         }
     },
     "wallTile": {"positions": [
@@ -210,6 +214,10 @@
             "y": 3
         },
         {
+            "x": 7,
+            "y": 6
+        },
+        {
             "x": 4,
             "y": 4
         },
@@ -238,6 +246,10 @@
             "y": 3
         },
         {
+            "x": 10,
+            "y": 6
+        },
+        {
             "x": 4,
             "y": 1
         },
@@ -246,8 +258,20 @@
             "y": 4
         },
         {
+            "x": 9,
+            "y": 6
+        },
+        {
             "x": 4,
             "y": 2
+        },
+        {
+            "x": 7,
+            "y": 5
+        },
+        {
+            "x": 8,
+            "y": 6
         }
     ]},
     "spikeTile": {"positions": [
@@ -272,5 +296,8 @@
         "x": 11,
         "y": 6
     }},
-    "airTile": {"positions": []}
+    "airTile": {"positions": [{
+        "x": 2,
+        "y": 6
+    }]}
 }

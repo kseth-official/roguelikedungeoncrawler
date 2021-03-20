@@ -3,11 +3,15 @@
         "x": 1,
         "y": 6
     }},
+    "enemyTile": {"positions": [{
+        "x": 1,
+        "y": 11
+    }]},
     "playerTile": {
-        "wallet": {"walletBalance": 3},
+        "wallet": {"walletBalance": 6},
         "position": {
-            "x": 5,
-            "y": 6
+            "x": 6,
+            "y": 7
         }
     },
     "wallTile": {"positions": [
@@ -206,20 +210,8 @@
     ]},
     "coinTile": {"positions": [
         {
-            "x": 4,
-            "y": 3
-        },
-        {
             "x": 7,
             "y": 6
-        },
-        {
-            "x": 4,
-            "y": 4
-        },
-        {
-            "x": 4,
-            "y": 5
         },
         {
             "x": 7,

@@ -3,6 +3,10 @@
         "x": 1,
         "y": 6
     }},
+    "enemyTile": {"positions": [{
+        "x": 3,
+        "y": 9
+    }]},
     "playerTile": {
         "wallet": {"walletBalance": 0},
         "position": {

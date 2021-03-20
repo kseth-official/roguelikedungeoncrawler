@@ -3,6 +3,7 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import java.util.List;
 import java.util.Objects;
 
 // Represents the (x,y) positions of members on the map
@@ -64,5 +65,7 @@ public class Position implements Writable {
         json.put("y", ordinateCoordinate);
         return json;
     }
+
+
 
 }

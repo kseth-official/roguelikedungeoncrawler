@@ -13,9 +13,7 @@ public class Player extends SingleTile {
     private final Wallet wallet;
     private final HealthBar healthBar;
 
-    // EFFECTS: initializes the player's
-    //          1. wallet with a balance of 0
-    //          2. health bar
+    // EFFECTS: initializes the player's wallet with a balance of zero and the player's healthbar with full health
     public Player() {
         this.wallet = new Wallet(0);
         this.healthBar = new HealthBar();
@@ -32,6 +30,7 @@ public class Player extends SingleTile {
 
     // MODIFIES: this
     // EFFECTS: moves the player in the given direction, unless movement in the direction is forbidden due to a wall
+    //          returns true if given movement direction was valid and false otherwise
     public boolean move(String direction, Game game) {
         if (direction.equals("w")) {
             if (!game.wall().getPositionSet().contains(new Position(this.position.getX(), this.position.getY() - DY))) {

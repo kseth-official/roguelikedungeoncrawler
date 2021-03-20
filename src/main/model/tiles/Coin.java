@@ -14,22 +14,4 @@ public class Coin extends MultipleTile {
     public String display(String s) {
         return super.display(COIN_SYMBOL,s);
     }
-
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("positions", coinTilePositionSetToJson());
-        return json;
-    }
-
-    // EFFECTS: returns position set of coin tiles as a JSON array
-    public JSONArray coinTilePositionSetToJson() {
-        JSONArray jsonArray = new JSONArray();
-
-        for (Position p : positionSet) {
-            jsonArray.put(p.toJson());
-        }
-
-        return jsonArray;
-    }
 }

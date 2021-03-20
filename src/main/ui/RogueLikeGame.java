@@ -4,7 +4,6 @@ import model.*;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
 // A class that sets up the game's user interface. Allows the user to save the game to a file as well.
@@ -71,7 +70,7 @@ public class RogueLikeGame {
 //    }
 
     // MODIFIES: game
-    // EFFECTS: performs the map setup, enters the game loop, and exits on game over or level complete
+    // EFFECTS: performs the Game map setup, enters the game loop, and exits on game over or level complete
     public void runRogueLikeGame() {
         boolean gameIsRunning = true;
         boolean levelIsOver = false;
@@ -120,6 +119,9 @@ public class RogueLikeGame {
 
                 if (game.player().getPosition().equals(new Position(i,j))) {
                     game.player().display(" ");
+
+                } else if (game.enemy().getPositionSet().contains(new Position(i,j))) {
+                    game.enemy().display(" ");
 
                 } else if (game.coin().getPositionSet().contains(new Position(i,j))) {
                     game.coin().display(" ");
@@ -186,6 +188,8 @@ public class RogueLikeGame {
             game.coin().getPositionSet().remove(currentPlayerPosition);
             game.player().addToWallet(BASIC_COIN_WORTH);
         } else if (game.spike().getPositionSet().contains(currentPlayerPosition)) {
+            return false;
+        } else if (game.enemy().getPositionSet().contains(currentPlayerPosition)) {
             return false;
         }
 

@@ -11,11 +11,4 @@ public class ExitPoint extends SingleTile {
     public String display(String s) {
         return super.display(EXIT_POINT_TILE_SYMBOL,s);
     }
-
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("position", position.toJson());
-        return json;
-    }
 }

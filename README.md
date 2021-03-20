@@ -24,8 +24,7 @@ bar reaches zero.
 - The level of difficulty increases 
 with each level completion. 
 - The player has a wallet for coin storage.
-- The player may collect coins by walking on to coin tiles or 
-by defeating enemies.
+- The player may collect coins by walking on to coin tiles.
 - The player has access to a shop where the
 player may purchase items using coins.
 - The player may buy additional power-ups in the shop that may
@@ -81,8 +80,13 @@ The following user stories have been implemented as part of phase 2.
 ### *Post Phase 2*
 The following user stories will be implemented post phase 2 before beginning phase 3:
 
+- As a user, I want to be able to see an enemy on the map.
+- As a user, I want to be able to load a save file from within a game.
+- As a user, I want to be able to pause the game and access a menu with options.
+- As a user, I want to be able to lose 20 health upon interaction with an enemy.
 - As a user, I want to be able to see my current health.
-- As a user, I want to be able to access the shop menu.
-- As a user, I want to be able to die instantly (lose all health) upon interaction with an enemy.
-- As a user, I want to be able to get detected by an enemy's radar.
-- As a user, I want to be followed by an enemy once detected on the radar.
+- As a user, I want to be able to use a Small Health Potion to increase my health by 25.
+
+
+
+

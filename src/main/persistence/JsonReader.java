@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.stream.Stream;
 
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import model.Game;
+import model.MultipleTile;
 import model.Position;
+import model.SingleTile;
 import model.tiles.*;
 import org.json.*;
 
@@ -54,6 +58,7 @@ public class JsonReader {
         Player player;
         Spike spike;
         Coin coin;
+        Enemy enemy;
 
         air = deserializeAir(jsonObject);
         wall = deserializeWall(jsonObject);
@@ -62,95 +67,90 @@ public class JsonReader {
         player = deserializePlayer(jsonObject);
         spike = deserializeSpike(jsonObject);
         coin = deserializeCoin(jsonObject);
+        enemy = deserializeEnemy(jsonObject);
 
-        Game game = new Game(air,wall,entryPoint,exitPoint,player,spike,coin);
+        Game game = new Game(air,wall,entryPoint,exitPoint,player,spike,coin,enemy);
         return game;
     }
 
     // EFFECTS: parses airTiles from JSON object and returns it as an air object
     private Air deserializeAir(JSONObject jsonObject) {
-        JSONObject jsonTileObject = jsonObject.getJSONObject("airTile");
-        JSONArray jsonArray = jsonTileObject.getJSONArray("positions");
         Air air = new Air();
-        for (Object json : jsonArray) {
-            JSONObject jsonPositionObject = (JSONObject) json;
-            Position position = new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
-            air.addPosition(position);
-        }
+        air.setPositionSet(deserializeMultipleTile(jsonObject,air,"airTile"));
         return air;
     }
 
     // EFFECTS: parses wallTiles from JSON object and returns it as a wall object
     private Wall deserializeWall(JSONObject jsonObject) {
-        JSONObject jsonTileObject = jsonObject.getJSONObject("wallTile");
-        JSONArray jsonArray = jsonTileObject.getJSONArray("positions");
         Wall wall = new Wall();
-        for (Object json : jsonArray) {
-            JSONObject jsonPositionObject = (JSONObject) json;
-            Position position = new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
-            wall.addPosition(position);
-        }
+        wall.setPositionSet(deserializeMultipleTile(jsonObject,wall,"wallTile"));
         return wall;
     }
 
     // EFFECTS: parses the entryPointTile from the JSON object and returns it as an entryPoint object
     private EntryPoint deserializeEntryPoint(JSONObject jsonObject) {
         EntryPoint entryPoint = new EntryPoint();
-        JSONObject jsonTileObject = jsonObject.getJSONObject("entryPointTile");
-        JSONObject jsonPositionObject = jsonTileObject.getJSONObject("position");
-        Position position = new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
-        entryPoint.setPosition(position);
+        entryPoint.setPosition(deserializeSingleTile(jsonObject,entryPoint,"entryPointTile"));
         return entryPoint;
     }
 
     // EFFECTS: parses the exitPointTile from the JSON object and returns it as an exitPoint object
     private ExitPoint deserializeExitPoint(JSONObject jsonObject) {
         ExitPoint exitPoint = new ExitPoint();
-        JSONObject jsonTileObject = jsonObject.getJSONObject("exitPointTile");
-        JSONObject jsonPositionObject = jsonTileObject.getJSONObject("position");
-        Position position = new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
-        exitPoint.setPosition(position);
+        exitPoint.setPosition(deserializeSingleTile(jsonObject,exitPoint,"exitPointTile"));
         return exitPoint;
     }
 
     // EFFECTS: parses the playerTile from the JSON object and returns it as a player object
     private Player deserializePlayer(JSONObject jsonObject) {
         Player player = new Player();
+        player.setPosition(deserializeSingleTile(jsonObject,player,"playerTile"));
+
         JSONObject jsonPlayerObject = jsonObject.getJSONObject("playerTile");
-
         JSONObject jsonWalletObject = jsonPlayerObject.getJSONObject("wallet");
-        JSONObject jsonPositionObject = jsonPlayerObject.getJSONObject("position");
-
         player.setWalletBalance(jsonWalletObject.getInt("walletBalance"));
-        Position position = new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
-        player.setPosition(position);
 
         return player;
     }
 
     // EFFECTS: parses spikeTiles from the JSON object and returns it as a player object
     private Spike deserializeSpike(JSONObject jsonObject) {
-        JSONObject jsonTileObject = jsonObject.getJSONObject("spikeTile");
-        JSONArray jsonArray = jsonTileObject.getJSONArray("positions");
         Spike spike = new Spike();
-        for (Object json : jsonArray) {
-            JSONObject jsonPositionObject = (JSONObject) json;
-            Position position = new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
-            spike.addPosition(position);
-        }
+        spike.setPositionSet(deserializeMultipleTile(jsonObject,spike,"spikeTile"));
         return spike;
     }
 
     // EFFECTS: parses coinTiles from the JSON object and returns it as a player object
     private Coin deserializeCoin(JSONObject jsonObject) {
-        JSONObject jsonTileObject = jsonObject.getJSONObject("coinTile");
-        JSONArray jsonArray = jsonTileObject.getJSONArray("positions");
         Coin coin = new Coin();
+        coin.setPositionSet(deserializeMultipleTile(jsonObject,coin,"coinTile"));
+        return coin;
+    }
+
+    // EFFECTS: parses enemyTiles from the JSON object and returns it as a player object
+    private Enemy deserializeEnemy(JSONObject jsonObject) {
+        Enemy enemy = new Enemy();
+        enemy.setPositionSet(deserializeMultipleTile(jsonObject,enemy,"enemyTile"));
+        return enemy;
+    }
+
+    // EFFECTS: parses a MultipleTile class object from a JSON object and returns its positions as a HashSet
+    private HashSet<Position> deserializeMultipleTile(JSONObject jsonObject, MultipleTile tileObject, String tileName) {
+        JSONObject jsonTileObject = jsonObject.getJSONObject(tileName);
+        JSONArray jsonArray = jsonTileObject.getJSONArray("positions");
+        HashSet<Position> temporaryHashSet = new HashSet<>();
         for (Object json : jsonArray) {
             JSONObject jsonPositionObject = (JSONObject) json;
             Position position = new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
-            coin.addPosition(position);
+            temporaryHashSet.add(position);
         }
-        return coin;
+        return temporaryHashSet;
+    }
+
+    // EFFECTS: parses a SingleTile class object from a JSON object and returns its position
+    private Position deserializeSingleTile(JSONObject jsonObject, SingleTile tileObject, String tileName) {
+        JSONObject jsonTileObject = jsonObject.getJSONObject(tileName);
+        JSONObject jsonPositionObject = jsonTileObject.getJSONObject("position");
+        return new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
     }
 }

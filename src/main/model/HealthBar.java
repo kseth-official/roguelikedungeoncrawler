@@ -13,6 +13,13 @@ public class HealthBar {
         this.isZero = false;
     }
 
+    // REQUIRES: health > 0
+    // EFFECTS: initializes the health bar with health and sets isZero to false
+    public HealthBar(int health) {
+        this.health = health;
+        this.isZero = false;
+    }
+
     public int getHealth() {
         return this.health;
     }
@@ -21,6 +28,7 @@ public class HealthBar {
         return this.isZero;
     }
 
+    // REQUIRES: value > 0
     // MODIFIES: this
     // EFFECTS: sets the health bar to a particular value
     public void set(int value) {

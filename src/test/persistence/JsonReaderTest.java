@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
 class JsonReaderTest {
+    // update testJsonReader every time a new tile is added to the map
     private static final String JSON_STORE_TEST_JSON_READER = "./data/testJsonReader.json";
 
     @Test
@@ -40,6 +41,7 @@ class JsonReaderTest {
             testPlayerReadCorrectly(game);
             testSpikeTileReadCorrectly(game);
             testWallTileReadCorrectly(game);
+            testEnemyTileReadCorrectly(game);
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
@@ -102,5 +104,9 @@ class JsonReaderTest {
             assertTrue(game.wall().getPositionSet().contains(new Position(0,i)));
             assertTrue(game.wall().getPositionSet().contains(new Position(12,i)));
         }
+    }
+
+    void testEnemyTileReadCorrectly(Game game) {
+        assertTrue(game.enemy().getPositionSet().contains(new Position(1,11)));
     }
 }
