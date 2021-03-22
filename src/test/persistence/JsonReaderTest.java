@@ -42,9 +42,19 @@ class JsonReaderTest {
             testSpikeTileReadCorrectly(game);
             testWallTileReadCorrectly(game);
             testEnemyTileReadCorrectly(game);
+            testSmallHealthPositionTileReadCorrectly(game);
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
+    }
+
+    private void testSmallHealthPositionTileReadCorrectly(Game game) {
+        assertTrue(game.smallHealthPotion().getPositionSet().contains(new Position(11,1)));
+        assertTrue(game.smallHealthPotion().getPositionSet().contains(new Position(11,2)));
+        assertTrue(game.smallHealthPotion().getPositionSet().contains(new Position(11,9)));
+        assertTrue(game.smallHealthPotion().getPositionSet().contains(new Position(11,10)));
+        assertTrue(game.smallHealthPotion().getPositionSet().contains(new Position(6,6)));
+        assertTrue(game.smallHealthPotion().getPositionSet().contains(new Position(7,6)));
     }
 
     void testAirTileReadCorrectly(Game game) {
@@ -81,6 +91,7 @@ class JsonReaderTest {
     void testPlayerReadCorrectly(Game game) {
         assertEquals(game.player().getWalletBalance(),3);
         assertEquals(game.player().getPosition(),new Position(5,9));
+        assertEquals(game.player().getInventory().getNumberOfSmallHealthPotions(),0);
     }
 
     void testSpikeTileReadCorrectly(Game game) {

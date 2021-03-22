@@ -4,16 +4,39 @@
         "y": 6
     }},
     "enemyTile": {"positions": [{
-        "x": 1,
-        "y": 11
+        "x": 3,
+        "y": 9
     }]},
     "playerTile": {
         "wallet": {"walletBalance": 3},
         "position": {
-            "x": 5,
-            "y": 8
-        }
+            "x": 6,
+            "y": 6
+        },
+        "inventory": {"numberOfSmallHealthPositions": 1}
     },
+    "smallHealthPotionTile": {"positions": [
+        {
+            "x": 11,
+            "y": 10
+        },
+        {
+            "x": 7,
+            "y": 6
+        },
+        {
+            "x": 11,
+            "y": 1
+        },
+        {
+            "x": 11,
+            "y": 2
+        },
+        {
+            "x": 11,
+            "y": 9
+        }
+    ]},
     "wallTile": {"positions": [
         {
             "x": 12,

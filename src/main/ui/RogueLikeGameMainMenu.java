@@ -18,6 +18,11 @@ public class RogueLikeGameMainMenu {
     private JsonReader jsonReader;
 
 
+    // EFFECTS: Initializes a new main menu and displays it
+    public RogueLikeGameMainMenu() {
+        display();
+    }
+
     // EFFECTS: clears the console screen by printing newline characters
     public void clearScreen() {
         for (int i = 0;i < NUMBER_OF_CONSOLE_CLEANER_REPEATS;++i) {
@@ -26,13 +31,13 @@ public class RogueLikeGameMainMenu {
         System.out.print("\r");
     }
 
-    // EFFECTS: displays the main menu and allows the user to create a new game, load an old game, or quit
-    public RogueLikeGameMainMenu() {
+    // EFFECTS: Displays the RogueLikeGame Main Menu
+    public void display() {
         while (true) {
             System.out.println("MAIN MENU");
             System.out.println("\t1. New Game");
             System.out.println("\t2. Load Game");
-            System.out.println("\t3. Quit Game");
+            System.out.println("\t3. Exit Game");
             System.out.print("Enter here: ");
 
             Scanner input = new Scanner(System.in);
@@ -41,7 +46,8 @@ public class RogueLikeGameMainMenu {
             clearScreen();
 
             if (keyPress.equals("1")) {
-                new RogueLikeGame(GAME_TERMINAL_WIDTH,GAME_TERMINAL_HEIGHT);
+                RogueLikeGame newGame = new RogueLikeGame(GAME_TERMINAL_WIDTH,GAME_TERMINAL_HEIGHT);
+                newGame.runRogueLikeGame();
             } else if (keyPress.equals("2")) {
                 loadRogueLikeGame();
             } else if (keyPress.equals("3")) {
@@ -55,7 +61,7 @@ public class RogueLikeGameMainMenu {
     // EFFECTS: reads a rogue like game from one of three save files and loads it
     private void loadRogueLikeGame() {
         clearScreen();
-        System.out.println("Which Save File Would You Like To Load?");
+        System.out.println("LOAD SAVE FILE");
         System.out.println("\tSave File 1");
         System.out.println("\tSave File 2");
         System.out.println("\tSave File 3");
@@ -80,9 +86,11 @@ public class RogueLikeGameMainMenu {
         try {
             jsonReader = new JsonReader(source);
             Game fromSource  = jsonReader.read();
+            Game defaultGame = new Game();
             System.out.println("Loaded " + "Save File " + number + " from " + source);
             clearScreen();
-            new RogueLikeGame(fromSource, GAME_TERMINAL_WIDTH, GAME_TERMINAL_HEIGHT);
+            RogueLikeGame fromSaveFile = new RogueLikeGame(fromSource, GAME_TERMINAL_WIDTH, GAME_TERMINAL_HEIGHT);
+            fromSaveFile.runRogueLikeGame();
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + source);
         }

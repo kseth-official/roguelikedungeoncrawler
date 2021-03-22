@@ -1,11 +1,4 @@
-package model.tiles;
-
-import model.Position;
-import model.SingleTile;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.List;
+package model.tile;
 
 // A class representing the Entry Point tile on the game map, where the player will begin.
 public class EntryPoint extends SingleTile {

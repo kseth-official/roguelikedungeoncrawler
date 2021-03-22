@@ -1,8 +1,4 @@
-package model.tiles;
-
-import model.MultipleTile;
-import org.json.JSONArray;
-import org.json.JSONObject;
+package model.tile;
 
 // A class representing the Air tile on the game map. This has no special interaction.
 public class Air extends MultipleTile {

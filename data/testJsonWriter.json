@@ -12,8 +12,35 @@
         "position": {
             "x": 1,
             "y": 6
-        }
+        },
+        "inventory": {"numberOfSmallHealthPotions": 0}
     },
+    "smallHealthPotionTile": {"positions": [
+        {
+            "x": 11,
+            "y": 10
+        },
+        {
+            "x": 7,
+            "y": 6
+        },
+        {
+            "x": 6,
+            "y": 6
+        },
+        {
+            "x": 11,
+            "y": 1
+        },
+        {
+            "x": 11,
+            "y": 2
+        },
+        {
+            "x": 11,
+            "y": 9
+        }
+    ]},
     "wallTile": {"positions": [
         {
             "x": 12,

@@ -1,7 +1,4 @@
-package model.tiles;
-
-import model.SingleTile;
-import org.json.JSONObject;
+package model.tile;
 
 // A class representing the Exit Point tile on the game map, which the player will interact with to complete the level.
 public class ExitPoint extends SingleTile {

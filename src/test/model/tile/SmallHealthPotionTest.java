@@ -1,6 +1,7 @@
-package model.tiles;
+package model.tile;
 
 import model.Game;
+import model.HealthBar;
 import model.Position;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -10,24 +11,24 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 // Test Class for the Wall Class
-public class WallTest {
-    Wall wall;
+public class SmallHealthPotionTest {
+    SmallHealthPotion smallHealthPotion;
 
     @BeforeEach
     public void setup() {
-        wall = new Wall();
+        smallHealthPotion = new SmallHealthPotion();
     }
 
     @Test
     public void testDisplay() {
-        assertEquals(wall.display("hello"), "Whello");
+        assertEquals(smallHealthPotion.display("old"), "hold");
     }
 
     @Test
     public void testAddPosition() {
         Position temp = new Position(0,0);
-        wall.addPosition(temp);
-        assertTrue(wall.getPositionSet().contains(temp));
+        smallHealthPotion.addPosition(temp);
+        assertTrue(smallHealthPotion.getPositionSet().contains(temp));
     }
 
     @Test
@@ -36,12 +37,20 @@ public class WallTest {
         JSONObject jsonObject;
         JSONObject otherJsonObject = new JSONObject();
 
-        wall.setPositionSet(game.wall().getPositionSet());
+        smallHealthPotion.setPositionSet(game.coin().getPositionSet());
 
-        jsonObject = wall.toJson();
+        jsonObject = smallHealthPotion.toJson();
         String jsonObjectString = jsonObject.toString();
-        otherJsonObject.put("positions",new JSONArray(wall.getPositionSet()));
+        otherJsonObject.put("positions",new JSONArray(smallHealthPotion.getPositionSet()));
         String otherJsonObjectString = otherJsonObject.toString();
+
         assertTrue(jsonObjectString.equals(otherJsonObjectString));
+    }
+
+    @Test
+    public void testUse() {
+        HealthBar healthBar = new HealthBar(50);
+        SmallHealthPotion.use(healthBar);
+        assertEquals(healthBar.getHealth(),75);
     }
 }

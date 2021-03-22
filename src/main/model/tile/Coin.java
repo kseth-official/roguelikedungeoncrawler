@@ -1,9 +1,6 @@
-package model.tiles;
+package model.tile;
 
-import model.MultipleTile;
-import model.Position;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import model.tile.MultipleTile;
 
 // A class modeling the coins a player may pickup during the game.
 // The coins are an indicator of the points scored by the player.

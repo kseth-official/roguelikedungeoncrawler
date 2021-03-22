@@ -1,4 +1,4 @@
-package model.tiles;
+package model.tile;
 
 import model.Game;
 import model.Position;
@@ -9,25 +9,25 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// Test class for the Air Class
-public class AirTest {
-    Air air;
+// Test Class for the Wall Class
+public class CoinTest {
+    Coin coin;
 
     @BeforeEach
     public void setup() {
-        air = new Air();
+        coin = new Coin();
     }
 
     @Test
     public void testDisplay() {
-        assertEquals(air.display("hello"), " hello");
+        assertEquals(coin.display("hello"), "¤hello");
     }
 
     @Test
     public void testAddPosition() {
         Position temp = new Position(0,0);
-        air.addPosition(temp);
-        assertTrue(air.getPositionSet().contains(temp));
+        coin.addPosition(temp);
+        assertTrue(coin.getPositionSet().contains(temp));
     }
 
     @Test
@@ -36,11 +36,11 @@ public class AirTest {
         JSONObject jsonObject;
         JSONObject otherJsonObject = new JSONObject();
 
-        air.setPositionSet(game.air().getPositionSet());
+        coin.setPositionSet(game.coin().getPositionSet());
 
-        jsonObject = air.toJson();
+        jsonObject = coin.toJson();
         String jsonObjectString = jsonObject.toString();
-        otherJsonObject.put("positions",new JSONArray(air.getPositionSet()));
+        otherJsonObject.put("positions",new JSONArray(coin.getPositionSet()));
         String otherJsonObjectString = otherJsonObject.toString();
 
         assertTrue(jsonObjectString.equals(otherJsonObjectString));

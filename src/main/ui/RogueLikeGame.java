@@ -1,6 +1,8 @@
 package ui;
 
+import exceptions.CellAtMaximumOrMinimumException;
 import model.*;
+import model.tile.SmallHealthPotion;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
@@ -14,7 +16,6 @@ public class RogueLikeGame {
     private static final String CONSOLE_CLEANER = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     private static final int NUMBER_OF_CONSOLE_CLEANER_REPEATS = 3;
     private static final int BASIC_COIN_WORTH = 1;
-    private JsonWriter jsonWriter;
 
     private static int gameTerminalWidth;
     private static int gameTerminalHeight;
@@ -22,12 +23,11 @@ public class RogueLikeGame {
     private Game game;
 
     // MODIFIES: this
-    // EFFECTS: sets up the width and height of the game arena, creates a new game, and runs it
+    // EFFECTS: sets up the width and height of the game arena, creates a new game
     RogueLikeGame(int width, int height) {
         RogueLikeGame.gameTerminalWidth = width;
         RogueLikeGame.gameTerminalHeight = height;
         this.game = new Game();
-        runRogueLikeGame();
     }
 
     // MODIFIES: this
@@ -36,7 +36,6 @@ public class RogueLikeGame {
         RogueLikeGame.gameTerminalWidth = width;
         RogueLikeGame.gameTerminalHeight = height;
         this.game = other;
-        runRogueLikeGame();
     }
 
     public Game getGame() {
@@ -77,10 +76,12 @@ public class RogueLikeGame {
 
         while (gameIsRunning && (!levelIsOver)) {
             displayControlsAndInformation();
+            displayPlayerHealth();
             displayWallet();
             displayMap();
+            displayInventory();
             levelIsOver = handleKeyEvent();
-            gameIsRunning = handleCollisions();
+            gameIsRunning = (handleCollisions() && handleGameEvents());
             clearScreen();
         }
 
@@ -92,22 +93,48 @@ public class RogueLikeGame {
 
     }
 
+    private void displayInventory() {
+        int numberOfSmallHealthPotions = game.player().getInventory().getNumberOfSmallHealthPotions();
+        System.out.println("INVENTORY");
+        System.out.println("\tSmall Health Potions: " + numberOfSmallHealthPotions);
+    }
+
+    // EFFECTS: Handles in game events. Returns true if the game should be running else returns false.
+    public boolean handleGameEvents() {
+        if (game.player().getHealthBar().isZero()) {
+            return false;
+        }
+        return true;
+    }
+
+
     // EFFECTS: displays the game controls and game map information
     public void displayControlsAndInformation() {
-        System.out.println("Use wasd to move, i to interact with an exit, p to save the game, and e to quit the game");
+        System.out.print("Use wasd to move, ");
+        System.out.print("e to interact with an exit, ");
+        System.out.print("o to open inventory, and ");
+        System.out.println("p to pause the game.");
         System.out.println("P represents the Player");
+        System.out.println("O represents an Enemy");
         System.out.println("E represents the Entry Point");
         System.out.println("e represents the Exit Point");
         System.out.println("¤ represents a Coin");
         System.out.println("░ represents a Spike Tile");
         System.out.println("W represents a Wall");
+        System.out.println("h represents a Small Health Potion");
         System.out.println();
+    }
+
+    // EFFECTS: displays the player's current health
+    public void displayPlayerHealth() {
+        System.out.println("HEALTH ");
+        System.out.println("***** " + game.player().getHealthBar().getHealth() + " *****");
     }
 
     // EFFECTS: displays the player's wallet balance
     public void displayWallet() {
-        System.out.print("Wallet: ");
-        System.out.println(game.player().getWalletBalance());
+        System.out.println("WALLET BALANCE ");
+        System.out.println("***** " + game.player().getWallet().getBalance() + " *****");
     }
 
     // REQUIRES: game map must be initialized
@@ -125,7 +152,8 @@ public class RogueLikeGame {
 
                 } else if (game.coin().getPositionSet().contains(new Position(i,j))) {
                     game.coin().display(" ");
-
+                } else if (game.smallHealthPotion().getPositionSet().contains(new Position(i,j))) {
+                    game.smallHealthPotion().display(" ");
                 } else if (game.entryPoint().getPosition().equals(new Position(i,j))) {
                     game.entryPoint().display(" ");
 
@@ -149,10 +177,10 @@ public class RogueLikeGame {
         }
     }
 
-    // REQUIRES: the game must be initialized
+    // REQUIRES: The game must be initialized
     // MODIFIES: game
-    // EFFECTS: takes the user's input for the player character
-    //          returns true if the level is over otherwise returns false
+    // EFFECTS: Takes the user's input for the player character.
+    // Returns true if the level is over otherwise returns false.
     public boolean handleKeyEvent() {
         System.out.print("Input a key and press enter : ");
         Scanner input = new Scanner(System.in);
@@ -165,32 +193,101 @@ public class RogueLikeGame {
             case "d":
                 game.player().move(keyPress, game);
                 break;
-            case "i":
-                return game.player().interact(keyPress, game);
             case "p":
-                saveGame();
+                pauseGame();
+                break;
+            case "o":
+                openInventory();
                 break;
             case "e":
-                System.exit(0);
+                return game.player().interact(keyPress, game);
+
             default:
         }
 
         return false;
     }
 
+    // EFFECTS:
+    public void openInventory() {
+        int numberOfSmallHealthPotions = game.player().getInventory().getNumberOfSmallHealthPotions();
+
+        while (true) {
+            System.out.println();
+            System.out.println("INVENTORY OPERATIONS");
+            System.out.println("\t1. Use Small Health Potion");
+            System.out.println("\t2. Return to Game");
+            System.out.print("Enter here: ");
+
+            Scanner input = new Scanner(System.in);
+            String keyPress = input.next();
+
+            if (keyPress.equals("1")) {
+                if (game.player().getInventory().hasAtLeastOneSmallHealthPotion()) {
+                    SmallHealthPotion.use(game.player().getHealthBar());
+                    try {
+                        game.player().getInventory().subtractOneSmallHealthPotion();
+                        return;
+                    } catch (CellAtMaximumOrMinimumException e) {
+                        return;
+                    }
+                } else {
+                    System.out.println("Player has no Small Health Potions!");
+                }
+            } else if (keyPress.equals("2")) {
+                return;
+            }
+        }
+    }
+
+    // EFFECTS: Displays the in-game pause menu
+
+    public void pauseGame() {
+        clearScreen();
+        while (true) {
+            System.out.println("GAME PAUSED");
+            System.out.println("\t1. Save Game");
+            System.out.println("\t2. Main Menu");
+            System.out.println("\t3. Exit Game");
+            System.out.println("\t4. Return to Game");
+            System.out.print("Enter here: ");
+
+            Scanner input = new Scanner(System.in);
+            String keyPress = input.next();
+
+            clearScreen();
+
+            if (keyPress.equals("1")) {
+                saveGame();
+                return;
+            } else if (keyPress.equals("2")) {
+                new RogueLikeGameMainMenu();
+            } else if (keyPress.equals("3")) {
+                System.out.println("Thank you for playing!");
+                System.exit(0);
+            } else if (keyPress.equals("4")) {
+                return;
+            }
+        }
+    }
+
     // MODIFIES: game
-    // EFFECTS: checks if the player has collided with a coin, an obstacle, or an enemy and creates the
-    //          corresponding outcome. returns false if the game has ended else returns true
+    // EFFECTS: Checks if the player has collided with a coin or Small Health Potions and adds the coins to the player's
+    // wallet and Small Health Potion to the player's wallet unless the inventory cell is full.
+    // Returns true if the game is still running and returns false otherwise.
     public boolean handleCollisions() {
         Position currentPlayerPosition = game.player().getPosition();
 
         if (game.coin().getPositionSet().contains(currentPlayerPosition)) {
             game.coin().getPositionSet().remove(currentPlayerPosition);
             game.player().addToWallet(BASIC_COIN_WORTH);
-        } else if (game.spike().getPositionSet().contains(currentPlayerPosition)) {
-            return false;
-        } else if (game.enemy().getPositionSet().contains(currentPlayerPosition)) {
-            return false;
+        } else if (game.smallHealthPotion().getPositionSet().contains(currentPlayerPosition)) {
+            game.smallHealthPotion().getPositionSet().remove(currentPlayerPosition);
+            try {
+                game.player().getInventory().addOneSmallHealthPotion();
+            } catch (CellAtMaximumOrMinimumException e) {
+                System.out.println("INVENTORY FULL!");
+            }
         }
 
         return true;
@@ -204,9 +301,9 @@ public class RogueLikeGame {
 
     // MODIFIES: this
     // EFFECTS: saves the game to a save file
-    private void saveGame() {
+    public void saveGame() {
         clearScreen();
-        System.out.println("Select the save file you wish to save your game to");
+        System.out.println("CHOOSE A SAVE FILE");
         System.out.println("\tSave File 1");
         System.out.println("\tSave File 2");
         System.out.println("\tSave File 3");
@@ -232,11 +329,24 @@ public class RogueLikeGame {
     public void writeToSaveFile(String number, String source) {
         System.out.println();
         try {
-            jsonWriter = new JsonWriter(source);
-            jsonWriter.open();
-            jsonWriter.write(game);
-            jsonWriter.close();
-            System.out.println("Saved to save file " + number + " at " + source);
+            while (true) {
+                System.out.println("DO YOU WISH TO OVERWRITE? y/n");
+                System.out.print("Enter here: ");
+
+                Scanner scanner = new Scanner(System.in);
+                String keyInput = scanner.next();
+
+                if (keyInput.equals("n") || keyInput.equals("N")) {
+                    return;
+                } else if (keyInput.equals("y") || keyInput.equals("Y")) {
+                    JsonWriter jsonWriter = new JsonWriter(source);
+                    jsonWriter.open();
+                    jsonWriter.write(game);
+                    jsonWriter.close();
+                    System.out.println("Saved to save file " + number + " at " + source);
+                    return;
+                }
+            }
         } catch (FileNotFoundException e) {
             System.out.println("Unable to write to file: " + source);
         }

@@ -1,6 +1,7 @@
-package model;
+package model.tile;
 
 
+import model.Position;
 import org.json.JSONObject;
 
 // Represents tiles which are single entities.
@@ -14,8 +15,8 @@ public abstract class SingleTile extends Tile {
 
     // MODIFIES: this
     // EFFECTS: sets the tile's point position
-    public void setPosition(Position p) {
-        this.position = p;
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     // EFFECTS: creates a new JSONObject for a single tile class object using the tile's position

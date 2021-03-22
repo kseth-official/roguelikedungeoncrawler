@@ -1,5 +1,6 @@
-package model;
+package model.tile;
 
+import model.Position;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

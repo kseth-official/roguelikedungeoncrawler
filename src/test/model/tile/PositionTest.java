@@ -1,7 +1,6 @@
-package model.tiles;
+package model.tile;
 
 import model.Position;
-import model.tiles.Wall;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

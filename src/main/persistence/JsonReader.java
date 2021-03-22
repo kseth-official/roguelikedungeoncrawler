@@ -7,12 +7,13 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.stream.Stream;
 
-import com.sun.org.apache.xpath.internal.operations.Mult;
+import exceptions.CellAtMaximumOrMinimumException;
 import model.Game;
-import model.MultipleTile;
+import model.tile.Coin;
+import model.tile.MultipleTile;
 import model.Position;
-import model.SingleTile;
-import model.tiles.*;
+import model.tile.SingleTile;
+import model.tile.*;
 import org.json.*;
 
 // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
@@ -50,7 +51,7 @@ public class JsonReader {
 
 
     // EFFECTS: parses game from JSON object and returns it
-    private Game parseGame(JSONObject jsonObject) {
+    private Game parseGame(JSONObject jsonObject) throws CellAtMaximumOrMinimumException {
         Air air;
         Wall wall;
         EntryPoint entryPoint;
@@ -59,6 +60,7 @@ public class JsonReader {
         Spike spike;
         Coin coin;
         Enemy enemy;
+        SmallHealthPotion smallHealthPotion;
 
         air = deserializeAir(jsonObject);
         wall = deserializeWall(jsonObject);
@@ -68,9 +70,9 @@ public class JsonReader {
         spike = deserializeSpike(jsonObject);
         coin = deserializeCoin(jsonObject);
         enemy = deserializeEnemy(jsonObject);
+        smallHealthPotion = deserializeSmallHealthPotion(jsonObject);
 
-        Game game = new Game(air,wall,entryPoint,exitPoint,player,spike,coin,enemy);
-        return game;
+        return new Game(air,wall,entryPoint,exitPoint,player,spike,coin,enemy,smallHealthPotion);
     }
 
     // EFFECTS: parses airTiles from JSON object and returns it as an air object
@@ -102,13 +104,17 @@ public class JsonReader {
     }
 
     // EFFECTS: parses the playerTile from the JSON object and returns it as a player object
-    private Player deserializePlayer(JSONObject jsonObject) {
+    private Player deserializePlayer(JSONObject jsonObject) throws CellAtMaximumOrMinimumException {
         Player player = new Player();
         player.setPosition(deserializeSingleTile(jsonObject,player,"playerTile"));
 
         JSONObject jsonPlayerObject = jsonObject.getJSONObject("playerTile");
+
         JSONObject jsonWalletObject = jsonPlayerObject.getJSONObject("wallet");
         player.setWalletBalance(jsonWalletObject.getInt("walletBalance"));
+
+        JSONObject jsonInventoryObject = jsonPlayerObject.getJSONObject("inventory");
+        player.getInventory().addSmallHealthPotions(jsonInventoryObject.getInt("numberOfSmallHealthPotions"));
 
         return player;
     }
@@ -132,6 +138,13 @@ public class JsonReader {
         Enemy enemy = new Enemy();
         enemy.setPositionSet(deserializeMultipleTile(jsonObject,enemy,"enemyTile"));
         return enemy;
+    }
+
+    // EFFECTS: parses enemyTiles from the JSON object and returns it as a player object
+    private SmallHealthPotion deserializeSmallHealthPotion(JSONObject jsonObject) {
+        SmallHealthPotion smallHealthPotion = new SmallHealthPotion();
+        smallHealthPotion.setPositionSet(deserializeMultipleTile(jsonObject,smallHealthPotion,"smallHealthPotionTile"));
+        return smallHealthPotion;
     }
 
     // EFFECTS: parses a MultipleTile class object from a JSON object and returns its positions as a HashSet

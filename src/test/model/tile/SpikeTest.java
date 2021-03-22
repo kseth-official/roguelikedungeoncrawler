@@ -1,33 +1,33 @@
-package model.tiles;
+package model.tile;
 
 import model.Game;
 import model.Position;
-import model.tiles.ExitPoint;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// Test class for the ExitPoint Class
-public class ExitPointTest {
-    ExitPoint exitPoint;
+// Test class for the Spike Class
+public class SpikeTest {
+    Spike spike;
 
     @BeforeEach
     public void setup() {
-        exitPoint = new ExitPoint();
+        spike = new Spike();
     }
 
     @Test
     public void testDisplay() {
-        assertEquals(exitPoint.display("hello"), "ehello");
+        assertEquals(spike.display("hello"), "░hello");
     }
 
     @Test
-    public void testSetPosition() {
+    public void testAddPosition() {
         Position temp = new Position(0,0);
-        exitPoint.setPosition(temp);
-        assertEquals(exitPoint.getPosition(), temp);
+        spike.addPosition(temp);
+        assertTrue(spike.getPositionSet().contains(temp));
     }
 
     @Test
@@ -36,11 +36,11 @@ public class ExitPointTest {
         JSONObject jsonObject;
         JSONObject otherJsonObject = new JSONObject();
 
-        exitPoint.setPosition(game.exitPoint().getPosition());
+        spike.setPositionSet(game.spike().getPositionSet());
 
-        jsonObject = exitPoint.toJson();
+        jsonObject = spike.toJson();
         String jsonObjectString = jsonObject.toString();
-        otherJsonObject.put("position",exitPoint.getPosition().toJson());
+        otherJsonObject.put("positions",new JSONArray(spike.getPositionSet()));
         String otherJsonObjectString = otherJsonObject.toString();
 
         assertTrue(jsonObjectString.equals(otherJsonObjectString));

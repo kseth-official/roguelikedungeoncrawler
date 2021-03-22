@@ -1,6 +1,7 @@
 package model;
 
-import model.tiles.*;
+import model.tile.Coin;
+import model.tile.*;
 import org.json.JSONObject;
 import persistence.Writable;
 
@@ -14,6 +15,7 @@ public class Game implements Writable {
     private Spike spike = new Spike();
     private Coin coin = new Coin();
     private Enemy enemy = new Enemy();
+    private SmallHealthPotion smallHealthPotion = new SmallHealthPotion();
 
     // EFFECTS: sets up the initial game map
     public Game() {
@@ -25,6 +27,7 @@ public class Game implements Writable {
         initializeWalls();
         initializeAir();
         initializeEnemies();
+        initializeSmallHealthPotions();
     }
 
     // EFFECTS: initializes a game with all the given objects
@@ -35,7 +38,8 @@ public class Game implements Writable {
                 Player player,
                 Spike spike,
                 Coin coin,
-                Enemy enemy) {
+                Enemy enemy,
+                SmallHealthPotion smallHealthPotion) {
         this.air = air;
         this.wall = wall;
         this.entryPoint = entryPoint;
@@ -44,6 +48,7 @@ public class Game implements Writable {
         this.spike = spike;
         this.coin = coin;
         this.enemy = enemy;
+        this.smallHealthPotion = smallHealthPotion;
     }
 
     public Wall wall() {
@@ -76,6 +81,10 @@ public class Game implements Writable {
 
     public Enemy enemy() {
         return this.enemy;
+    }
+
+    public SmallHealthPotion smallHealthPotion() {
+        return this.smallHealthPotion;
     }
 
     // MODIFIES: this
@@ -164,7 +173,17 @@ public class Game implements Writable {
     // EFFECTS: sets up the enemy positions
     public void initializeEnemies() {
         enemy.addPosition(new Position(3,9));
-//        enemy.addPosition(new Position(1,1));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets up the enemy positions
+    public void initializeSmallHealthPotions() {
+        smallHealthPotion.addPosition(new Position(11,1));
+        smallHealthPotion.addPosition(new Position(11,2));
+        smallHealthPotion.addPosition(new Position(11,9));
+        smallHealthPotion.addPosition(new Position(11,10));
+        smallHealthPotion.addPosition(new Position(6,6));
+        smallHealthPotion.addPosition(new Position(7,6));
     }
 
     @Override
@@ -178,6 +197,7 @@ public class Game implements Writable {
         json.put("spikeTile", spike.toJson());
         json.put("coinTile", coin.toJson());
         json.put("enemyTile", enemy.toJson());
+        json.put("smallHealthPotionTile", smallHealthPotion.toJson());
         return json;
     }
 }

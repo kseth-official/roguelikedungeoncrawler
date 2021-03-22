@@ -1,9 +1,4 @@
-package model.tiles;
-
-import model.MultipleTile;
-import model.Position;
-import org.json.JSONArray;
-import org.json.JSONObject;
+package model.tile;
 
 // A class representing the Wall tile on the Game Map, which will define the boundaries of the map.
 public class Wall extends MultipleTile {

@@ -31,10 +31,17 @@ public class Position implements Writable {
     }
 
     // MODIFIES: this
-    // EFFECTS: sets the position of the position object
+    // EFFECTS: sets the position of the position object using x & y coordinates
     public void setPosition(int x, int y) {
         this.abscissaCoordinate = x;
         this.ordinateCoordinate = y;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets the position of the position object using another position object
+    public void setPosition(Position position) {
+        this.abscissaCoordinate = position.getX();
+        this.ordinateCoordinate = position.getY();
     }
 
     // EFFECTS: overrides the equals method of the Position HashSet and establishes that 2 positions

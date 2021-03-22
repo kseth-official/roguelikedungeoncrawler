@@ -1,4 +1,4 @@
-package model;
+package model.tile;
 
 import persistence.Json;
 import persistence.Writable;

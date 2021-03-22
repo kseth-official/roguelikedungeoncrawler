@@ -4,16 +4,31 @@
         "y": 6
     }},
     "enemyTile": {"positions": [{
-        "x": 1,
-        "y": 11
+        "x": 3,
+        "y": 9
     }]},
     "playerTile": {
-        "wallet": {"walletBalance": 6},
+        "wallet": {"walletBalance": 7},
         "position": {
-            "x": 6,
-            "y": 7
-        }
+            "x": 11,
+            "y": 1
+        },
+        "inventory": {"numberOfSmallHealthPotions": 3}
     },
+    "smallHealthPotionTile": {"positions": [
+        {
+            "x": 11,
+            "y": 10
+        },
+        {
+            "x": 7,
+            "y": 6
+        },
+        {
+            "x": 11,
+            "y": 9
+        }
+    ]},
     "wallTile": {"positions": [
         {
             "x": 12,
@@ -210,8 +225,16 @@
     ]},
     "coinTile": {"positions": [
         {
-            "x": 7,
-            "y": 6
+            "x": 4,
+            "y": 3
+        },
+        {
+            "x": 4,
+            "y": 4
+        },
+        {
+            "x": 4,
+            "y": 5
         },
         {
             "x": 7,
@@ -234,10 +257,6 @@
             "y": 3
         },
         {
-            "x": 10,
-            "y": 6
-        },
-        {
             "x": 4,
             "y": 1
         },
@@ -246,20 +265,12 @@
             "y": 4
         },
         {
-            "x": 9,
-            "y": 6
-        },
-        {
             "x": 4,
             "y": 2
         },
         {
             "x": 7,
             "y": 5
-        },
-        {
-            "x": 8,
-            "y": 6
         }
     ]},
     "spikeTile": {"positions": [

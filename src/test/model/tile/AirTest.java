@@ -1,33 +1,33 @@
-package model.tiles;
+package model.tile;
 
 import model.Game;
 import model.Position;
-import model.tiles.EntryPoint;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// Test class for the EntryPoint Class
-public class EntryPointTest {
-    EntryPoint entryPoint;
+// Test class for the Air Class
+public class AirTest {
+    Air air;
 
     @BeforeEach
     public void setup() {
-        entryPoint = new EntryPoint();
+        air = new Air();
     }
 
     @Test
     public void testDisplay() {
-        assertEquals(entryPoint.display("hello"), "Ehello");
+        assertEquals(air.display("hello"), " hello");
     }
 
     @Test
-    public void testSetPosition() {
+    public void testAddPosition() {
         Position temp = new Position(0,0);
-        entryPoint.setPosition(temp);
-        assertEquals(entryPoint.getPosition(), temp);
+        air.addPosition(temp);
+        assertTrue(air.getPositionSet().contains(temp));
     }
 
     @Test
@@ -36,11 +36,11 @@ public class EntryPointTest {
         JSONObject jsonObject;
         JSONObject otherJsonObject = new JSONObject();
 
-        entryPoint.setPosition(game.entryPoint().getPosition());
+        air.setPositionSet(game.air().getPositionSet());
 
-        jsonObject = entryPoint.toJson();
+        jsonObject = air.toJson();
         String jsonObjectString = jsonObject.toString();
-        otherJsonObject.put("position",entryPoint.getPosition().toJson());
+        otherJsonObject.put("positions",new JSONArray(air.getPositionSet()));
         String otherJsonObjectString = otherJsonObject.toString();
 
         assertTrue(jsonObjectString.equals(otherJsonObjectString));
