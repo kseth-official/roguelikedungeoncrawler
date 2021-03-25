@@ -60,7 +60,7 @@ algorithm like The Drunkard Walk Algorithm.
 
 ## *User Stories*
 ### *Phase 1*`
-As part of *Phase 1* of this project, the following user stories have been implemented:
+The following user stories have been implemented in phase 1.
 
 - As a user, I want to be able to navigate a room using the arrow keys.
 - As a user, I want to be able to interact with the exit point to complete the level. 
@@ -71,21 +71,19 @@ The pathfinding and procedural generation will be added in later phases of this 
 
 ### *Phase 2*
 
-The following user stories have been implemented as part of phase 2.
+The following user stories have been implemented in phase 2.
 - As a user, I want to be able to access a menu on starting the application.
 - As a user, I want to be able to start a new game or load a saved game from a save file.
 - As a user, I want to be able to save the current game to a save file.
 - As a user, I want to have access to at least 3 save files.
 
 ### *Post Phase 2*
-The following user stories will be implemented post phase 2 before beginning phase 3:
+The following user stories have been implemented post phase 2 before beginning phase 3:
 
 - As a user, I want to be able to see an enemy on the map. (check)
 - As a user, I want to be able to pause the game and access a menu with options to
-  - return back to the game, 
-  - return back to the main menu without saving, 
-  - save the game, and 
-  - exit the game. (check)
+  return back to the game, return back to the main menu wuthout saving, save the
+  game, and exit the game. (check)
 - As a user, I want to be able to see my current health. (check)
 - As a user, I want to be able to lose 20 health upon interaction with an enemy, 
   and not be able to walk through them. (check)
@@ -93,6 +91,18 @@ The following user stories will be implemented post phase 2 before beginning pha
 - As a user, I want to be able to add Small Health Potions to my inventory. (check)
 - As a user, I want to be able to use Small Health Potions in my inventory to increase my health by 25. (check)
 
+### *Phase 3*
+The following user stories will be implemented in phase 3.
+GUI Implemetation:
+- As a user, I want to be able to see a panel inside an inventory where all the Coins that have been
+   added to the Player's Wallet are displayed. 
+- As a user, I want to be able to click a button inside the inventory to use a SmallHealthPotion and 
+   add health to my HealthBar.
+- As a user, I want to be able to click on a button to make the Player interact
+   with the ExitPoint to complete a level.
+- As a user, I want to be able to access menus with menu items that allow me
+   to load and save the game.
+- As a user, I want to be able to be able to hear a sound when I die.
 
 
 	

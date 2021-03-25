@@ -24,7 +24,7 @@ public class RogueLikeGame {
 
     // MODIFIES: this
     // EFFECTS: sets up the width and height of the game arena, creates a new game
-    RogueLikeGame(int width, int height) {
+    public RogueLikeGame(int width, int height) {
         RogueLikeGame.gameTerminalWidth = width;
         RogueLikeGame.gameTerminalHeight = height;
         this.game = new Game();
@@ -32,7 +32,7 @@ public class RogueLikeGame {
 
     // MODIFIES: this
     // EFFECTS: loads the game from another Game instance
-    RogueLikeGame(Game other, int width, int height) {
+    public RogueLikeGame(Game other, int width, int height) {
         RogueLikeGame.gameTerminalWidth = width;
         RogueLikeGame.gameTerminalHeight = height;
         this.game = other;
@@ -57,16 +57,6 @@ public class RogueLikeGame {
         }
         System.out.print("\r");
     }
-
-//    // EFFECTS:  moves main menu arrow if possible or else constrains it within the main menu option bounds
-//    public int isArrowInBoundsAfterInput(int arrowPosition, char input) {
-//        if (input == 'w' && (arrowPosition + 1 <= NUMBER_OF_MAIN_MENU_OPTIONS)) {
-//            return arrowPosition + 1;
-//        } else if (arrowPosition - 1 >= 1) {
-//            return arrowPosition - 1;
-//        }
-//        return arrowPosition;
-//    }
 
     // MODIFIES: game
     // EFFECTS: performs the Game map setup, enters the game loop, and exits on game over or level complete
@@ -282,9 +272,9 @@ public class RogueLikeGame {
             game.coin().getPositionSet().remove(currentPlayerPosition);
             game.player().addToWallet(BASIC_COIN_WORTH);
         } else if (game.smallHealthPotion().getPositionSet().contains(currentPlayerPosition)) {
-            game.smallHealthPotion().getPositionSet().remove(currentPlayerPosition);
             try {
                 game.player().getInventory().addOneSmallHealthPotion();
+                game.smallHealthPotion().getPositionSet().remove(currentPlayerPosition);
             } catch (CellAtMaximumOrMinimumException e) {
                 System.out.println("INVENTORY FULL!");
             }
