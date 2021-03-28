@@ -1,6 +1,7 @@
 package ui.frames;
 
 import ui.RogueLikeGame;
+import ui.RogueLikeGameGUI;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -189,7 +190,7 @@ public class MainMenu extends JFrame implements ActionListener {
         if (e.getSource() == newGameButton) {
 //            RogueLikeGame rogueLikeGame = new RogueLikeGame(GAME_TERMINAL_WIDTH,GAME_TERMINAL_HEIGHT);
 //            rogueLikeGame.runRogueLikeGame();
-            new RogueLikeGameGUI();
+            new RogueLikeGameGUI(GAME_TERMINAL_WIDTH,GAME_TERMINAL_HEIGHT);
         } else if (e.getSource() == loadGameButton) {
             new LoadGame();
         } else if (e.getSource() == exitGameButton) {
