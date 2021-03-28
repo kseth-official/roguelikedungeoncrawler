@@ -20,7 +20,7 @@ public abstract class Tile implements Writable {
 
     // EFFECTS: displays the symbol for a tile + an optional string
     protected String display(String tileSymbol, String s) {
-        System.out.print(tileSymbol + s);
+//        System.out.print(tileSymbol + s);
         return tileSymbol + s;
     }
 }

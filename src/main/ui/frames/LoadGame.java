@@ -219,14 +219,14 @@ public class LoadGame extends JFrame implements ActionListener {
     // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
     // EFFECTS: loads a save file of given number from a source
     public void loadSaveFile(String number, String source) {
-        System.out.println();
         try {
             this.jsonReader = new JsonReader(source);
             Game fromSource  = this.jsonReader.read();
 //            Game defaultGame = new Game();
-            System.out.println("Loaded " + "Save File " + number + " from " + source);
-            RogueLikeGame fromSaveFile = new RogueLikeGame(fromSource, GAME_TERMINAL_WIDTH, GAME_TERMINAL_HEIGHT);
-            fromSaveFile.runRogueLikeGame();
+//            System.out.println("Loaded " + "Save File " + number + " from " + source);
+//            RogueLikeGame fromSaveFile = new RogueLikeGame(fromSource, GAME_TERMINAL_WIDTH, GAME_TERMINAL_HEIGHT);
+//            fromSaveFile.runRogueLikeGame();
+            new RogueLikeGameGUI(fromSource,GAME_TERMINAL_WIDTH,GAME_TERMINAL_HEIGHT);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + source);
         }

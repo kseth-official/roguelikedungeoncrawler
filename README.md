@@ -94,10 +94,10 @@ The following user stories have been implemented post phase 2 before beginning p
 ### *Phase 3*
 The following user stories will be implemented in phase 3.
 GUI Implemetation:
-- As a user, I want to be able to see a panel inside an inventory where all the Coins that have been
-   added to the Player's Wallet are displayed. 
-- As a user, I want to be able to click a button inside the inventory to use a SmallHealthPotion and 
-   add health to my HealthBar.
+- As a user, I want to be able to see a panel where all the Coins that have been
+   added to the Player's Wallet are displayed. (check)
+- As a user, I want to be able to click a button  to use a SmallHealthPotion and 
+   add health to my HealthBar. (check)
 - As a user, I want to be able to click on a button to make the Player interact
    with the ExitPoint to complete a level.
 - As a user, I want to be able to access menus with menu items that allow me

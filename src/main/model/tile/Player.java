@@ -178,7 +178,7 @@ public class Player extends SingleTile {
     }
 
     // EFFECTS: allows the player to perform certain interactions
-    //          "i": let's the player end the game on an exitPoint tile
+    //          "e": let's the player end the game on an exitPoint tile
     //          returns true to indicate that the level is over
     //          returns false to indicate that the level is not
     public boolean interact(String typeOfInteraction, Game game) {

@@ -1,7 +1,7 @@
 package ui.frames;
 
 import ui.RogueLikeGame;
-import ui.RogueLikeGameGUI;
+import ui.frames.*;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;

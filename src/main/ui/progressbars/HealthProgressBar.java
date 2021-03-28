@@ -1,0 +1,45 @@
+package ui.progressbars;
+
+import model.Game;
+import model.HealthBar;
+
+import javax.swing.*;
+import javax.swing.border.SoftBevelBorder;
+import java.awt.*;
+
+// A class representing the GUI for the player's health bar
+public class HealthProgressBar extends JProgressBar {
+    private int frameContentPaneWidth;
+    private int frameContentPaneHeight;
+    private Game game;
+
+
+    public HealthProgressBar(int frameContentPaneWidth, int frameContentPaneHeight, Game game) {
+        super(JProgressBar.HORIZONTAL, HealthBar.ZERO_HEALTH,HealthBar.MAX_HEALTH);
+        this.frameContentPaneWidth = frameContentPaneWidth;
+        this.frameContentPaneHeight = frameContentPaneHeight;
+        this.game = game;
+        setupProgressBar();
+    }
+
+    private void setupProgressBar() {
+        setBorderPainted(true);
+        setStringPainted(true);
+        setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
+        setFont(new Font("Century Gothic (Body)", Font.BOLD,14));
+        setForeground(Color.RED);
+        setBackground(Color.LIGHT_GRAY);
+        setOpaque(true);
+        setBounds(
+                0,
+                0,
+                frameContentPaneWidth / 4,
+                frameContentPaneHeight / 16);
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        setValue(game.player().getHealthBar().getHealth());
+    }
+}

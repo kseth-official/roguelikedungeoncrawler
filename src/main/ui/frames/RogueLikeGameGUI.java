@@ -1,21 +1,23 @@
-package ui;
+package ui.frames;
 
 import exceptions.CellAtMaximumOrMinimumException;
 import model.*;
 import model.tile.SmallHealthPotion;
 import persistence.JsonWriter;
-import ui.frames.MainMenu;
+import ui.RogueLikeGameMainMenu;
+import ui.buttons.DescendButton;
+import ui.buttons.UsePotionButton;
+import ui.buttons.PauseButton;
+import ui.labels.ControlsAndInformation;
+import ui.labels.GameOverLabel;
+import ui.panels.InventoryPanel;
+import ui.panels.GamePanel;
+import ui.panels.PausePanel;
+import ui.progressbars.HealthProgressBar;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
@@ -36,12 +38,17 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     // COMPONENTS
     // PANELS
     private JPanel gamePanel;
+    private JPanel inventoryPanel;
+    private JPanel pausePanel;
+//    private JPanel inventoryPanel;
+
     // LABELS
     private JLabel controlsAndInformationLabel;
-    private JLabel coinCountLabel;
+
     // BUTTONS
     private JButton pauseButton;
-    private JButton inventoryButton;
+    private JButton useSmallHealthPotionButton;
+    private JButton descendButton;
 
     // PROGRESS BAR
     private JProgressBar healthBar;
@@ -51,33 +58,33 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     // EFFECTS: sets up the width and height of the game arena, creates a new game
     public RogueLikeGameGUI(int width, int height) {
         super("RogueLikeGame");
-        this.game = new Game();
-        initializeFields(width,height);
+        initializeFields(new Game(),width,height);
         initializeGraphics();
         initializeInteraction();
-//        runRogueLikeGame();
     }
 
     // MODIFIES: this
     // EFFECTS: loads the game from another Game instance
     public RogueLikeGameGUI(Game other, int width, int height) {
         super("RogueLikeGame");
-        this.game = other;
-        initializeFields(width,height);
+        initializeFields(other,width,height);
         initializeGraphics();
         initializeInteraction();
-//        runRogueLikeGame();
     }
 
     private void initializeInteraction() {
+        pauseButton.addActionListener(this);
+        useSmallHealthPotionButton.addActionListener(this);
+        descendButton.addActionListener(this);
         addKeyListener(this);
     }
 
     // MODIFIES: this
     // EFFECTS: Sets the the number of rows and columns in the game
-    private void initializeFields(int width, int height) {
+    private void initializeFields(Game game, int width, int height) {
         RogueLikeGameGUI.gameTerminalWidth = width;
         RogueLikeGameGUI.gameTerminalHeight = height;
+        this.game = game;
     }
 
     public Game getGame() {
@@ -137,157 +144,50 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         setLayout(null);
         setVisible(true);
 
-//        System.out.println(getInsets().top);
-//        System.out.println(getInsets().bottom);
-//        System.out.println(getInsets().left);
-//        System.out.println(getInsets().right);
-
         frameContentPaneWidth = (int) getContentPane().getSize().getWidth();
         frameContentPaneHeight = (int) getContentPane().getSize().getHeight();
 
-//        System.out.println(frameContentPaneHeight);
-//        System.out.println(frameContentPaneWidth);
-
         // PANELS
-        gamePanel = new JPanel();
-        gamePanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-        gamePanel.setLayout(new GridLayout(gameTerminalHeight,gameTerminalWidth));
-        gamePanel.setBounds(
-                frameContentPaneWidth / 8,
-                frameContentPaneHeight / 13,
-                frameContentPaneWidth * 3 / 4,
-                frameContentPaneHeight * 3 / 4);
+        gamePanel = new GamePanel(
+                frameContentPaneWidth,
+                frameContentPaneHeight,
+                gameTerminalWidth,
+                gameTerminalHeight,
+                game);
 
-        for (int j = 0; j < gameTerminalHeight;++j) {
+        inventoryPanel = new InventoryPanel(
+                frameContentPaneWidth,
+                frameContentPaneHeight,
+                game
+        );
 
-            for (int i = 0; i < gameTerminalWidth;++i) {
-
-                if (game.player().getPosition().equals(new Position(i,j))) {
-                    gamePanel.add(new JLabel(game.player().display(" ")));
-
-                } else if (game.enemy().getPositionSet().contains(new Position(i,j))) {
-                    gamePanel.add(new JLabel(game.enemy().display(" ")));
-
-                } else if (game.coin().getPositionSet().contains(new Position(i,j))) {
-                    gamePanel.add(new JLabel(game.coin().display(" ")));
-
-                } else if (game.smallHealthPotion().getPositionSet().contains(new Position(i,j))) {
-                    gamePanel.add(new JLabel(game.smallHealthPotion().display(" ")));
-
-                } else if (game.entryPoint().getPosition().equals(new Position(i,j))) {
-                    gamePanel.add(new JLabel(game.entryPoint().display(" ")));
-
-                } else if (game.exitPoint().getPosition().equals(new Position(i,j))) {
-                    gamePanel.add(new JLabel(game.exitPoint().display(" ")));
-
-                } else if (game.spike().getPositionSet().contains(new Position(i,j))) {
-                    gamePanel.add(new JLabel(game.spike().display(" ")));
-
-                } else if (game.wall().getPositionSet().contains(new Position(i,j))) {
-                    gamePanel.add(new JLabel(game.wall().display(" ")));
-
-                } else {
-                    gamePanel.add(new JLabel(game.air().display(" ")));
-
-                }
-            }
-        }
+        pausePanel = new PausePanel(frameContentPaneWidth,frameContentPaneHeight,game);
+        pausePanel.setVisible(false);
 
         // LABELS
-        controlsAndInformationLabel = new JLabel("temp",JLabel.CENTER);
-        controlsAndInformationLabel.setLayout(null);
-        String labelText;
-        labelText = "Use WASD to move around and the space \nbar to interact with your surroundings.";
-        String labelTextWithHtml = "<html>" + labelText.replaceAll("\n", "<br/>") + "</html>";
-        controlsAndInformationLabel.setText(labelTextWithHtml);
-        controlsAndInformationLabel.setBackground(Color.WHITE);
-        controlsAndInformationLabel.setOpaque(true);
-        controlsAndInformationLabel.setFont(new Font("Century Gothic (Body)",Font.BOLD, 14));
-        controlsAndInformationLabel.setVerticalAlignment(JLabel.CENTER);
-        controlsAndInformationLabel.setHorizontalAlignment(JLabel.CENTER);
-//        System.out.println(controlsAndInformationLabel.getForeground());
-        controlsAndInformationLabel.setForeground(Color.BLACK);
-        controlsAndInformationLabel.setBounds(
-                0,
-                frameContentPaneHeight - frameContentPaneHeight / 6,
-                frameContentPaneWidth / 3,
-                frameContentPaneHeight / 6);
-//        System.out.println(controlsAndInformationLabel.getX());
-//        System.out.println(controlsAndInformationLabel.getY());
-
-        coinCountLabel = new JLabel();
-        coinCountLabel.setText("Coins: " + game.player().getWallet().getBalance());
-        coinCountLabel.setBackground(Color.WHITE);
-        coinCountLabel.setOpaque(true);
-        coinCountLabel.setFont(new Font("Century Gothic (Body)",Font.BOLD, 14));
-        coinCountLabel.setVerticalAlignment(JLabel.CENTER);
-        coinCountLabel.setHorizontalAlignment(JLabel.CENTER);
-        controlsAndInformationLabel.setForeground(Color.BLACK);
-        coinCountLabel.setBounds(
-                frameContentPaneWidth - frameContentPaneWidth / 3,
-                frameContentPaneHeight - frameContentPaneHeight / 6,
-                frameContentPaneWidth / 3,
-                frameContentPaneHeight / 6);
+        controlsAndInformationLabel = new ControlsAndInformation(
+                frameContentPaneWidth,
+                frameContentPaneHeight);
 
         // BUTTONS
-        pauseButton = new JButton();
-        pauseButton.setText("Pause");
-        pauseButton.setBounds(
-                frameContentPaneWidth - frameContentPaneWidth / 16,
-                0,
-                frameContentPaneWidth / 16,
-                frameContentPaneWidth / 16);
+        pauseButton = new PauseButton(frameContentPaneWidth,frameContentPaneHeight);
 
-        pauseButton.setBackground(Color.RED);
-        pauseButton.setFont(new Font("Century Gothic (Body)",Font.BOLD, 14));
-        pauseButton.setForeground(Color.WHITE);
-        pauseButton.addActionListener(this);
-        pauseButton.setFocusable(false);
-        pauseButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        useSmallHealthPotionButton = new UsePotionButton(frameContentPaneWidth,frameContentPaneHeight);
 
-        inventoryButton = new JButton();
-        inventoryButton.setText("Inventory");
-        inventoryButton.setBounds(
-                frameContentPaneWidth - frameContentPaneWidth * 7 / 12,
-                frameContentPaneHeight - frameContentPaneHeight / 6,
-                frameContentPaneWidth / 6,
-                frameContentPaneHeight / 6);
+        descendButton = new DescendButton(frameContentPaneWidth, frameContentPaneHeight);
 
-        inventoryButton.setBackground(new Color(0x8B4513));
-        inventoryButton.setFont(new Font("Century Gothic (Body)",Font.BOLD, 14));
-        inventoryButton.setForeground(Color.WHITE);
-        inventoryButton.addActionListener(this);
-        inventoryButton.setFocusable(false);
-//        inventoryButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-
-        // int HORIZONTAL_ORIENTATION = 0;
         // PROGRESS BAR
-        healthBar = new JProgressBar(0,HealthBar.ZERO_HEALTH,HealthBar.MAX_HEALTH);
-        healthBar.setBorderPainted(true);
-        healthBar.setStringPainted(true);
-        healthBar.setValue(game.player().getHealthBar().getHealth());
-        healthBar.setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
-        healthBar.setBackground(Color.RED);
-        System.out.println(healthBar.getBackground());
-//        System.out.println(healthBar.getColorModel());
-//        healthBar.setString("HP");
-//        System.out.println(healthBar.isDisplayable());
-//        System.out.println(healthBar.isStringPainted());
-        healthBar.setOpaque(true);
-        healthBar.setBounds(
-                0,
-                0,
-                frameContentPaneWidth / 4,
-                frameContentPaneHeight / 16);
+        healthBar = new HealthProgressBar(frameContentPaneWidth,frameContentPaneHeight,game);
+
 
         add(gamePanel);
+        add(pausePanel);
         add(controlsAndInformationLabel);
-        add(coinCountLabel);
+        add(inventoryPanel);
         add(pauseButton);
-        add(inventoryButton);
+        add(descendButton);
+        add(useSmallHealthPotionButton);
         add(healthBar);
-        repaint();
-//        setVisible(true);
     }
 
     private void displayInventory() {
@@ -302,6 +202,10 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
             return false;
         }
         return true;
+    }
+
+    public void paintComponent(Graphics g) {
+
     }
 
 
@@ -552,14 +456,42 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == pauseButton) {
+            pausePanel.setVisible(true);
+        } else if (e.getSource() == descendButton) {
+            boolean isLevelOver = game.player().interact("e", game);
+            if (isLevelOver) {
+                gamePanel.removeAll();
+                gamePanel.add(new GameOverLabel("You've won!\nThank You For Playing!"));
+                gamePanel.repaint();
 
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException interruptedException) {
+//                    System.out.println("This interrupt should not have occured!");
+//                }
+//                dispose();
+//                new MainMenu();
+            }
+        } else if (e.getSource() == useSmallHealthPotionButton) {
+            if (game.player().getInventory().hasAtLeastOneSmallHealthPotion()) {
+                SmallHealthPotion.use(game.player().getHealthBar());
+                try {
+                    game.player().getInventory().subtractOneSmallHealthPotion();
+                } catch (CellAtMaximumOrMinimumException exception) {
+                    // let exception be for now
+                }
+            } else {
+                System.out.println("Player has no Small Health Potions!");
+                // ???
+            }
         }
+        repaint();
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println(e.getKeyChar());
-        String keyPress = String.valueOf(Character.toLowerCase(e.getKeyChar()));
+//        System.out.println(e.getKeyChar());
+        String keyPress = String.valueOf(e.getKeyChar());
         switch (keyPress) {
             case "w":
             case "a":
@@ -570,11 +502,11 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
                 break;
         }
 
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            game.player().interact("e",game);
+        boolean gameIsRunning = (handleCollisions() && handleGameEvents());
+
+        if (gameIsRunning) {
+            repaint();
         }
-        initializeGraphics();
-        validate();
     }
 
     @Override
@@ -586,4 +518,5 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     public void keyReleased(KeyEvent e) {
 
     }
+
 }
