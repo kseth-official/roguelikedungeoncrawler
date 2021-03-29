@@ -42,10 +42,52 @@ public class InventoryTest {
     @Test
     void testIsSmallHealthPotionSetFull() {
         try {
+            assertFalse(inventory.smallHealthPotionSetIsFull());
             inventory.addSmallHealthPotions(Inventory.CELL_CAPACITY);
             assertTrue(inventory.smallHealthPotionSetIsFull());
         } catch (CellAtMaximumOrMinimumException e) {
             fail(); // this is bad
+        }
+    }
+
+    @Test
+    void testHasAtLeastOneSmallHealthPotion() {
+        try {
+            assertEquals(inventory.getNumberOfSmallHealthPotions(),0);
+            assertFalse(inventory.hasAtLeastOneSmallHealthPotion());
+            inventory.addOneSmallHealthPotion();
+            assertTrue(inventory.hasAtLeastOneSmallHealthPotion());
+            inventory.addOneSmallHealthPotion();
+            assertTrue(inventory.hasAtLeastOneSmallHealthPotion());
+            inventory.subtractOneSmallHealthPotion();
+            assertTrue(inventory.hasAtLeastOneSmallHealthPotion());
+        } catch (CellAtMaximumOrMinimumException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Test
+    void testAddOneSmallHealthPotionExceptionalInputs() {
+        try {
+            assertEquals(inventory.getNumberOfSmallHealthPotions(),0);
+            inventory.subtractOneSmallHealthPotion();
+            fail("Did not expect to reach this line!");
+        } catch (CellAtMaximumOrMinimumException exception) {
+            // this is good
+        }
+    }
+
+
+
+    @Test
+    void testSubtractOneSmallHealthPotionExceptionalInputs() {
+        try {
+            assertEquals(inventory.getNumberOfSmallHealthPotions(),0);
+            inventory.addSmallHealthPotions(Inventory.CELL_CAPACITY);
+            inventory.addOneSmallHealthPotion();
+            fail("Did not expect to reach this line!");
+        } catch (CellAtMaximumOrMinimumException exception) {
+            // this is good
         }
     }
 }

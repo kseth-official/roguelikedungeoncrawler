@@ -43,7 +43,7 @@ public class Inventory implements Writable {
     }
 
     // EFFECTS: Subtracts a Small Health Potion to the inventory.
-    // Throws a CellAtMaximumException if cell is at maximum size already.
+    // Throws a CellAtMaximumException if cell is at minimum size already.
     public void subtractOneSmallHealthPotion() throws CellAtMaximumOrMinimumException {
         if (this.smallHealthPotions <= 0) {
             throw new CellAtMaximumOrMinimumException();

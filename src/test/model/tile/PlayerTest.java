@@ -127,6 +127,10 @@ public class PlayerTest {
         game.initializeExitPoint(new Position(2,2));
         assertTrue(game.player().interact("e",game));
         assertFalse(game.player().interact("k",game));
+        game.initializePlayer(new Position(2,2));
+        game.initializeExitPoint(new Position(2,3));
+        assertFalse(game.player().interact("e",game));
+        assertFalse(game.player().interact("k",game));
     }
 
     @Test

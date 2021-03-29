@@ -38,9 +38,15 @@ public class PositionTest {
     }
 
     @Test
-    void testEquals() {
+    void testEqualsDifferentReferencesEqualContents() {
         Position other = new Position(3,4);
         assertTrue(position.equals(other));
+    }
+
+    @Test
+    void testEqualsDifferentReferencesUnequalContents() {
+        Position other = new Position(4,5);
+        assertFalse(position.equals(other));
     }
 
     @Test
