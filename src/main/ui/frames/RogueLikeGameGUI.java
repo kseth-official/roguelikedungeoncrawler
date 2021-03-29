@@ -6,14 +6,10 @@ import model.tile.SmallHealthPotion;
 import persistence.JsonWriter;
 import ui.GameAudioPlayer;
 import ui.RogueLikeGameMainMenu;
-import ui.buttons.DescendButton;
-import ui.buttons.UsePotionButton;
-import ui.buttons.PauseButton;
+import ui.buttons.*;
 import ui.labels.ControlsAndInformation;
-import ui.labels.GameOverLabel;
 import ui.panels.InventoryPanel;
 import ui.panels.GamePanel;
-import ui.panels.PausePanel;
 import ui.progressbars.HealthProgressBar;
 
 import javax.swing.*;
@@ -53,6 +49,8 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     private JButton pauseButton;
     private JButton useSmallHealthPotionButton;
     private JButton descendButton;
+    private JButton buyPotionButton;
+    private JButton disposeCoinButton;
 
     // PROGRESS BAR
     private JProgressBar healthBar;
@@ -79,6 +77,8 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         pauseButton.addActionListener(this);
         useSmallHealthPotionButton.addActionListener(this);
         descendButton.addActionListener(this);
+        buyPotionButton.addActionListener(this);
+        disposeCoinButton.addActionListener(this);
         addKeyListener(this);
     }
 
@@ -117,14 +117,7 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     public void initializeGraphics() {
         setFrameCharacteristics();
 
-        frameContentPaneWidth = (int) getContentPane().getSize().getWidth();
-        frameContentPaneHeight = (int) getContentPane().getSize().getHeight();
-
-        // PANELS
-        gamePanel = new GamePanel(frameContentPaneWidth, frameContentPaneHeight, gameTerminalWidth, gameTerminalHeight,
-                game);
-
-        inventoryPanel = new InventoryPanel(frameContentPaneWidth, frameContentPaneHeight, game);
+        initializeGamePanels();
 
 //        pausePanel = new PausePanel(frameContentPaneWidth,frameContentPaneHeight,game);
 
@@ -133,25 +126,57 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         // LABELS
         controlsAndInformationLabel = new ControlsAndInformation(frameContentPaneWidth, frameContentPaneHeight);
 
-        // BUTTONS
-        pauseButton = new PauseButton(frameContentPaneWidth,frameContentPaneHeight);
-
-        useSmallHealthPotionButton = new UsePotionButton(frameContentPaneWidth,frameContentPaneHeight);
-
-        descendButton = new DescendButton(frameContentPaneWidth, frameContentPaneHeight);
+        initializeGameButtons();
 
         // PROGRESS BAR
         healthBar = new HealthProgressBar(frameContentPaneWidth,frameContentPaneHeight,game);
 
 
+        addComponentsToFrame();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds the components to the current frame
+    public void addComponentsToFrame() {
         add(gamePanel);
 //        add(pausePanel);
         add(controlsAndInformationLabel);
         add(inventoryPanel);
         add(pauseButton);
         add(descendButton);
+        add(buyPotionButton);
+        add(disposeCoinButton);
         add(useSmallHealthPotionButton);
         add(healthBar);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes the game buttons
+    public void initializeGameButtons() {
+        // BUTTONS
+        pauseButton = new PauseButton(frameContentPaneWidth,frameContentPaneHeight);
+        useSmallHealthPotionButton = new UsePotionButton(frameContentPaneWidth,frameContentPaneHeight);
+        descendButton = new DescendButton(frameContentPaneWidth, frameContentPaneHeight);
+        buyPotionButton = new BuyPotionButton(frameContentPaneWidth, frameContentPaneHeight);
+        disposeCoinButton = new DisposeCoinButton(frameContentPaneWidth, frameContentPaneHeight);
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: initializes the game panels
+    public void initializeGamePanels() {
+        // PANELS
+        gamePanel = new GamePanel(
+                frameContentPaneWidth,
+                frameContentPaneHeight,
+                gameTerminalWidth,
+                gameTerminalHeight,
+                game);
+
+        inventoryPanel = new InventoryPanel(
+                frameContentPaneWidth,
+                frameContentPaneHeight,
+                game);
     }
 
     // MODIFIES: this
@@ -165,12 +190,9 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         setResizable(false);
         setLayout(null);
         setVisible(true);
-    }
 
-    private void displayInventory() {
-        int numberOfSmallHealthPotions = game.player().getInventory().getNumberOfSmallHealthPotions();
-        System.out.println("INVENTORY");
-        System.out.println("\tSmall Health Potions: " + numberOfSmallHealthPotions);
+        frameContentPaneWidth = (int) getContentPane().getSize().getWidth();
+        frameContentPaneHeight = (int) getContentPane().getSize().getHeight();
     }
 
     // EFFECTS: Handles in game events. Returns true if the game should be running else returns false.
@@ -179,71 +201,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
             return false;
         }
         return true;
-    }
-
-    public void paintComponent(Graphics g) {
-
-    }
-
-
-    // EFFECTS: displays the game controls and game map information
-    public void displayControlsAndInformation() {
-        System.out.print("Use wasd to move, ");
-        System.out.print("e to interact with an exit, ");
-        System.out.print("o to open inventory, and ");
-        System.out.println("p to pause the game.");
-        System.out.println("P represents the Player");
-        System.out.println("O represents an Enemy");
-        System.out.println("E represents the Entry Point");
-        System.out.println("e represents the Exit Point");
-        System.out.println("¤ represents a Coin");
-        System.out.println("░ represents a Spike Tile");
-        System.out.println("W represents a Wall");
-        System.out.println("h represents a Small Health Potion");
-        System.out.println();
-    }
-
-    // EFFECTS: displays the player's current health
-    public void displayPlayerHealth() {
-        System.out.println("HEALTH ");
-        System.out.println("***** " + game.player().getHealthBar().getHealth() + " *****");
-    }
-
-    // EFFECTS: displays the player's wallet balance
-    public void displayWallet() {
-        System.out.println("WALLET BALANCE ");
-        System.out.println("***** " + game.player().getWallet().getBalance() + " *****");
-    }
-
-    // EFFECTS: Displays the in-game pause menu
-
-    public void pauseGame() {
-        clearScreen();
-        while (true) {
-            System.out.println("GAME PAUSED");
-            System.out.println("\t1. Save Game");
-            System.out.println("\t2. Main Menu");
-            System.out.println("\t3. Exit Game");
-            System.out.println("\t4. Return to Game");
-            System.out.print("Enter here: ");
-
-            Scanner input = new Scanner(System.in);
-            String keyPress = input.next();
-
-            clearScreen();
-
-            if (keyPress.equals("1")) {
-//                saveGame();
-                return;
-            } else if (keyPress.equals("2")) {
-                new RogueLikeGameMainMenu();
-            } else if (keyPress.equals("3")) {
-                System.out.println("Thank you for playing!");
-                System.exit(0);
-            } else if (keyPress.equals("4")) {
-                return;
-            }
-        }
     }
 
     // MODIFIES: game
@@ -267,35 +224,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
 
         return true;
     }
-
-    // EFFECTS: displays the ending message
-    public void endScreen(String endMessage) {
-        System.out.println(endMessage);
-        System.exit(0);
-    }
-
-//    // MODIFIES: this
-//    // EFFECTS: saves the game to a save file
-//    public void saveGame() {
-//        clearScreen();
-//        System.out.println("CHOOSE A SAVE FILE");
-//        System.out.println("\tSave File 1");
-//        System.out.println("\tSave File 2");
-//        System.out.println("\tSave File 3");
-//        System.out.print("Enter here: ");
-//
-//        Scanner input = new Scanner(System.in);
-//        String keyPress = input.next();
-//
-//        if (keyPress.equals("1")) {
-//            writeToSaveFile("1",JSON_STORE_SAVE_FILE_ONE);
-//        } else if (keyPress.equals("2")) {
-//            writeToSaveFile("2",JSON_STORE_SAVE_FILE_TWO);
-//        } else if (keyPress.equals("3")) {
-//            writeToSaveFile("3",JSON_STORE_SAVE_FILE_THREE);
-//        }
-//
-//    }
 
     // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
     // MODIFIES: this
@@ -352,19 +280,49 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
                 new MainMenu();
             }
         } else if (e.getSource() == useSmallHealthPotionButton) {
-            if (game.player().getInventory().hasAtLeastOneSmallHealthPotion()) {
-                SmallHealthPotion.use(game.player().getHealthBar());
-                try {
-                    game.player().getInventory().subtractOneSmallHealthPotion();
-                } catch (CellAtMaximumOrMinimumException exception) {
-                    // let exception be for now
-                }
-            } else {
-                System.out.println("Player has no Small Health Potions!");
-                // ???
+            useSmallHealthPotionIfPossible();
+        } else if (e.getSource() == buyPotionButton) {
+            buyPotionIfPossible();
+        } else if (e.getSource() == disposeCoinButton) {
+            if (game.player().getWalletBalance() > 0) {
+                game.player().setWalletBalance(game.player().getWalletBalance() - 1);
             }
         }
         repaint();
+    }
+
+
+    // MODIFIES: Game
+    // EFFECTS: If player inventory has at least one small health potion, removes that health
+    // potion, uses it, and adds 25 health to the player's health bar.
+    public void useSmallHealthPotionIfPossible() {
+        if (game.player().getInventory().hasAtLeastOneSmallHealthPotion()) {
+            SmallHealthPotion.use(game.player().getHealthBar());
+            try {
+                game.player().getInventory().subtractOneSmallHealthPotion();
+            } catch (CellAtMaximumOrMinimumException exception) {
+                // let exception be for now
+            }
+        } else {
+            System.out.println("Player has no Small Health Potions!");
+            // ???
+        }
+    }
+
+    // MODIFIES: Player.Wallet && Player.Inventory
+    // EFFECTS: If player has a wallet balance of 10 or more and player small health potion capacity
+    // isn't full, subtracts 10 from the wallet and adds a potion to the inventory.
+    public void buyPotionIfPossible() {
+        int walletBalance = game.player().getWallet().getBalance();
+        boolean isPotionSetFull = game.player().getInventory().smallHealthPotionSetIsFull();
+        if (walletBalance >= 10 && !isPotionSetFull) {
+            game.player().getWallet().setBalance(game.player().getWallet().getBalance() - 10);
+            try {
+                game.player().getInventory().addOneSmallHealthPotion();
+            } catch (CellAtMaximumOrMinimumException exception) {
+                System.out.println("An exception that shouldn't have been thrown was thrown!");
+            }
+        }
     }
 
     @Override

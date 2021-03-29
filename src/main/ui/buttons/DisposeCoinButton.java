@@ -4,14 +4,14 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 
-public class BuyPotionButton extends JButton {
+public class DisposeCoinButton extends JButton {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;
 
-    public BuyPotionButton(int frameContentPaneWidth, int frameContentPaneHeight) {
+    public DisposeCoinButton(int frameContentPaneWidth, int frameContentPaneHeight) {
         this.frameContentPaneWidth = frameContentPaneWidth;
         this.frameContentPaneHeight = frameContentPaneHeight;
-        String labelText = "Buy Small\nHealth Potion";
+        String labelText = "Dispose Coin";
         String labelTextWithHtml = "<html>" + labelText.replaceAll("\n", "<br/>") + "</html>";
         setText(labelTextWithHtml);
         setBackground(Color.RED);
@@ -21,7 +21,7 @@ public class BuyPotionButton extends JButton {
         setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         setBounds(
                 frameContentPaneWidth - frameContentPaneWidth / 12,
-                frameContentPaneHeight / 2 + frameContentPaneHeight / 8,
+                frameContentPaneHeight / 2 - frameContentPaneHeight / 8,
                 frameContentPaneWidth / 12,
                 frameContentPaneWidth / 16);
     }

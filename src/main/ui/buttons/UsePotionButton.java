@@ -11,7 +11,8 @@ public class UsePotionButton extends JButton {
     public UsePotionButton(int frameContentPaneWidth, int frameContentPaneHeight) {
         this.frameContentPaneWidth = frameContentPaneWidth;
         this.frameContentPaneHeight = frameContentPaneHeight;
-        setText("Use Small Health Potion");
+        String labelText = "Use Small Health Potion";
+        setText(labelText);
         setBounds(
                 frameContentPaneWidth - frameContentPaneWidth * 7 / 12,
                 frameContentPaneHeight - frameContentPaneHeight / 6,
