@@ -15,6 +15,7 @@ public class GamePanel extends JPanel {
     private Game game;
     boolean isLevelOver;
 
+    // EFFECTS: Initializes all the components of the game panel
     public GamePanel(
             int contentPaneWidth,
             int contentPaneHeight,
@@ -41,6 +42,8 @@ public class GamePanel extends JPanel {
         this.isLevelOver = value;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Checks if the level is not over and draws the game
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -57,7 +60,9 @@ public class GamePanel extends JPanel {
         validate();
     }
 
-    private void drawGrid() {
+    // MODIFIES: this
+    // EFFECTS: Creates all the labels that must be added to the game panel
+    public void drawGrid() {
         for (int j = 0; j < gameTerminalHeight;++j) {
 
             for (int i = 0; i < gameTerminalWidth;++i) {

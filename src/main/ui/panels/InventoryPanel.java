@@ -13,6 +13,7 @@ public class InventoryPanel extends JPanel {
     private JLabel potionCountLabel;
     private Game game;
 
+    // EFFECTS: Initializes all the members of the inventory panel
     public InventoryPanel(int frameContentPaneWidth, int frameContentPaneHeight, Game game) {
         this.frameContentPaneWidth = frameContentPaneWidth;
         this.frameContentPaneHeight = frameContentPaneHeight;
@@ -30,7 +31,9 @@ public class InventoryPanel extends JPanel {
         add(potionCountLabel);
     }
 
-    private void setupPotionCountLabel() {
+    // MODIFIES: this
+    // EFFECTS: Sets up the potion count label
+    public void setupPotionCountLabel() {
         potionCountLabel = new JLabel();
         potionCountLabel.setBackground(Color.WHITE);
         potionCountLabel.setOpaque(true);
@@ -44,6 +47,8 @@ public class InventoryPanel extends JPanel {
                 frameContentPaneHeight / 6);
     }
 
+    // MODIFIES: this
+    // EFFECTS: Sets up the coin count label
     private void setupCoinCountLabel() {
         coinCountLabel = new JLabel();
         coinCountLabel.setBackground(Color.WHITE);
@@ -58,6 +63,8 @@ public class InventoryPanel extends JPanel {
                 frameContentPaneHeight / 6);
     }
 
+    // MODIFIES: this
+    // EFFECTS: Paints the labels with their updated values together
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

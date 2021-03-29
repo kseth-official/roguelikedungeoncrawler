@@ -8,7 +8,7 @@ public class ControlsAndInformation extends JLabel {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;
 
-    // EFFECTS: Displays the controls and information panel
+    // EFFECTS: Displays the controls and information label
     public ControlsAndInformation(int frameContentPaneWidth, int frameContentPaneHeight) {
         this.frameContentPaneWidth = frameContentPaneWidth;
         this.frameContentPaneHeight = frameContentPaneHeight;

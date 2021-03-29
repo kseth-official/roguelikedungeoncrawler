@@ -8,6 +8,7 @@ public class UsePotionButton extends JButton {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;
 
+    // EFFECTS: Initializes and creates a use potion button
     public UsePotionButton(int frameContentPaneWidth, int frameContentPaneHeight) {
         this.frameContentPaneWidth = frameContentPaneWidth;
         this.frameContentPaneHeight = frameContentPaneHeight;

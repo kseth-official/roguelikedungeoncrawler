@@ -13,7 +13,7 @@ public class HealthProgressBar extends JProgressBar {
     private int frameContentPaneHeight;
     private Game game;
 
-
+    // EFFECTS: Initializes the progress bar
     public HealthProgressBar(int frameContentPaneWidth, int frameContentPaneHeight, Game game) {
         super(JProgressBar.HORIZONTAL, HealthBar.ZERO_HEALTH,HealthBar.MAX_HEALTH);
         this.frameContentPaneWidth = frameContentPaneWidth;
@@ -22,6 +22,8 @@ public class HealthProgressBar extends JProgressBar {
         setupProgressBar();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Sets up the progress bar
     private void setupProgressBar() {
         setBorderPainted(true);
         setStringPainted(true);
@@ -37,6 +39,8 @@ public class HealthProgressBar extends JProgressBar {
                 frameContentPaneHeight / 16);
     }
 
+    // MODIFIES: this
+    // EFFECTS: Paints the progress bar
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

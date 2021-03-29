@@ -89,13 +89,6 @@ public class MainMenu extends JFrame implements ActionListener {
         setResizable(false);
         // sets the frame's layout manager
         setLayout(null);
-
-//         calculates the actual width of the content pane
-//        int extraWidth = FRAME_WIDTH - (int) this.getContentPane().getSize().getWidth();
-//        int extraHeight = FRAME_HEIGHT - (int) this.getContentPane().getSize().getHeight();
-//
-//        // resets the size of the frame so that the content pane has the size (FRAME_WIDTH, FRAME_HEIGHT)
-//        this.setSize(FRAME_WIDTH + extraWidth, FRAME_HEIGHT + extraHeight);
     }
 
     // MODIFIES: this
@@ -188,8 +181,6 @@ public class MainMenu extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         this.dispose();
         if (e.getSource() == newGameButton) {
-//            RogueLikeGame rogueLikeGame = new RogueLikeGame(GAME_TERMINAL_WIDTH,GAME_TERMINAL_HEIGHT);
-//            rogueLikeGame.runRogueLikeGame();
             new RogueLikeGameGUI(GAME_TERMINAL_WIDTH,GAME_TERMINAL_HEIGHT);
         } else if (e.getSource() == loadGameButton) {
             new LoadGame();

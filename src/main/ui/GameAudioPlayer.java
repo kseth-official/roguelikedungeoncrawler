@@ -36,6 +36,8 @@ public class GameAudioPlayer implements LineListener {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Checks if the audio file has completed playing
     @Override
     public void update(LineEvent event) {
         if (event.getType() == LineEvent.Type.STOP) {

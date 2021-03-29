@@ -9,6 +9,7 @@ public class DescendButton extends JButton {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;
 
+    // EFFECTS: Initializes and creates a descend button
     public DescendButton(int frameContentPaneWidth, int frameContentPaneHeight) {
         this.frameContentPaneWidth = frameContentPaneWidth;
         this.frameContentPaneHeight = frameContentPaneHeight;

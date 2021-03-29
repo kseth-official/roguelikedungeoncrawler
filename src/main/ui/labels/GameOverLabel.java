@@ -9,7 +9,7 @@ public class GameOverLabel extends JLabel {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;
 
-    // EFFECTS: Displays the controls and information panel
+    // EFFECTS: Displays the game over label
     public GameOverLabel(String gameOverMessage, int frameContentPaneWidth, int frameContentPaneHeight) {
         setLayout(new BorderLayout());
         String labelText = gameOverMessage;

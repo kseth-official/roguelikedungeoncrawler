@@ -228,7 +228,7 @@ public class PauseMenu extends JFrame implements ActionListener {
     }
 
 
-    // MODIFIES: RogueLikeGame
+    // MODIFIES: currentGameGuiObject
     // EFFECTS: An action listener for buttons
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -8,6 +8,7 @@ public class BuyPotionButton extends JButton {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;
 
+    // EFFECTS: Initializes and creates a buy potion button
     public BuyPotionButton(int frameContentPaneWidth, int frameContentPaneHeight) {
         this.frameContentPaneWidth = frameContentPaneWidth;
         this.frameContentPaneHeight = frameContentPaneHeight;

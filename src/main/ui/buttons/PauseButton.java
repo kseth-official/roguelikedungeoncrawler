@@ -10,6 +10,7 @@ public class PauseButton extends JButton {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;
 
+    // EFFECTS: Initializes and creates a pause button
     public PauseButton(int frameContentPaneWidth, int frameContentPaneHeight) {
         this.frameContentPaneWidth = frameContentPaneWidth;
         this.frameContentPaneHeight = frameContentPaneHeight;

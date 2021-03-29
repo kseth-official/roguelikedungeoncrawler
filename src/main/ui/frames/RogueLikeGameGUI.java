@@ -40,7 +40,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     // PANELS
     private JPanel gamePanel;
     private JPanel inventoryPanel;
-//    private JPanel pausePanel;
 
     // LABELS
     private JLabel controlsAndInformationLabel;
@@ -103,14 +102,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         return RogueLikeGameGUI.gameTerminalHeight;
     }
 
-    // EFFECTS: clears the console screen by printing newline characters
-    public void clearScreen() {
-        for (int i = 0;i < 5;++i) {
-            System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-        }
-        System.out.print("\r");
-    }
-
 
     // MODIFIES: this
     // EFFECTS: Initializes all the Game Frame Components
@@ -118,10 +109,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         setFrameCharacteristics();
 
         initializeGamePanels();
-
-//        pausePanel = new PausePanel(frameContentPaneWidth,frameContentPaneHeight,game);
-
-//        pausePanel.setVisible(false);
 
         // LABELS
         controlsAndInformationLabel = new ControlsAndInformation(frameContentPaneWidth, frameContentPaneHeight);
@@ -131,7 +118,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         // PROGRESS BAR
         healthBar = new HealthProgressBar(frameContentPaneWidth,frameContentPaneHeight,game);
 
-
         addComponentsToFrame();
     }
 
@@ -139,7 +125,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     // EFFECTS: adds the components to the current frame
     public void addComponentsToFrame() {
         add(gamePanel);
-//        add(pausePanel);
         add(controlsAndInformationLabel);
         add(inventoryPanel);
         add(pauseButton);
@@ -160,7 +145,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         buyPotionButton = new BuyPotionButton(frameContentPaneWidth, frameContentPaneHeight);
         disposeCoinButton = new DisposeCoinButton(frameContentPaneWidth, frameContentPaneHeight);
     }
-
 
     // MODIFIES: this
     // EFFECTS: initializes the game panels
@@ -223,36 +207,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         }
 
         return true;
-    }
-
-    // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
-    // MODIFIES: this
-    // EFFECTS: writes a save file of given number to a source
-    //          catches a FileNotFoundException if is unable to write to the file
-    public void writeToSaveFile(String number, String source) {
-        System.out.println();
-        try {
-            while (true) {
-                System.out.println("DO YOU WISH TO OVERWRITE? y/n");
-                System.out.print("Enter here: ");
-
-                Scanner scanner = new Scanner(System.in);
-                String keyInput = scanner.next();
-
-                if (keyInput.equals("n") || keyInput.equals("N")) {
-                    return;
-                } else if (keyInput.equals("y") || keyInput.equals("Y")) {
-                    JsonWriter jsonWriter = new JsonWriter(source);
-                    jsonWriter.open();
-                    jsonWriter.write(game);
-                    jsonWriter.close();
-                    System.out.println("Saved to save file " + number + " at " + source);
-                    return;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + source);
-        }
     }
 
     @Override
@@ -325,6 +279,10 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         }
     }
 
+
+    // MODIFIES: game
+    // EFFECTS: Takes the typed in key and performs player movement, checking for collisions, and
+    // checking for game events.
     @Override
     public void keyTyped(KeyEvent e) {
         boolean gameIsRunning = (handleCollisions() && handleGameEvents());
@@ -365,11 +323,13 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         }
     }
 
+    // UNUSED
     @Override
     public void keyPressed(KeyEvent e) {
 
     }
 
+    // UNUSED
     @Override
     public void keyReleased(KeyEvent e) {
 

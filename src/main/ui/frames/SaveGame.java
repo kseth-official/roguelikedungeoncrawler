@@ -105,13 +105,6 @@ public class SaveGame extends JFrame implements ActionListener {
         this.setResizable(false);
         // sets the frame's layout manager
         this.setLayout(null);
-
-//         calculates the actual width of the content pane
-//        int extraWidth = FRAME_WIDTH - (int) this.getContentPane().getSize().getWidth();
-//        int extraHeight = FRAME_HEIGHT - (int) this.getContentPane().getSize().getHeight();
-//
-//        // resets the size of the frame so that the content pane has the size (FRAME_WIDTH, FRAME_HEIGHT)
-//        this.setSize(FRAME_WIDTH + extraWidth, FRAME_HEIGHT + extraHeight);
     }
 
     // MODIFIES: this
@@ -143,7 +136,6 @@ public class SaveGame extends JFrame implements ActionListener {
         setButtonsFocusable();
 
         setButtonBorders();
-
     }
 
 
