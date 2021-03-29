@@ -3,6 +3,7 @@ package ui.buttons;
 import javax.swing.*;
 import java.awt.*;
 
+// A button that allows the player to use a small health potion
 public class UsePotionButton extends JButton {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;

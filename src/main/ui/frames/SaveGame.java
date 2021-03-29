@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
+// A frame for the save game menu
 public class SaveGame extends JFrame implements ActionListener {
     // SAVE FILES
     private static final String JSON_STORE_SAVE_FILE_ONE = "./data/saveFileOne.json";
@@ -32,7 +33,7 @@ public class SaveGame extends JFrame implements ActionListener {
 
     // MENU LABEL
     //      DIMENSIONS AND POSITION
-    public static final int LABEL_WIDTH = FRAME_WIDTH * 19 / 64;
+    public static final int LABEL_WIDTH = FRAME_WIDTH * 1 / 2;
     public static final int LABEL_HEIGHT = FRAME_HEIGHT / 8;
     public static final int LABEL_X = FRAME_WIDTH / 2 - LABEL_WIDTH / 2;
     public static final int LABEL_Y = FRAME_HEIGHT / 2 - 3 * LABEL_HEIGHT;
@@ -129,42 +130,26 @@ public class SaveGame extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: Creates the menu buttons
     public void createMenuButtons() {
-        // set the button texts
-        saveFileOneButton.setText("Save File One");
-        saveFileTwoButton.setText("Save File Two");
-        saveFileThreeButton.setText("Save File Three");
-        returnToMenu.setText("Return To Menu");
+        setMenuButtonTexts();
 
-        // set border layouts
-        saveFileOneButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_ONE_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
-        saveFileTwoButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_TWO_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
-        saveFileThreeButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_THREE_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
-        returnToMenu.setBounds(COMMON_BUTTON_X,EXIT_GAME_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
+        setButtonBounds();
 
-        // set backgrounds
-        saveFileOneButton.setBackground(BUTTON_BACKGROUND_COLOR);
-        saveFileTwoButton.setBackground(BUTTON_BACKGROUND_COLOR);
-        saveFileThreeButton.setBackground(BUTTON_BACKGROUND_COLOR);
-        returnToMenu.setBackground(BUTTON_BACKGROUND_COLOR);
+        setBackgrounds();
 
-        // add this as an action listener
-        saveFileOneButton.addActionListener(this);
-        saveFileTwoButton.addActionListener(this);
-        saveFileThreeButton.addActionListener(this);
-        returnToMenu.addActionListener(this);
+        addActionListeners();
 
-        // set button text font
-        saveFileOneButton.setFont(BUTTON_TEXT_FONT);
-        saveFileTwoButton.setFont(BUTTON_TEXT_FONT);
-        saveFileThreeButton.setFont(BUTTON_TEXT_FONT);
-        returnToMenu.setFont(BUTTON_TEXT_FONT);
+        setButtonTextFont();
 
-        // setting buttons to not be focusable (box around text)
-        saveFileOneButton.setFocusable(false);
-        saveFileTwoButton.setFocusable(false);
-        saveFileThreeButton.setFocusable(false);
-        returnToMenu.setFocusable(false);
+        setButtonsFocusable();
 
+        setButtonBorders();
+
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: Sets the menu button borders
+    public void setButtonBorders() {
         // creating Button Borders
         buttonBorder = BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED);
 
@@ -173,6 +158,67 @@ public class SaveGame extends JFrame implements ActionListener {
         saveFileTwoButton.setBorder(buttonBorder);
         saveFileThreeButton.setBorder(buttonBorder);
         returnToMenu.setBorder(buttonBorder);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the buttons as non-focusable
+    public void setButtonsFocusable() {
+        // setting buttons to not be focusable (box around text)
+        saveFileOneButton.setFocusable(false);
+        saveFileTwoButton.setFocusable(false);
+        saveFileThreeButton.setFocusable(false);
+        returnToMenu.setFocusable(false);
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the button text fonts
+    public void setButtonTextFont() {
+        // set button text font
+        saveFileOneButton.setFont(BUTTON_TEXT_FONT);
+        saveFileTwoButton.setFont(BUTTON_TEXT_FONT);
+        saveFileThreeButton.setFont(BUTTON_TEXT_FONT);
+        returnToMenu.setFont(BUTTON_TEXT_FONT);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Makes the buttons listen to button clicks on the menu
+    public void addActionListeners() {
+        // add this as an action listener
+        saveFileOneButton.addActionListener(this);
+        saveFileTwoButton.addActionListener(this);
+        saveFileThreeButton.addActionListener(this);
+        returnToMenu.addActionListener(this);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the menu button backgrounds
+    public void setBackgrounds() {
+        // set backgrounds
+        saveFileOneButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        saveFileTwoButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        saveFileThreeButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        returnToMenu.setBackground(BUTTON_BACKGROUND_COLOR);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the menu button bounds
+    public void setButtonBounds() {
+        // set border layouts
+        saveFileOneButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_ONE_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
+        saveFileTwoButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_TWO_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
+        saveFileThreeButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_THREE_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
+        returnToMenu.setBounds(COMMON_BUTTON_X,EXIT_GAME_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the menu button texts
+    public void setMenuButtonTexts() {
+        // set the button texts
+        saveFileOneButton.setText("Save File One");
+        saveFileTwoButton.setText("Save File Two");
+        saveFileThreeButton.setText("Save File Three");
+        returnToMenu.setText("Return To Menu");
     }
 
     // MODIFIES: this
@@ -217,7 +263,7 @@ public class SaveGame extends JFrame implements ActionListener {
         } else if (e.getSource() == saveFileThreeButton) {
             writeToSaveFile("3",JSON_STORE_SAVE_FILE_THREE);
         } else if (e.getSource() == returnToMenu) {
-
+            // return to menu
         }
     }
 

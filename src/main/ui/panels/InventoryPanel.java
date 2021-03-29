@@ -5,6 +5,7 @@ import model.Game;
 import javax.swing.*;
 import java.awt.*;
 
+// A panel that shows the player's coins + inventory items
 public class InventoryPanel extends JPanel {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;
@@ -61,7 +62,9 @@ public class InventoryPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         coinCountLabel.setText("Coins: " + game.player().getWallet().getBalance());
-        potionCountLabel.setText("Small Health Potions: " + game.player().getInventory().getNumberOfSmallHealthPotions());
+        potionCountLabel.setText(
+                "Small Health Potions: " + game.player().getInventory().getNumberOfSmallHealthPotions()
+        );
         validate();
     }
 }

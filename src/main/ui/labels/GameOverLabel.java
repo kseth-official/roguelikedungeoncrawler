@@ -3,10 +3,14 @@ package ui.labels;
 import javax.swing.*;
 import java.awt.*;
 
+// A label that displays game over information (currently not in use)
 public class GameOverLabel extends JLabel {
 
+    private int frameContentPaneWidth;
+    private int frameContentPaneHeight;
+
     // EFFECTS: Displays the controls and information panel
-    public GameOverLabel(String gameOverMessage) {
+    public GameOverLabel(String gameOverMessage, int frameContentPaneWidth, int frameContentPaneHeight) {
         setLayout(new BorderLayout());
         String labelText = gameOverMessage;
         String labelTextWithHtml = "<html>" + labelText.replaceAll("\n", "<br/>") + "</html>";
@@ -17,10 +21,10 @@ public class GameOverLabel extends JLabel {
         setVerticalAlignment(JLabel.CENTER);
         setHorizontalAlignment(JLabel.CENTER);
         setForeground(Color.BLACK);
-//        setBounds(
-//                0,
-//                frameContentPaneHeight - frameContentPaneHeight / 6,
-//                frameContentPaneWidth / 3,
-//                frameContentPaneHeight / 6);
+        setBounds(
+                frameContentPaneWidth / 2,
+                frameContentPaneHeight / 2,
+                frameContentPaneWidth / 3,
+                frameContentPaneHeight / 6);
     }
 }

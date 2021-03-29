@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
 
-// A class representing the GUI for the player's health bar
+// A class representing the player's health bar
 public class HealthProgressBar extends JProgressBar {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;

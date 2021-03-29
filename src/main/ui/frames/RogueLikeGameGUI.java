@@ -4,6 +4,7 @@ import exceptions.CellAtMaximumOrMinimumException;
 import model.*;
 import model.tile.SmallHealthPotion;
 import persistence.JsonWriter;
+import ui.GameAudioPlayer;
 import ui.RogueLikeGameMainMenu;
 import ui.buttons.DescendButton;
 import ui.buttons.UsePotionButton;
@@ -21,26 +22,29 @@ import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-// A class that sets up the game's user interface. Allows the user to save the game to a file as well.
+// A class that sets up the game's user interface.
 public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListener {
     private static final int FRAME_WIDTH = MainMenu.FRAME_WIDTH;
     private static final int FRAME_HEIGHT = MainMenu.FRAME_HEIGHT;
+
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;
 
     private static final int BASIC_COIN_WORTH = 1;
+    private static final String PLAYER_IS_DEAD_SOUND = "./data/audio/mixkit-spooky-game-over-1948.wav";
+    private static final String PLAYER_WON_SOUND = "./data/audio/mixkit-game-level-completed-2059.wav";
 
     private static int gameTerminalWidth;
     private static int gameTerminalHeight;
 
     private Game game;
+    private GameAudioPlayer gameAudioPlayer;
 
     // COMPONENTS
     // PANELS
     private JPanel gamePanel;
     private JPanel inventoryPanel;
-    private JPanel pausePanel;
-//    private JPanel inventoryPanel;
+//    private JPanel pausePanel;
 
     // LABELS
     private JLabel controlsAndInformationLabel;
@@ -52,7 +56,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
 
     // PROGRESS BAR
     private JProgressBar healthBar;
-
 
     // MODIFIES: this
     // EFFECTS: sets up the width and height of the game arena, creates a new game
@@ -85,6 +88,7 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         RogueLikeGameGUI.gameTerminalWidth = width;
         RogueLikeGameGUI.gameTerminalHeight = height;
         this.game = game;
+        this.gameAudioPlayer = new GameAudioPlayer();
     }
 
     public Game getGame() {
@@ -107,67 +111,27 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         System.out.print("\r");
     }
 
-    // MODIFIES: game
-    // EFFECTS: performs the Game map setup, enters the game loop, and exits on game over or level complete
-    public void runRogueLikeGame() {
-        boolean gameIsRunning = true;
-        boolean levelIsOver = false;
-
-        while (gameIsRunning && (!levelIsOver)) {
-            displayControlsAndInformation();
-            displayPlayerHealth();
-            displayWallet();
-            displayMap();
-            displayInventory();
-            levelIsOver = handleKeyEvent();
-            gameIsRunning = (handleCollisions() && handleGameEvents());
-            this.repaint();
-        }
-
-        if (gameIsRunning) {
-            endScreen("You have won!\nThank You For Playing!");
-        } else {
-            endScreen("Game Over :(\nYou've lost");
-        }
-
-    }
 
     // MODIFIES: this
     // EFFECTS: Initializes all the Game Frame Components
-    private void initializeGraphics() {
-        // FRAME CHARACTERISTICS
-        getContentPane().setBackground(Color.BLACK);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(FRAME_WIDTH,FRAME_HEIGHT);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setLayout(null);
-        setVisible(true);
+    public void initializeGraphics() {
+        setFrameCharacteristics();
 
         frameContentPaneWidth = (int) getContentPane().getSize().getWidth();
         frameContentPaneHeight = (int) getContentPane().getSize().getHeight();
 
         // PANELS
-        gamePanel = new GamePanel(
-                frameContentPaneWidth,
-                frameContentPaneHeight,
-                gameTerminalWidth,
-                gameTerminalHeight,
+        gamePanel = new GamePanel(frameContentPaneWidth, frameContentPaneHeight, gameTerminalWidth, gameTerminalHeight,
                 game);
 
-        inventoryPanel = new InventoryPanel(
-                frameContentPaneWidth,
-                frameContentPaneHeight,
-                game
-        );
+        inventoryPanel = new InventoryPanel(frameContentPaneWidth, frameContentPaneHeight, game);
 
-        pausePanel = new PausePanel(frameContentPaneWidth,frameContentPaneHeight,game);
-        pausePanel.setVisible(false);
+//        pausePanel = new PausePanel(frameContentPaneWidth,frameContentPaneHeight,game);
+
+//        pausePanel.setVisible(false);
 
         // LABELS
-        controlsAndInformationLabel = new ControlsAndInformation(
-                frameContentPaneWidth,
-                frameContentPaneHeight);
+        controlsAndInformationLabel = new ControlsAndInformation(frameContentPaneWidth, frameContentPaneHeight);
 
         // BUTTONS
         pauseButton = new PauseButton(frameContentPaneWidth,frameContentPaneHeight);
@@ -181,13 +145,26 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
 
 
         add(gamePanel);
-        add(pausePanel);
+//        add(pausePanel);
         add(controlsAndInformationLabel);
         add(inventoryPanel);
         add(pauseButton);
         add(descendButton);
         add(useSmallHealthPotionButton);
         add(healthBar);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the frame's characteristics
+    public void setFrameCharacteristics() {
+        // FRAME CHARACTERISTICS
+        getContentPane().setBackground(Color.BLACK);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(FRAME_WIDTH,FRAME_HEIGHT);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setLayout(null);
+        setVisible(true);
     }
 
     private void displayInventory() {
@@ -236,109 +213,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     public void displayWallet() {
         System.out.println("WALLET BALANCE ");
         System.out.println("***** " + game.player().getWallet().getBalance() + " *****");
-    }
-
-    // REQUIRES: game map must be initialized
-    // EFFECTS: displays the game map
-    public void displayMap() {
-        for (int j = 0; j < gameTerminalHeight;++j) {
-
-            for (int i = 0; i < gameTerminalWidth;++i) {
-
-                if (game.player().getPosition().equals(new Position(i,j))) {
-                    game.player().display(" ");
-
-                } else if (game.enemy().getPositionSet().contains(new Position(i,j))) {
-                    game.enemy().display(" ");
-
-                } else if (game.coin().getPositionSet().contains(new Position(i,j))) {
-                    game.coin().display(" ");
-                } else if (game.smallHealthPotion().getPositionSet().contains(new Position(i,j))) {
-                    game.smallHealthPotion().display(" ");
-                } else if (game.entryPoint().getPosition().equals(new Position(i,j))) {
-                    game.entryPoint().display(" ");
-
-                } else if (game.exitPoint().getPosition().equals(new Position(i,j))) {
-                    game.exitPoint().display(" ");
-
-                } else if (game.spike().getPositionSet().contains(new Position(i,j))) {
-                    game.spike().display(" ");
-
-                } else if (game.wall().getPositionSet().contains(new Position(i,j))) {
-                    game.wall().display(" ");
-
-                } else {
-                    game.air().display(" ");
-                }
-
-                if (i == (gameTerminalWidth - 1)) {
-                    System.out.println();
-                }
-            }
-        }
-    }
-
-    // REQUIRES: The game must be initialized
-    // MODIFIES: game
-    // EFFECTS: Takes the user's input for the player character.
-    // Returns true if the level is over otherwise returns false.
-    public boolean handleKeyEvent() {
-        System.out.print("Input a key and press enter : ");
-        Scanner input = new Scanner(System.in);
-        String keyPress = input.next();
-
-        switch (keyPress) {
-            case "w":
-            case "a":
-            case "s":
-            case "d":
-                game.player().move(keyPress, game);
-                break;
-            case "p":
-                pauseGame();
-                break;
-            case "o":
-                openInventory();
-                break;
-            case "e":
-                return game.player().interact(keyPress, game);
-
-            default:
-        }
-
-        return false;
-    }
-
-    // EFFECTS:
-    public void openInventory() {
-        int numberOfSmallHealthPotions = game.player().getInventory().getNumberOfSmallHealthPotions();
-
-        while (true) {
-            System.out.println();
-            System.out.println("INVENTORY OPERATIONS");
-            System.out.println("\t1. Use Small Health Potion");
-            System.out.println("\t2. Return to Game");
-            System.out.print("Enter here: ");
-
-            Scanner input = new Scanner(System.in);
-            String keyPress = input.next();
-
-            if (keyPress.equals("1")) {
-                if (game.player().getInventory().hasAtLeastOneSmallHealthPotion()) {
-                    SmallHealthPotion.use(game.player().getHealthBar());
-                    try {
-                        game.player().getInventory().subtractOneSmallHealthPotion();
-                        return;
-                    } catch (CellAtMaximumOrMinimumException e) {
-                        return;
-                    }
-                } else {
-                    System.out.println("Player has no Small Health Potions!");
-                }
-            } else if (keyPress.equals("2")) {
-                return;
-            }
-        }
     }
 
     // EFFECTS: Displays the in-game pause menu
@@ -456,21 +330,26 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == pauseButton) {
-            pausePanel.setVisible(true);
+            new PauseMenu(this,game);
         } else if (e.getSource() == descendButton) {
             boolean isLevelOver = game.player().interact("e", game);
             if (isLevelOver) {
-                gamePanel.removeAll();
-                gamePanel.add(new GameOverLabel("You've won!\nThank You For Playing!"));
-                gamePanel.repaint();
-
+//                removeAll();
+//                add(new GameOverLabel(
+//                        "You've won!\nThank You For Playing!",
+//                        frameContentPaneWidth,
+//                        frameContentPaneHeight
+//                ));
+//                validate();
+//                repaint();
+                gameAudioPlayer.play(PLAYER_WON_SOUND);
 //                try {
 //                    Thread.sleep(1000);
 //                } catch (InterruptedException interruptedException) {
-//                    System.out.println("This interrupt should not have occured!");
+//                    System.out.println("This interrupt should not have occurred!");
 //                }
-//                dispose();
-//                new MainMenu();
+                dispose();
+                new MainMenu();
             }
         } else if (e.getSource() == useSmallHealthPotionButton) {
             if (game.player().getInventory().hasAtLeastOneSmallHealthPotion()) {
@@ -490,8 +369,29 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
 
     @Override
     public void keyTyped(KeyEvent e) {
-//        System.out.println(e.getKeyChar());
+        boolean gameIsRunning = (handleCollisions() && handleGameEvents());
+
         String keyPress = String.valueOf(e.getKeyChar());
+        if (!gameIsRunning) {
+//            removeAll();
+//            JLabel gameOverLabel = new GameOverLabel(
+//                    "Game Over!",
+//                    frameContentPaneWidth,
+//                    frameContentPaneHeight
+//            );
+//            add(gameOverLabel);
+//            validate();
+//            repaint();
+            gameAudioPlayer.play(PLAYER_IS_DEAD_SOUND);
+//            try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException interruptedException) {
+//                    System.out.println("This interrupt should not have occurred!");
+//                }
+            dispose();
+            new MainMenu();
+        }
+
         switch (keyPress) {
             case "w":
             case "a":
@@ -501,8 +401,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
             default:
                 break;
         }
-
-        boolean gameIsRunning = (handleCollisions() && handleGameEvents());
 
         if (gameIsRunning) {
             repaint();

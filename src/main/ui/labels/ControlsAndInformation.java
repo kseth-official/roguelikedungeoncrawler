@@ -3,6 +3,7 @@ package ui.labels;
 import javax.swing.*;
 import java.awt.*;
 
+// A label that displays the controls and information
 public class ControlsAndInformation extends JLabel {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;

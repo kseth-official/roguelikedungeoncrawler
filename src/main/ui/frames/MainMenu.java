@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// A class for the Main Menu GUI
+// A frame for the Main Menu
 public class MainMenu extends JFrame implements ActionListener {
     // ROGUELIKEGAME WIDTH & HEIGHT
     public static final int GAME_TERMINAL_WIDTH = 13;
@@ -70,25 +70,25 @@ public class MainMenu extends JFrame implements ActionListener {
         createMenuButtons();
         addComponentsToFrame();
         // sets the frame's visibility to true loading everything added to it
-        this.setVisible(true);
+        setVisible(true);
     }
 
     // MODIFIES: this
     // EFFECTS: Sets the frame's characteristics
     public void setFrameCharacteristics() {
         // sets the frame's background color
-        this.getContentPane().setBackground(Color.BLACK);
+        getContentPane().setBackground(Color.BLACK);
         // sets the default close operation
         // JFrame.DO_NOTHING_ON_CLOSE, JFrame.HIDE_ON_CLOSE, JFrame.DISPOSE_ON_CLOSE are other possible options
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // sets the frame size
-        this.setSize(FRAME_WIDTH,FRAME_HEIGHT);
+        setSize(FRAME_WIDTH,FRAME_HEIGHT);
         // sets the frame to the center of the screen
-        this.setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         // sets the frame's resizability
-        this.setResizable(false);
+        setResizable(false);
         // sets the frame's layout manager
-        this.setLayout(null);
+        setLayout(null);
 
 //         calculates the actual width of the content pane
 //        int extraWidth = FRAME_WIDTH - (int) this.getContentPane().getSize().getWidth();
@@ -102,12 +102,12 @@ public class MainMenu extends JFrame implements ActionListener {
     // EFFECTS: Adds all the generated components to the current frame
     public void addComponentsToFrame() {
         // adds the label to the frame
-        this.add(mainMenuLabel);
+        add(mainMenuLabel);
 
         // add the buttons
-        this.add(newGameButton);
-        this.add(loadGameButton);
-        this.add(exitGameButton);
+        add(newGameButton);
+        add(loadGameButton);
+        add(exitGameButton);
     }
 
     // MODIFIES: this

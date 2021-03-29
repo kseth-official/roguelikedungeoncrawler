@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 
-// A button to allow the player to interact with the exit point
+// A button to allow the player to interact with the exit point and descend through the dungeon
 public class DescendButton extends JButton {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;

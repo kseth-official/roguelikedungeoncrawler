@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 
+// A panel within which the game is rendered
 public class GamePanel extends JPanel {
 
     private int gameTerminalWidth;

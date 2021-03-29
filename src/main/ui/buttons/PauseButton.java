@@ -5,6 +5,7 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+// A buttone that allows the player to pause the game
 public class PauseButton extends JButton {
     private int frameContentPaneWidth;
     private int frameContentPaneHeight;

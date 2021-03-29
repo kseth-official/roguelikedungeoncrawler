@@ -8,10 +8,10 @@
         "y": 9
     }]},
     "playerTile": {
-        "wallet": {"walletBalance": 0},
+        "wallet": {"walletBalance": 4},
         "position": {
-            "x": 1,
-            "y": 6
+            "x": 4,
+            "y": 5
         },
         "inventory": {"numberOfSmallHealthPotions": 0}
     },
@@ -246,23 +246,7 @@
         },
         {
             "x": 4,
-            "y": 4
-        },
-        {
-            "x": 4,
             "y": 5
-        },
-        {
-            "x": 4,
-            "y": 6
-        },
-        {
-            "x": 3,
-            "y": 6
-        },
-        {
-            "x": 2,
-            "y": 6
         },
         {
             "x": 7,

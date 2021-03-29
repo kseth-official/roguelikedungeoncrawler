@@ -87,7 +87,6 @@ The following user stories have been implemented post phase 2 before beginning p
 - As a user, I want to be able to see my current health. (check)
 - As a user, I want to be able to lose 20 health upon interaction with an enemy, 
   and not be able to walk through them. (check)
-- As a user, I want to be able to view my inventory. (check)
 - As a user, I want to be able to add Small Health Potions to my inventory. (check)
 - As a user, I want to be able to use Small Health Potions in my inventory to increase my health by 25. (check)
 
@@ -96,13 +95,15 @@ The following user stories will be implemented in phase 3.
 GUI Implemetation:
 - As a user, I want to be able to see a panel where all the Coins that have been
    added to the Player's Wallet are displayed. (check)
+- As a user, I want to be able to click a button to reduce 10 coins (Xs) in my wallet (Y) and buy a Small Health Potion.
+- As a user, I want to be able to clikc a button to dispose a coin, i.e., drop one coin (X) from my wallet (Y).
 - As a user, I want to be able to click a button  to use a SmallHealthPotion and 
    add health to my HealthBar. (check)
 - As a user, I want to be able to click on a button to make the Player interact
-   with the ExitPoint to complete a level.
+   with the ExitPoint to complete a level. (check)
 - As a user, I want to be able to access menus with menu items that allow me
-   to load and save the game.
-- As a user, I want to be able to be able to hear a sound when I die.
+   to load and save the game. (check)
+- As a user, I want to be able to be able to hear a sound when I die or complete the level. (check)
 
 
 	

@@ -2,7 +2,6 @@ package ui.frames;
 
 import model.Game;
 import persistence.JsonReader;
-import ui.RogueLikeGame;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -12,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+// A frame for the load game menu
 public class LoadGame extends JFrame implements ActionListener {
     // SAVE FILES
     private static final String JSON_STORE_SAVE_FILE_ONE = "./data/saveFileOne.json";
@@ -124,42 +124,24 @@ public class LoadGame extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: Creates the menu buttons
     public void createMenuButtons() {
-        // set the button texts
-        loadSaveFileOneButton.setText("Save File One");
-        loadSaveFileTwoButton.setText("Save File Two");
-        loadSaveFileThreeButton.setText("Save File Three");
-        returnToMenu.setText("Return To Menu");
+        setMenuButtonTexts();
 
-        // set border layouts
-        loadSaveFileOneButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_ONE_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
-        loadSaveFileTwoButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_TWO_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
-        loadSaveFileThreeButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_THREE_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
-        returnToMenu.setBounds(COMMON_BUTTON_X,EXIT_GAME_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
+        setButtonBounds();
 
-        // set backgrounds
-        loadSaveFileOneButton.setBackground(BUTTON_BACKGROUND_COLOR);
-        loadSaveFileTwoButton.setBackground(BUTTON_BACKGROUND_COLOR);
-        loadSaveFileThreeButton.setBackground(BUTTON_BACKGROUND_COLOR);
-        returnToMenu.setBackground(BUTTON_BACKGROUND_COLOR);
+        setBackgrounds();
 
-        // add this as an action listener
-        loadSaveFileOneButton.addActionListener(this);
-        loadSaveFileTwoButton.addActionListener(this);
-        loadSaveFileThreeButton.addActionListener(this);
-        returnToMenu.addActionListener(this);
+        addActionListeners();
 
-        // set button text font
-        loadSaveFileOneButton.setFont(BUTTON_TEXT_FONT);
-        loadSaveFileTwoButton.setFont(BUTTON_TEXT_FONT);
-        loadSaveFileThreeButton.setFont(BUTTON_TEXT_FONT);
-        returnToMenu.setFont(BUTTON_TEXT_FONT);
+        setButtonTextFont();
 
-        // setting buttons to not be focusable (box around text)
-        loadSaveFileOneButton.setFocusable(false);
-        loadSaveFileTwoButton.setFocusable(false);
-        loadSaveFileThreeButton.setFocusable(false);
-        returnToMenu.setFocusable(false);
+        setButtonsFocusable();
 
+        setButtonBorders();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the menu button borders
+    public void setButtonBorders() {
         // creating Button Borders
         buttonBorder = BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED);
 
@@ -168,6 +150,66 @@ public class LoadGame extends JFrame implements ActionListener {
         loadSaveFileTwoButton.setBorder(buttonBorder);
         loadSaveFileThreeButton.setBorder(buttonBorder);
         returnToMenu.setBorder(buttonBorder);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the buttons as non-focusable
+    public void setButtonsFocusable() {
+        // setting buttons to not be focusable (box around text)
+        loadSaveFileOneButton.setFocusable(false);
+        loadSaveFileTwoButton.setFocusable(false);
+        loadSaveFileThreeButton.setFocusable(false);
+        returnToMenu.setFocusable(false);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the button text fonts
+    public void setButtonTextFont() {
+        // set button text font
+        loadSaveFileOneButton.setFont(BUTTON_TEXT_FONT);
+        loadSaveFileTwoButton.setFont(BUTTON_TEXT_FONT);
+        loadSaveFileThreeButton.setFont(BUTTON_TEXT_FONT);
+        returnToMenu.setFont(BUTTON_TEXT_FONT);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Makes the buttons listen to button clicks on the menu
+    public void addActionListeners() {
+        // add this as an action listener
+        loadSaveFileOneButton.addActionListener(this);
+        loadSaveFileTwoButton.addActionListener(this);
+        loadSaveFileThreeButton.addActionListener(this);
+        returnToMenu.addActionListener(this);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the menu button backgrounds
+    public void setBackgrounds() {
+        // set backgrounds
+        loadSaveFileOneButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        loadSaveFileTwoButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        loadSaveFileThreeButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        returnToMenu.setBackground(BUTTON_BACKGROUND_COLOR);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the menu button bounds
+    public void setButtonBounds() {
+        // set border layouts
+        loadSaveFileOneButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_ONE_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
+        loadSaveFileTwoButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_TWO_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
+        loadSaveFileThreeButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_THREE_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
+        returnToMenu.setBounds(COMMON_BUTTON_X,EXIT_GAME_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the menu button texts
+    public void setMenuButtonTexts() {
+        // set the button texts
+        loadSaveFileOneButton.setText("Save File One");
+        loadSaveFileTwoButton.setText("Save File Two");
+        loadSaveFileThreeButton.setText("Save File Three");
+        returnToMenu.setText("Return To Menu");
     }
 
     // MODIFIES: this
