@@ -215,6 +215,7 @@ public class Player extends SingleTile {
         JSONObject json = new JSONObject();
         json.put("position", position.toJson());
         json.put("wallet", wallet.toJson());
+        json.put("healthBar", healthBar.toJson());
         json.put("inventory", inventory.toJson());
         return json;
     }

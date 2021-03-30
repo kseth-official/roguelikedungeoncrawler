@@ -113,6 +113,10 @@ public class JsonReader {
         JSONObject jsonWalletObject = jsonPlayerObject.getJSONObject("wallet");
         player.setWalletBalance(jsonWalletObject.getInt("walletBalance"));
 
+        JSONObject jsonHealthBarObject = jsonPlayerObject.getJSONObject("healthBar");
+        player.getHealthBar().set(jsonHealthBarObject.getInt("health"));
+        player.getHealthBar().setIsZero(jsonHealthBarObject.getBoolean("isZero"));
+
         JSONObject jsonInventoryObject = jsonPlayerObject.getJSONObject("inventory");
         player.getInventory().addSmallHealthPotions(jsonInventoryObject.getInt("numberOfSmallHealthPotions"));
 

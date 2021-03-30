@@ -55,4 +55,11 @@ public class HealthBarTest {
         assertTrue(healthBar.isZero());
     }
 
+    @Test
+    void testSetIsZero() {
+        assertFalse(healthBar.isZero());
+        healthBar.setIsZero(true);
+        assertTrue(healthBar.isZero());
+    }
+
 }

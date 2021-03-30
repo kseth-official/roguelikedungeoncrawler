@@ -8,25 +8,21 @@
         "y": 9
     }]},
     "playerTile": {
-        "wallet": {"walletBalance": 5},
+        "wallet": {"walletBalance": 17},
+        "healthBar": {
+            "health": 40,
+            "isZero": false
+        },
         "position": {
             "x": 5,
-            "y": 4
+            "y": 5
         },
-        "inventory": {"numberOfSmallHealthPotions": 0}
+        "inventory": {"numberOfSmallHealthPotions": 2}
     },
     "smallHealthPotionTile": {"positions": [
         {
             "x": 11,
             "y": 10
-        },
-        {
-            "x": 7,
-            "y": 6
-        },
-        {
-            "x": 6,
-            "y": 6
         },
         {
             "x": 11,
@@ -237,59 +233,11 @@
     ]},
     "coinTile": {"positions": [
         {
-            "x": 4,
-            "y": 3
-        },
-        {
-            "x": 7,
-            "y": 6
-        },
-        {
-            "x": 7,
-            "y": 1
-        },
-        {
-            "x": 6,
-            "y": 1
-        },
-        {
-            "x": 7,
-            "y": 2
-        },
-        {
-            "x": 5,
-            "y": 1
-        },
-        {
-            "x": 7,
-            "y": 3
-        },
-        {
             "x": 10,
             "y": 6
         },
         {
-            "x": 4,
-            "y": 1
-        },
-        {
-            "x": 7,
-            "y": 4
-        },
-        {
             "x": 9,
-            "y": 6
-        },
-        {
-            "x": 4,
-            "y": 2
-        },
-        {
-            "x": 7,
-            "y": 5
-        },
-        {
-            "x": 8,
             "y": 6
         }
     ]},

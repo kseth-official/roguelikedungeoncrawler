@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // a class to represent a health bar
-public class HealthBar {
+public class HealthBar implements Writable {
     public static final int MAX_HEALTH = 100;
     public static final int ZERO_HEALTH = 0;
     private int health;
@@ -26,6 +29,12 @@ public class HealthBar {
 
     public Boolean isZero() {
         return this.isZero;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets whether the health bar is zero or not
+    public void setIsZero(Boolean value) {
+        this.isZero = value;
     }
 
     // REQUIRES: value > 0
@@ -57,7 +66,15 @@ public class HealthBar {
         this.health -= value;
         if (this.health <= ZERO_HEALTH) {
             this.health = ZERO_HEALTH;
-            this.isZero = true;
+            setIsZero(true);
         }
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("health", health);
+        json.put("isZero",isZero);
+        return json;
     }
 }

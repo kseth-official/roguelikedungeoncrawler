@@ -1,6 +1,5 @@
 package ui.panels;
 
-import javafx.print.PageLayout;
 import model.Game;
 import model.Position;
 import model.tile.*;
@@ -23,6 +22,7 @@ public class GamePanel extends JPanel {
 //    private JLabel coinLabel;
 
     // ICONS
+    private int iconDimension;
     private ImageIcon playerIcon;
     private ImageIcon coinIcon;
     private ImageIcon wallIcon;
@@ -50,6 +50,7 @@ public class GamePanel extends JPanel {
 //                contentPaneHeight / 13,
 //                contentPaneWidth * 3 / 4,
 //                contentPaneHeight * 3 / 4);
+
         setBounds(
                 contentPaneWidth / 2 - contentPaneHeight * 3 / 8,
                 contentPaneHeight / 13,
@@ -60,62 +61,106 @@ public class GamePanel extends JPanel {
         this.gameTerminalHeight = gameTerminalHeight;
         this.game = game;
         this.isLevelOver = false;
-        initializeLabel();
+        this.iconDimension = (contentPaneHeight * 3 / 4) / gameTerminalHeight;
+        intializeLabelIcons();
     }
 
     // MODIFIES: this
     // EFFECTS: Initializes all the labels with icons set to their appropriate sizes
-    private void initializeLabel() {
+    private void intializeLabelIcons() {
+        initializePlayerIcon();
+        initializeCoinIcon();
+        initializeWallIcon();
+//        initializeAirIcon();
+        initializeSmallHealthPotionIcon();
+        initializeSpikeIcon();
+        initializeExitPointIcon();
+        initializeEntryPointIcon();
+        initializeEnemyIcon();
+    }
 
-        playerIcon = new ImageIcon(Player.PLAYER_TILE_IMAGE_SOURCE);
-        Image playerImage = playerIcon.getImage();
-        Image newPlayerImage = playerImage.getScaledInstance(40,40,Image.SCALE_SMOOTH);
-        playerIcon = new ImageIcon(newPlayerImage);
-
-        coinIcon = new ImageIcon(Coin.COIN_TILE_IMAGE_SOURCE);
-        Image coinImage = coinIcon.getImage();
-        Image newCoinImage = coinImage.getScaledInstance(40,40,Image.SCALE_SMOOTH);
-        coinIcon = new ImageIcon(newCoinImage);
-
+    // MODIFIES: this
+    // EFFECTS: Creates a new wall icon with the icon dimension and wall image
+    private void initializeWallIcon() {
         wallIcon = new ImageIcon(Wall.WALL_TILE_IMAGE_SOURCE);
         Image image = wallIcon.getImage();
-        Image newWallImage = image.getScaledInstance(40,40,Image.SCALE_FAST);
+        Image newWallImage = image.getScaledInstance(iconDimension,iconDimension,Image.SCALE_FAST);
         wallIcon = new ImageIcon(newWallImage);
+    }
 
-//        airIcon = new ImageIcon(Air.AIR_TILE_IMAGE_SOURCE);
-//        Image airImage = airIcon.getImage();
-//        Image newImage = airImage.getScaledInstance(40,40,Image.SCALE_SMOOTH);
-//        airIcon = new ImageIcon(newImage);
+    // MODIFIES: this
+    // EFFECTS: Creates a new enemy icon with the icon dimension and enemy image
+    private void initializeEnemyIcon() {
+        enemyIcon = new ImageIcon(Enemy.ENEMY_TILE_IMAGE_SOURCE);
+        Image enemyImage = enemyIcon.getImage();
+        Image newEnemyImage = enemyImage.getScaledInstance(iconDimension,iconDimension,Image.SCALE_SMOOTH);
+        enemyIcon = new ImageIcon(newEnemyImage);
+    }
 
+    // MODIFIES: this
+    // EFFECTS: Creates a new entry point icon with the icon dimension and entry point image
+    private void initializeEntryPointIcon() {
+        entryPointIcon = new ImageIcon(EntryPoint.ENTRY_POINT_TILE_IMAGE_SOURCE);
+        Image entryPointImage = entryPointIcon.getImage();
+        Image newEntryPointImage = entryPointImage.getScaledInstance(iconDimension,iconDimension,Image.SCALE_SMOOTH);
+        entryPointIcon = new ImageIcon(newEntryPointImage);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Creates a new exit point icon with the icon dimension and exit point image
+    private void initializeExitPointIcon() {
+        exitPointIcon = new ImageIcon(ExitPoint.EXIT_POINT_TILE_IMAGE_SOURCE);
+        Image exitPointImage = exitPointIcon.getImage();
+        Image nexExitPointImage = exitPointImage.getScaledInstance(iconDimension,iconDimension,Image.SCALE_SMOOTH);
+        exitPointIcon = new ImageIcon(nexExitPointImage);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Creates a new spike icon with the icon dimension and spike image
+    private void initializeSpikeIcon() {
+        spikeIcon = new ImageIcon(Spike.SPIKE_TILE_IMAGE_SOURCE);
+        Image spikeImage = spikeIcon.getImage();
+        Image newSpikeImage = spikeImage.getScaledInstance(iconDimension,iconDimension,Image.SCALE_SMOOTH);
+        spikeIcon = new ImageIcon(newSpikeImage);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Creates a new small health potion icon with the icon dimension and small health potion image
+    private void initializeSmallHealthPotionIcon() {
         smallHealthPotionIcon = new ImageIcon(SmallHealthPotion.SMALL_HEALTH_POTION_TILE_IMAGE_SOURCE);
         Image smallHealthPotionImage = smallHealthPotionIcon.getImage();
         Image newSmallHealthPotionImage = smallHealthPotionImage.getScaledInstance(
-                40,
-                40,
+                iconDimension,
+                iconDimension,
                 Image.SCALE_SMOOTH);
         smallHealthPotionIcon = new ImageIcon(newSmallHealthPotionImage);
+    }
 
-        spikeIcon = new ImageIcon(Spike.SPIKE_TILE_IMAGE_SOURCE);
-        Image spikeImage = spikeIcon.getImage();
-        Image newSpikeImage = spikeImage.getScaledInstance(40,40,Image.SCALE_SMOOTH);
-        spikeIcon = new ImageIcon(newSpikeImage);
+    // MODIFIES: this
+    // EFFECTS: Creates a new air icon with the icon dimension and air image
+    private void initializeAirIcon() {
+        airIcon = new ImageIcon(Air.AIR_TILE_IMAGE_SOURCE);
+        Image airImage = airIcon.getImage();
+        Image newImage = airImage.getScaledInstance(40,40,Image.SCALE_SMOOTH);
+        airIcon = new ImageIcon(newImage);
+    }
 
-        exitPointIcon = new ImageIcon(ExitPoint.EXIT_POINT_TILE_IMAGE_SOURCE);
-        Image exitPointImage = exitPointIcon.getImage();
-        Image nexExitPointImage = exitPointImage.getScaledInstance(40,40,Image.SCALE_SMOOTH);
-        exitPointIcon = new ImageIcon(nexExitPointImage);
+    // MODIFIES: this
+    // EFFECTS: Creates a new coin icon with the icon dimension and coin image
+    private void initializeCoinIcon() {
+        coinIcon = new ImageIcon(Coin.COIN_TILE_IMAGE_SOURCE);
+        Image coinImage = coinIcon.getImage();
+        Image newCoinImage = coinImage.getScaledInstance(iconDimension,iconDimension,Image.SCALE_SMOOTH);
+        coinIcon = new ImageIcon(newCoinImage);
+    }
 
-        entryPointIcon = new ImageIcon(EntryPoint.ENTRY_POINT_TILE_IMAGE_SOURCE);
-        Image entryPointImage = entryPointIcon.getImage();
-        Image newEntryPointImage = entryPointImage.getScaledInstance(40,40,Image.SCALE_SMOOTH);
-        entryPointIcon = new ImageIcon(newEntryPointImage);
-
-        enemyIcon = new ImageIcon(Enemy.ENEMY_TILE_IMAGE_SOURCE);
-        Image enemyImage = enemyIcon.getImage();
-        Image newEnemyImage = enemyImage.getScaledInstance(40,40,Image.SCALE_SMOOTH);
-        enemyIcon = new ImageIcon(newEnemyImage);
-
-
+    // MODIFIES: this
+    // EFFECTS: Creates a new player icon with the icon dimension and player image
+    private void initializePlayerIcon() {
+        playerIcon = new ImageIcon(Player.PLAYER_TILE_IMAGE_SOURCE);
+        Image playerImage = playerIcon.getImage();
+        Image newPlayerImage = playerImage.getScaledInstance(iconDimension,iconDimension,Image.SCALE_SMOOTH);
+        playerIcon = new ImageIcon(newPlayerImage);
     }
 
     // MODIFIES: this
@@ -145,6 +190,7 @@ public class GamePanel extends JPanel {
     // MODIFIES: this
     // EFFECTS: Creates all the labels that must be added to the game panel
     public void drawGrid() {
+//        Archived Code For Grid Drawing
 //        for (int j = 0; j < gameTerminalHeight;++j) {
 //
 //            for (int i = 0; i < gameTerminalWidth;++i) {
@@ -223,8 +269,10 @@ public class GamePanel extends JPanel {
                     add(wallLabel);
 
                 } else {
-                    JLabel label = new JLabel();
-                    add(label);
+                    JLabel airLabel = new JLabel();
+                    airLabel.setIcon(airIcon);
+                    add(airLabel);
+
                 }
             }
         }

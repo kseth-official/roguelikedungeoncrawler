@@ -8,12 +8,12 @@
         "y": 9
     }]},
     "playerTile": {
-        "wallet": {"walletBalance": 8},
+        "wallet": {"walletBalance": 18},
         "position": {
             "x": 6,
             "y": 6
         },
-        "inventory": {"numberOfSmallHealthPotions": 3}
+        "inventory": {"numberOfSmallHealthPotions": 2}
     },
     "smallHealthPotionTile": {"positions": [
         {
@@ -227,7 +227,10 @@
             "y": 10
         }
     ]},
-    "coinTile": {"positions": []},
+    "coinTile": {"positions": [{
+        "x": 10,
+        "y": 6
+    }]},
     "spikeTile": {"positions": [
         {
             "x": 9,

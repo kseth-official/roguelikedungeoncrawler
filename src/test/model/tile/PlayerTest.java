@@ -146,6 +146,8 @@ public class PlayerTest {
 
         player.setPosition(game.player().getPosition());
         player.setWalletBalance(game.player().getWalletBalance());
+        player.getHealthBar().set(22);
+        player.getHealthBar().setIsZero(false);
         try {
             player.getInventory().addSmallHealthPotions(3);
         } catch (CellAtMaximumOrMinimumException e) {
@@ -158,6 +160,7 @@ public class PlayerTest {
 
         otherJsonObject.put("position",player.getPosition().toJson());
         otherJsonObject.put("wallet",player.getWallet().toJson());
+        otherJsonObject.put("healthBar",player.getHealthBar().toJson());
         otherJsonObject.put("inventory",player.getInventory().toJson());
 
         String otherJsonObjectString = otherJsonObject.toString();
