@@ -8,6 +8,7 @@ import org.json.JSONObject;
 // This player may move around, pick up coins, and interact with the exit.
 public class Player extends SingleTile {
     private static final String PLAYER_CHARACTER_SYMBOL = "P";
+    public static final String PLAYER_TILE_IMAGE_SOURCE = "./data/graphics/playerCharacter.jpeg";
     private static final int DX = 1;
     private static final int DY = 1;
     private final Wallet wallet;

@@ -6,6 +6,7 @@ import model.tile.MultipleTile;
 // A class that models a small health potion that a player may pick up and use.
 public class SmallHealthPotion extends MultipleTile {
     private static final String SMALL_HEALTH_POTION_SYMBOL = "h";
+    public static final String SMALL_HEALTH_POTION_TILE_IMAGE_SOURCE = "./data/graphics/smallHealthPotion.png";
     private static final int HEALTH_VALUE = 25;
 
     // EFFECTS: Adds 25 health to the user's Health Bar

@@ -105,5 +105,8 @@ GUI Implemetation:
    to load and save the game. (check)
 - As a user, I want to be able to be able to hear a sound when I die or complete the level. (check)
 
+### *Post Phase 3*
+- As a user, I want to be able to see graphical images to represent the game sprites. 
+
 
 	

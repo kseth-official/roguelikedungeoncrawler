@@ -4,6 +4,7 @@ package model.tile;
 // This enemy moves around within a set boundary and causes the player to die upon interaction.
 public class Enemy extends MultipleTile {
     private static final String ENEMY_CHARACTER_SYMBOL = "O";
+    public static final String ENEMY_TILE_IMAGE_SOURCE = "./data/graphics/enemyCharacter.jpg";
 
     // EFFECTS: displays the symbol for the enemy character + an optional string
     public String display(String s) {
