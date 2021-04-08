@@ -70,8 +70,6 @@ public class PausePanel extends JPanel implements ActionListener {
     private final JButton exitGameButton = new JButton();
     private final JButton returnToGameButton = new JButton();
 
-    private JsonReader jsonReader;
-
     public PausePanel(int frameContentPaneWidth, int frameContentPaneHeight, Game game) {
         this.frameContentPaneWidth = frameContentPaneWidth;
         this.frameContentPaneHeight = frameContentPaneHeight;

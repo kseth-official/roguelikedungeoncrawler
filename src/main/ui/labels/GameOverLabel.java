@@ -17,7 +17,7 @@ public class GameOverLabel extends JLabel {
         setText(labelTextWithHtml);
         setBackground(Color.WHITE);
         setOpaque(true);
-        setFont(new Font("Century Gothic (Body)",Font.BOLD, 18));
+        setFont(new Font("Times New Roman",Font.BOLD, 18));
         setVerticalAlignment(JLabel.CENTER);
         setHorizontalAlignment(JLabel.CENTER);
         setForeground(Color.BLACK);

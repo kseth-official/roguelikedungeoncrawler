@@ -15,7 +15,7 @@ public class DescendButton extends JButton {
         this.frameContentPaneHeight = frameContentPaneHeight;
         setText("Descend");
         setBackground(Color.RED);
-        setFont(new Font("Century Gothic (Body)",Font.BOLD, 14));
+        setFont(new Font("Times New Roman",Font.BOLD, 14));
         setForeground(Color.WHITE);
         setFocusable(false);
         setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));

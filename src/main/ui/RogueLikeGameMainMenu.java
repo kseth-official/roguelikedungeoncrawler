@@ -6,7 +6,7 @@ import java.util.Scanner;
 import model.Game;
 import persistence.*;
 
-// ARCHIVED CODE FOR THE TEXT-BASED IMPLEMENTATION
+// ARCHIVED CODE FOR OLD TEXT-BASED GUI IMPLEMENTATION OF THE GAME'S MAIN MENU
 // Contains the game's main menu functionality, including creating a new game, loading a new game, and exiting.
 public class RogueLikeGameMainMenu {
 //    private static final String JSON_STORE_SAVE_FILE_ONE = "./data/saveFileOne.json";

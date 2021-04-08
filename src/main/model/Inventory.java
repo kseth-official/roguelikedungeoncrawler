@@ -10,7 +10,7 @@ import persistence.Writable;
 public class Inventory implements Writable {
     public static final int CELL_CAPACITY = 5;
     public static final int NUMBER_OF_INVENTORY_CELLS = 4;
-    int smallHealthPotions;
+    private int smallHealthPotions;
 
     // EFFECTS: Initializes each inventory cell with zero items.
     public Inventory() {
@@ -24,8 +24,8 @@ public class Inventory implements Writable {
 
 
     // EFFECTS: Adds a number of Small Health Potions to the inventory.
-    // Throws a CellAtMaximumException if adding the number of Small Health Potions will cause the number of Small
-    // Health Potions to be > CELL_CAPACITY
+    // Throws a CellAtMaximumOrMinimumException if adding the number of Small Health Potions will cause the number
+    // of Small Health Potions to be > CELL_CAPACITY
     public void addSmallHealthPotions(int number) throws CellAtMaximumOrMinimumException {
         if (this.smallHealthPotions + number > CELL_CAPACITY) {
             throw new CellAtMaximumOrMinimumException();
@@ -34,7 +34,7 @@ public class Inventory implements Writable {
     }
 
     // EFFECTS: Adds a Small Health Potion to the inventory.
-    // Throws a CellAtMaximumException if cell is at maximum size already.
+    // Throws a CellAtMaximumOrMinimumException if cell is at maximum size already.
     public void addOneSmallHealthPotion() throws CellAtMaximumOrMinimumException {
         if (smallHealthPotionSetIsFull()) {
             throw new CellAtMaximumOrMinimumException();
@@ -43,7 +43,7 @@ public class Inventory implements Writable {
     }
 
     // EFFECTS: Subtracts a Small Health Potion to the inventory.
-    // Throws a CellAtMaximumException if cell is at minimum size already.
+    // Throws a CellAtMaximumOrMinimumException if cell is at minimum size already.
     public void subtractOneSmallHealthPotion() throws CellAtMaximumOrMinimumException {
         if (this.smallHealthPotions <= 0) {
             throw new CellAtMaximumOrMinimumException();

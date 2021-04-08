@@ -21,7 +21,7 @@ public class UsePotionButton extends JButton {
                 frameContentPaneHeight / 6);
 
         setBackground(new Color(0x8B4513));
-        setFont(new Font("Century Gothic (Body)",Font.BOLD, 14));
+        setFont(new Font("Times New Roman",Font.BOLD, 14));
         setForeground(Color.WHITE);
         setFocusable(false);
     }

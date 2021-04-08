@@ -28,7 +28,7 @@ public class HealthProgressBar extends JProgressBar {
         setBorderPainted(true);
         setStringPainted(true);
         setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
-        setFont(new Font("Century Gothic (Body)", Font.BOLD,14));
+        setFont(new Font("Times New Roman", Font.BOLD,14));
         setForeground(Color.RED);
         setBackground(Color.LIGHT_GRAY);
         setOpaque(true);

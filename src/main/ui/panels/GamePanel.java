@@ -16,11 +16,6 @@ public class GamePanel extends JPanel {
     private Game game;
     boolean isLevelOver;
 
-    // JLABELS
-//    private JLabel playerLabel;
-//    private JLabel wallLabel;
-//    private JLabel coinLabel;
-
     // ICONS
     private int iconDimension;
     private ImageIcon playerIcon;
@@ -32,9 +27,6 @@ public class GamePanel extends JPanel {
     private ImageIcon entryPointIcon;
     private ImageIcon exitPointIcon;
     private ImageIcon spikeIcon;
-
-
-
 
     // EFFECTS: Initializes all the components of the game panel
     public GamePanel(
@@ -55,19 +47,20 @@ public class GamePanel extends JPanel {
                 contentPaneWidth / 2 - contentPaneHeight * 3 / 8,
                 contentPaneHeight / 13,
                 contentPaneHeight * 3 / 4,
-                contentPaneHeight * 3 / 4);
+                contentPaneHeight * 3 / 4
+        );
 
         this.gameTerminalWidth = gameTerminalWidth;
         this.gameTerminalHeight = gameTerminalHeight;
         this.game = game;
         this.isLevelOver = false;
         this.iconDimension = (contentPaneHeight * 3 / 4) / gameTerminalHeight;
-        intializeLabelIcons();
+        initializeLabelIcons();
     }
 
     // MODIFIES: this
     // EFFECTS: Initializes all the labels with icons set to their appropriate sizes
-    private void intializeLabelIcons() {
+    private void initializeLabelIcons() {
         initializePlayerIcon();
         initializeCoinIcon();
         initializeWallIcon();
@@ -187,91 +180,46 @@ public class GamePanel extends JPanel {
         validate();
     }
 
+    // EFFECTS: Creates and returns a new label with the image icon provided
+    public JLabel createLabelWithIcon(ImageIcon icon) {
+        JLabel label = new JLabel();
+        label.setIcon(icon);
+        return label;
+    }
+
     // MODIFIES: this
     // EFFECTS: Creates all the labels that must be added to the game panel
     public void drawGrid() {
-//        Archived Code For Grid Drawing
-//        for (int j = 0; j < gameTerminalHeight;++j) {
-//
-//            for (int i = 0; i < gameTerminalWidth;++i) {
-//
-//                if (game.player().getPosition().equals(new Position(i,j))) {
-//                    add(new JLabel(game.player().display(" ")));
-//
-//                } else if (game.enemy().getPositionSet().contains(new Position(i,j))) {
-//                    add(new JLabel(game.enemy().display(" ")));
-//
-//                } else if (game.coin().getPositionSet().contains(new Position(i,j))) {
-//                    add(new JLabel(game.coin().display(" ")));
-//
-//                } else if (game.smallHealthPotion().getPositionSet().contains(new Position(i,j))) {
-//                    add(new JLabel(game.smallHealthPotion().display(" ")));
-//
-//                } else if (game.entryPoint().getPosition().equals(new Position(i,j))) {
-//                    add(new JLabel(game.entryPoint().display(" ")));
-//
-//                } else if (game.exitPoint().getPosition().equals(new Position(i,j))) {
-//                    add(new JLabel(game.exitPoint().display(" ")));
-//
-//                } else if (game.spike().getPositionSet().contains(new Position(i,j))) {
-//                    add(new JLabel(game.spike().display(" ")));
-//
-//                } else if (game.wall().getPositionSet().contains(new Position(i,j))) {
-//                    add(new JLabel(game.wall().display(" ")));
-//
-//                } else {
-//                    add(new JLabel(game.air().display(" ")));
-//                }
-//            }
-//        }
         for (int j = 0; j < gameTerminalHeight;++j) {
 
             for (int i = 0; i < gameTerminalWidth;++i) {
 
                 if (game.player().getPosition().equals(new Position(i,j))) {
-                    JLabel playerLabel = new JLabel();
-                    playerLabel.setIcon(playerIcon);
-                    add(playerLabel);
+                    add(createLabelWithIcon(playerIcon));
 
                 } else if (game.enemy().getPositionSet().contains(new Position(i,j))) {
-                    JLabel label = new JLabel();
-                    label.setIcon(enemyIcon);
-                    add(label);
+                    add(createLabelWithIcon(enemyIcon));
 
                 } else if (game.coin().getPositionSet().contains(new Position(i,j))) {
-                    JLabel coinLabel = new JLabel();
-                    coinLabel.setIcon(coinIcon);
-                    add(coinLabel);
+                    add(createLabelWithIcon(coinIcon));
 
                 } else if (game.smallHealthPotion().getPositionSet().contains(new Position(i,j))) {
-                    JLabel label = new JLabel();
-                    label.setIcon(smallHealthPotionIcon);
-                    add(label);
+                    add(createLabelWithIcon(smallHealthPotionIcon));
 
                 } else if (game.entryPoint().getPosition().equals(new Position(i,j))) {
-                    JLabel label = new JLabel();
-                    label.setIcon(entryPointIcon);
-                    add(label);
+                    add(createLabelWithIcon(entryPointIcon));
 
                 } else if (game.exitPoint().getPosition().equals(new Position(i,j))) {
-                    JLabel label = new JLabel();
-                    label.setIcon(exitPointIcon);
-                    add(label);
+                    add(createLabelWithIcon(exitPointIcon));
 
                 } else if (game.spike().getPositionSet().contains(new Position(i,j))) {
-                    JLabel label = new JLabel();
-                    label.setIcon(spikeIcon);
-                    add(label);
+                    add(createLabelWithIcon(spikeIcon));
 
                 } else if (game.wall().getPositionSet().contains(new Position(i,j))) {
-                    JLabel wallLabel = new JLabel();
-                    wallLabel.setIcon(wallIcon);
-                    add(wallLabel);
+                    add(createLabelWithIcon(wallIcon));
 
                 } else {
-                    JLabel airLabel = new JLabel();
-                    airLabel.setIcon(airIcon);
-                    add(airLabel);
+                    add(createLabelWithIcon(airIcon));
 
                 }
             }

@@ -28,8 +28,8 @@ public class SaveGame extends JFrame implements ActionListener {
 
     // MENU FRAME
     //      DIMENSIONS AND POSITION
-    public static final int FRAME_WIDTH = 1280;
-    public static final int FRAME_HEIGHT = 720;
+    private static final int FRAME_WIDTH = MainMenu.FRAME_WIDTH;
+    private static final int FRAME_HEIGHT = MainMenu.FRAME_HEIGHT;
 
     // MENU LABEL
     //      DIMENSIONS AND POSITION
@@ -41,7 +41,7 @@ public class SaveGame extends JFrame implements ActionListener {
     public static final Color LABEL_BACKGROUND_COLOR = Color.BLACK;
     public static final Color LABEL_BORDER_COLOR = Color.BLACK;
     public static final Color LABEL_TEXT_COLOR = Color.WHITE;
-    public static final Font LABEL_TEXT_FONT = new Font("Century Gothic (Body)", Font.BOLD,LABEL_HEIGHT / 2);
+    public static final Font LABEL_TEXT_FONT = new Font("Times New Roman", Font.BOLD,LABEL_HEIGHT / 2);
 
     // MENU BUTTONS
     //      DIMENSIONS AND POSITIONS
@@ -56,7 +56,7 @@ public class SaveGame extends JFrame implements ActionListener {
     public static final Color BUTTON_BACKGROUND_COLOR = Color.WHITE;
     public static final Color BUTTON_BORDER_COLOR = Color.GRAY;
     public static final Color BUTTON_TEXT_COLOR = Color.WHITE;
-    public static final Font BUTTON_TEXT_FONT = new Font("Century Gothic (Body)", Font.PLAIN,BUTTON_HEIGHT * 3 / 4);
+    public static final Font BUTTON_TEXT_FONT = new Font("Times New Roman", Font.PLAIN,BUTTON_HEIGHT * 3 / 4);
 
     // BORDERS
     Border loadSaveFileLabelBorder;
@@ -72,8 +72,8 @@ public class SaveGame extends JFrame implements ActionListener {
     private final JButton saveFileThreeButton = new JButton();
     private final JButton returnToMenu = new JButton();
 
-    private JsonReader jsonReader;
     private Game game;
+    private JsonWriter jsonWriter;
 
     // MODIFIES: this
     // EFFECTS: Creates a new game main menu
@@ -280,7 +280,7 @@ public class SaveGame extends JFrame implements ActionListener {
                 if (answer == -1 || answer == 1) {
                     return;
                 } else if (answer == 0) {
-                    JsonWriter jsonWriter = new JsonWriter(source);
+                    this.jsonWriter = new JsonWriter(source);
                     jsonWriter.open();
                     jsonWriter.write(game);
                     jsonWriter.close();

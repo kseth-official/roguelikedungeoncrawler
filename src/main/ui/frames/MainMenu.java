@@ -31,7 +31,7 @@ public class MainMenu extends JFrame implements ActionListener {
     public static final Color LABEL_BACKGROUND_COLOR = Color.BLACK;
     public static final Color LABEL_BORDER_COLOR = Color.BLACK;
     public static final Color LABEL_TEXT_COLOR = Color.WHITE;
-    public static final Font LABEL_TEXT_FONT = new Font("Century Gothic (Body)", Font.BOLD,LABEL_HEIGHT / 2);
+    public static final Font LABEL_TEXT_FONT = new Font("Times New Roman", Font.BOLD,LABEL_HEIGHT / 2);
 
     // MENU BUTTONS
     //      DIMENSIONS AND POSITIONS
@@ -45,7 +45,7 @@ public class MainMenu extends JFrame implements ActionListener {
     public static final Color BUTTON_BACKGROUND_COLOR = Color.WHITE;
     public static final Color BUTTON_BORDER_COLOR = Color.GRAY;
     public static final Color BUTTON_TEXT_COLOR = Color.WHITE;
-    public static final Font BUTTON_TEXT_FONT = new Font("Century Gothic (Body)", Font.PLAIN,BUTTON_HEIGHT * 3 / 4);
+    public static final Font BUTTON_TEXT_FONT = new Font("Times New Roman", Font.PLAIN,BUTTON_HEIGHT * 3 / 4);
 
     // BORDERS
     Border mainMenuBorder;

@@ -8,7 +8,7 @@ import persistence.JsonWriter;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-// ARCHIVED CODE FOR THE TEXT-BASED IMPLEMENTATION
+// ARCHIVED CODE FOR TEXT-BASED GUI IMPLEMENTATION OF THE GAME
 // A class that sets up the game's user interface. Allows the user to save the game to a file as well.
 public class RogueLikeGame {
 //    private static final String JSON_STORE_SAVE_FILE_ONE = "./data/saveFileOne.json";

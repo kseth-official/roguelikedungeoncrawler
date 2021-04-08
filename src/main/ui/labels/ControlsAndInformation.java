@@ -14,12 +14,12 @@ public class ControlsAndInformation extends JLabel {
         this.frameContentPaneHeight = frameContentPaneHeight;
         setLayout(null);
         String labelText;
-        labelText = "Use WASD to move around and the space \nbar to interact with your surroundings.";
+        labelText = "Use WASD to move around and the buttons \nto perform special tasks.";
         String labelTextWithHtml = "<html>" + labelText.replaceAll("\n", "<br/>") + "</html>";
         setText(labelTextWithHtml);
         setBackground(Color.WHITE);
         setOpaque(true);
-        setFont(new Font("Century Gothic (Body)",Font.BOLD, 18));
+        setFont(new Font("Times New Roman",Font.BOLD, 18));
         setVerticalAlignment(JLabel.CENTER);
         setHorizontalAlignment(JLabel.CENTER);
         setForeground(Color.BLACK);
