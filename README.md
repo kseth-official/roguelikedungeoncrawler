@@ -97,6 +97,15 @@ Class Name: Inventory
 
 Method Names: addSmallHealthPotions(), addOneSmallHealthPotion(), addOneSmallHealthPotion()
 
+#### *Phase 4: Task 3*
+I would refactor the MainMenu, LoadGame, SaveGame, and PauseMenu classes so that they all extend
+an abstract menu class that implements the ActionListener interface. I would then override
+the actionPerformed() method belonging to that interface so that these subclasses would only have
+the required additional functionality, and a large portion of reptitive code would be removed. 
+
+In future improvements of this project, I hope to use a pathfinding algorithm to allow enemies to follow the player, and
+a procedural generation algorithm for the level so that it has high replayability.
+
 
 
 
