@@ -97,4 +97,11 @@ public class GameTest {
         game.air().addPosition(pos);
         assertTrue(game.air().getPositionSet().contains(pos));
     }
+
+    @Test
+    public void testGetSmallHealthPotion() {
+        Position pos = new Position(3,4);
+        game.smallHealthPotion().addPosition(pos);
+        assertTrue(game.smallHealthPotion().getPositionSet().contains(pos));
+    }
 }

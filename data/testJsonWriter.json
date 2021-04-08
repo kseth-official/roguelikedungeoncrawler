@@ -9,6 +9,10 @@
     }]},
     "playerTile": {
         "wallet": {"walletBalance": 0},
+        "healthBar": {
+            "health": 100,
+            "isZero": false
+        },
         "position": {
             "x": 1,
             "y": 6

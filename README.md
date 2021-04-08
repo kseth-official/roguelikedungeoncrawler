@@ -7,6 +7,8 @@ provides an adequate challenge.**
 **Currently the procedural generation and enemy AI have not been implemented, and will
 be done after Phase 4 of this project.**
 
+![](GameMapImage.png)
+
 ## *Game Specification*
 ### *Map*
 The game generates a *map* with walls, a single entry point, a single exit point, obstacles (spikes), an enemy,
@@ -23,6 +25,9 @@ bar reaches zero.
 - The player has a wallet for coin storage.
 - The player may collect coins by walking on to coin tiles.
 - The player may collect small health potions.
+- The player may buy a small health potion for 10 coins.
+- The player may use the small health potion to gain 25 health.
+- The player may dispose a coin.
 - The player may walk around the map using WASD.
 
 ## *Inspiration*

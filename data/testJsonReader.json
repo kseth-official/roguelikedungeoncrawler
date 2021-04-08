@@ -9,6 +9,10 @@
             "x": 5,
             "y": 9
         },
+        "healthBar": {
+            "health": 60,
+            "isZero": false
+        },
         "inventory": {"numberOfSmallHealthPotions": 0}
     },
     "smallHealthPotionTile": {"positions": [
