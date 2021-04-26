@@ -314,6 +314,7 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
             case "s":
             case "d":
                 game.player().move(keyPress, game);
+                game.enemy().move(game);
             default:
                 break;
         }

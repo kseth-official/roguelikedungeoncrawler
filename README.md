@@ -111,6 +111,12 @@ the required additional functionality, and a large portion of reptitive code wou
 In future improvements of this project, I hope to use a pathfinding algorithm to allow enemies to follow the player, and
 a procedural generation algorithm for the level so that it has high replayability.
 
+## *Phase 5*
+**Pathfinding Implementation**
+- As a user, I want to have the enemy follow me around as I move.
+
+
+
 
 
 

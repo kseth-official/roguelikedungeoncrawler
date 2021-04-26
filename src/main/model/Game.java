@@ -155,11 +155,11 @@ public class Game implements Writable {
             wall.addPosition(new Position(i, ZERO));
             wall.addPosition(new Position(i, TWELVE));
             wall.addPosition(new Position(ZERO, i));
-//            if (i == 6) {
-//                continue;
-//            } else {
-            wall.addPosition(new Position(TWELVE, i));
-//            }
+            if (i == 6) {
+                continue;
+            } else {
+                wall.addPosition(new Position(TWELVE, i));
+            }
         }
     }
 
@@ -172,7 +172,9 @@ public class Game implements Writable {
     // MODIFIES: this
     // EFFECTS: sets up the enemy positions
     public void initializeEnemies() {
-        enemy.addPosition(new Position(3,9));
+        enemy.addPosition(new Position(5,9));
+//        enemy.addPosition(new Position(10,1));
+//        enemy.addPosition(new Position(10,10));
     }
 
     // MODIFIES: this

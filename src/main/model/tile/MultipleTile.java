@@ -24,6 +24,12 @@ public abstract class MultipleTile extends Tile {
         this.positionSet.add(p);
     }
 
+    // MODIFIES: this
+    // EFFECTS: removes a tile at a given position from the set of tiles
+    public void removePosition(Position p) {
+        this.positionSet.remove(p);
+    }
+
     // EFFECTS: creates a new JSONObject for a multiple tile class object using its position set
     @Override
     public JSONObject toJson() {
