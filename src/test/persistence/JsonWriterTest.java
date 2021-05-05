@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// TODO: Update JSONWriter test after implementing procedural generation.
 // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
 class JsonWriterTest {
     //NOTE TO CPSC 210 STUDENTS: the strategy in designing tests for the JsonWriter is to

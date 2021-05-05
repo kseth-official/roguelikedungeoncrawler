@@ -44,7 +44,7 @@ public class Position implements Writable {
         this.ordinateCoordinate = position.getY();
     }
 
-    // EFFECTS: overrides the equals method of the Position HashSet and establishes that 2 positions
+    // EFFECTS: Overrides the equals method of the Position HashSet and establishes that 2 positions
     //          are equal if their abscissa and ordinate are equal. This allows the hashset to use
     //          contains to compare for equality of positions as stated above and not for equality
     //          via the position's references.

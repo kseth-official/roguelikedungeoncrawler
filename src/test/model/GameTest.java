@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// TODO: Complete procedural generation and update GameTest accordingly.
 // Test class for the Game Class
 public class GameTest {
     Game game;

@@ -1,8 +1,10 @@
 package model.tile;
 
+import exceptions.PathNotFoundException;
 import model.Game;
 import model.pathfinding.Pathfinder;
 import model.Position;
+import model.pathfinding.Radar;
 
 import java.util.HashSet;
 import java.util.List;
@@ -42,24 +44,28 @@ public class Enemy extends MultipleTile {
 
         // TODO: Work on smoothing enemy movement and collision
         for (Position enemyPosition : tempSet) {
-            if (Pathfinder.detectedByRadar(RADAR_SIZE,enemyPosition,playerPosition)) {
+            Radar enemyRadar = new Radar(enemyPosition,RADAR_SIZE);
+            if (enemyRadar.hasDetected(playerPosition)) {
                 // Get path to target node
-                pathToTargetNode = pathfinder.shortestPathFrom(enemyPosition,playerPosition,obstacles);
-
-                if (pathToTargetNode != null && pathToTargetNode.size() > 1) {
-                    if (pathToTargetNode.get(1).equals(playerPosition)) {
+                try {
+                    pathToTargetNode = pathfinder.shortestPathFrom(enemyPosition,playerPosition,obstacles);
+                    if (pathToTargetNode != null && pathToTargetNode.size() > 1) {
+                        if (pathToTargetNode.get(1).equals(playerPosition)) {
 //                        game.player().getHealthBar().subtract(20);
-                    } else {
-                        if (enemyPositionSet.contains(pathToTargetNode.get(1))) {
-                            // do nothing
                         } else {
-                            // Remove current enemy position from the enemy position set
-                            enemyPositionSet.remove(enemyPosition);
-                            // Add new enemy position in step towards shortest path to the position set
-                            enemyPositionSet.add(pathToTargetNode.get(1));
+                            if (enemyPositionSet.contains(pathToTargetNode.get(1))) {
+                                // do nothing
+                            } else {
+                                // Remove current enemy position from the enemy position set
+                                enemyPositionSet.remove(enemyPosition);
+                                // Add new enemy position in step towards shortest path to the position set
+                                enemyPositionSet.add(pathToTargetNode.get(1));
+                            }
                         }
+                    } else {
+                        // do nothing
                     }
-                } else {
+                } catch (PathNotFoundException e) {
                     // do nothing
                 }
             }

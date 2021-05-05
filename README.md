@@ -113,7 +113,12 @@ a procedural generation algorithm for the level so that it has high replayabilit
 
 ## *Phase 5*
 **Pathfinding Implementation**
-- As a user, I want to have the enemy follow me around as I move.
+- As a user, I want to have an enemy follow me around as I move.
+- As a user, I want to have multiple enemies follow me around as I move.
+
+Current Plan:
+Refactoring
+- 
 
 
 

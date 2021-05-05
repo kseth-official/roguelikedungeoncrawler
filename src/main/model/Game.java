@@ -4,9 +4,16 @@ import model.tile.Coin;
 import model.tile.*;
 import org.json.JSONObject;
 import persistence.Writable;
+import ui.frames.MainMenu;
+
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 // A class for modeling the Game
 public class Game implements Writable {
+    private static final int NUMBER_OF_SPIKES = 50;
+
     private Air air = new Air();
     private Wall wall = new Wall();
     private EntryPoint entryPoint = new EntryPoint();
@@ -16,18 +23,19 @@ public class Game implements Writable {
     private Coin coin = new Coin();
     private Enemy enemy = new Enemy();
     private SmallHealthPotion smallHealthPotion = new SmallHealthPotion();
+    private Set<Position> gameTiles = new HashSet<>();
 
     // EFFECTS: sets up the initial game map
     public Game() {
         initializePlayer(new Position(1, 6));
         initializeEntryPoint(new Position(1, 6));
         initializeExitPoint(new Position(11, 6));
-        initializeSpikes();
         initializeCoins();
         initializeWalls();
         initializeAir();
         initializeEnemies();
         initializeSmallHealthPotions();
+        initializeSpikes();
     }
 
     // EFFECTS: initializes a game with all the given objects
@@ -91,27 +99,56 @@ public class Game implements Writable {
     // EFFECTS: sets up the player's position
     public void initializePlayer(Position p) {
         player.setPosition(p);
+        gameTiles.add(p);
     }
 
     // MODIFIES: this
     // EFFECTS: sets up the Entry Point's position
     public void initializeEntryPoint(Position p) {
         entryPoint.setPosition(p);
+        gameTiles.add(p);
     }
 
     // MODIFIES: this
     // EFFECTS: sets up the Exit Point's position
     public void initializeExitPoint(Position p) {
         exitPoint.setPosition(p);
+        gameTiles.add(p);
     }
 
     // MODIFIES: this
     // EFFECTS: sets up the Spike positions
     public void initializeSpikes() {
-        spike.addPosition(new Position(9, 3));
-        spike.addPosition(new Position(9, 4));
-        spike.addPosition(new Position(9, 8));
-        spike.addPosition(new Position(9, 9));
+
+        for (int i = 0;i < NUMBER_OF_SPIKES;++i) {
+            spike.addPosition(generateUsableMapPosition(gameTiles));
+        }
+
+        gameTiles.addAll(spike.getPositionSet());
+
+//        spike.addPosition(new Position(9, 3));
+//        spike.addPosition(new Position(9, 4));
+//        spike.addPosition(new Position(9, 8));
+//        spike.addPosition(new Position(9, 9));
+    }
+
+    // EFFECTS: Generates a random position on the game map that is not already occupied by another tile.
+    private Position generateUsableMapPosition(Set<Position> gameTiles) {
+        Random random = new Random();
+        int abscissa;
+        int ordinate;
+        Position generatedPosition;
+
+        while (true) {
+            abscissa = Math.abs(random.nextInt()) % (MainMenu.GAME_TERMINAL_WIDTH - 2)  + 1;
+            ordinate = Math.abs(random.nextInt()) % (MainMenu.GAME_TERMINAL_HEIGHT - 2) + 1;
+            generatedPosition = new Position(abscissa,ordinate);
+            if (gameTiles.contains(generatedPosition)) {
+                continue;
+            } else {
+                return generatedPosition;
+            }
+        }
     }
 
     // MODIFIES: this
@@ -136,6 +173,8 @@ public class Game implements Writable {
         coin.addPosition(new Position(8, 6));
         coin.addPosition(new Position(9, 6));
         coin.addPosition(new Position(10, 6));
+
+        gameTiles.addAll(coin.getPositionSet());
     }
 
     // MODIFIES: this
@@ -161,6 +200,8 @@ public class Game implements Writable {
                 wall.addPosition(new Position(TWELVE, i));
             }
         }
+
+        gameTiles.addAll(wall.getPositionSet());
     }
 
     // MODIFIES: this
@@ -175,6 +216,7 @@ public class Game implements Writable {
         enemy.addPosition(new Position(5,9));
 //        enemy.addPosition(new Position(10,1));
 //        enemy.addPosition(new Position(10,10));
+        gameTiles.addAll(enemy.getPositionSet());
     }
 
     // MODIFIES: this
@@ -185,7 +227,10 @@ public class Game implements Writable {
         smallHealthPotion.addPosition(new Position(11,9));
         smallHealthPotion.addPosition(new Position(11,10));
         smallHealthPotion.addPosition(new Position(6,6));
-        smallHealthPotion.addPosition(new Position(7,6));
+        smallHealthPotion.addPosition(new Position(6,7));
+        smallHealthPotion.addPosition(new Position(6,5));
+
+        gameTiles.addAll(smallHealthPotion.getPositionSet());
     }
 
     @Override

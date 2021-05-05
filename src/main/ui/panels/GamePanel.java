@@ -7,6 +7,8 @@ import model.tile.*;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 // A panel within which the game is rendered
 public class GamePanel extends JPanel {

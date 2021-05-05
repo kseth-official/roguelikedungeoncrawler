@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// TODO: Optimize player-enemy collision and update PlayerTest accordingly.
 // Test class for the Player Class
 public class PlayerTest {
     Player player;

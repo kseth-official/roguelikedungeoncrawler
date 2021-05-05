@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// TODO: Update Enemy test to include pathfinding.
 // Test class for the Enemy Class
 public class EnemyTest {
     Enemy enemy;
