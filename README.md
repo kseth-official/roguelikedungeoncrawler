@@ -4,7 +4,7 @@
 in playing a rogue-like dungeon crawler that 
 provides an adequate challenge.**
 
-**Currently the procedural generation and enemy AI have not been implemented, and will
+**Currently the procedural generation has not been implemented, and will
 be done after Phase 4 of this project.**
 
 ![](GameMapImage.png)
