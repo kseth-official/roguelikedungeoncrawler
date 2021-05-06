@@ -27,6 +27,11 @@ public class Node {
     private int hhCost;
     private int ffCost;
 
+    // EFFECTS: Sets up the node with no prior information.
+    public Node() {
+        // empty
+    }
+
     // EFFECTS: Sets up the node with a parent node, position, and target node position.
     // Calculates the gCost, hCost, and fCost using the parent node and target position.
     public Node(Position position, Node parent, Position target) {
@@ -66,15 +71,21 @@ public class Node {
     }
 
     // MODIFIES: this
+    // EFFECTS: Sets the position of this Node.
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    // MODIFIES: this
     // EFFECTS: Sets the parent of this Node.
     public void setParent(Node parent) {
         this.parent = parent;
     }
 
     // MODIFIES: this
-    // EFFECTS: Sets the position of this Node.
-    public void setPosition(Position position) {
-        this.position = position;
+    // EFFECTS: Sets the target position of this Node.
+    public void setTarget(Position target) {
+        this.target = target;
     }
 
     // MODIFIES: this
@@ -96,26 +107,24 @@ public class Node {
     }
 
     // MODIFIES: this
-    // EFFECTS: If parent is null (this is the source Node)
-    //              set gCost to 0
-    //          Else
+    // EFFECTS: If parent is not null (this is not the source Node)
     //              set gCost to parent's gCost + MANHATTAN_NODE_DISTANCE
     public void calculateGCost() {
-        if (parent == null) {
-            this.ggCost = 0;
-        } else {
+        if (parent != null) {
             this.ggCost = parent.getGCost() + MANHATTAN_NODE_DISTANCE;
         }
     }
 
     // MODIFIES: this
-    // EFFECTS: Calculates the Node's hCost using the node's current position and the target position.
+    // EFFECTS: Calculates the Node's hCost by finding the absolute difference between the x & y coordinates of the Node
+    // and the target Node and adding them up.
     public void calculateHCost() {
         int horizontalDistance = Math.abs(this.target.getX() - this.position.getX());
         int verticalDistance = Math.abs(this.target.getY() - this.position.getY());
-        this.ggCost = horizontalDistance + verticalDistance;
+        this.hhCost = horizontalDistance + verticalDistance;
     }
 
+    // REQUIRES: gCost & hCost must be calculated before usage.
     // MODIFIES: this
     // EFFECTS: Calculates the fCost by adding the gCost and hCost.
     public void calculateFCost() {
