@@ -1,9 +1,7 @@
 package ui.frames;
 
 import model.Game;
-import persistence.JsonReader;
 import persistence.JsonWriter;
-import ui.RogueLikeGame;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -12,8 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Scanner;
 
 // A frame for the save game menu
 public class SaveGame extends JFrame implements ActionListener {
@@ -70,7 +66,7 @@ public class SaveGame extends JFrame implements ActionListener {
     private final JButton saveFileOneButton = new JButton();
     private final JButton saveFileTwoButton = new JButton();
     private final JButton saveFileThreeButton = new JButton();
-    private final JButton returnToMenu = new JButton();
+    private final JButton returnToGame = new JButton();
 
     private Game game;
     private JsonWriter jsonWriter;
@@ -117,7 +113,7 @@ public class SaveGame extends JFrame implements ActionListener {
         this.add(saveFileOneButton);
         this.add(saveFileTwoButton);
         this.add(saveFileThreeButton);
-        this.add(returnToMenu);
+        this.add(returnToGame);
     }
 
     // MODIFIES: this
@@ -149,7 +145,7 @@ public class SaveGame extends JFrame implements ActionListener {
         saveFileOneButton.setBorder(buttonBorder);
         saveFileTwoButton.setBorder(buttonBorder);
         saveFileThreeButton.setBorder(buttonBorder);
-        returnToMenu.setBorder(buttonBorder);
+        returnToGame.setBorder(buttonBorder);
     }
 
     // MODIFIES: this
@@ -159,7 +155,7 @@ public class SaveGame extends JFrame implements ActionListener {
         saveFileOneButton.setFocusable(false);
         saveFileTwoButton.setFocusable(false);
         saveFileThreeButton.setFocusable(false);
-        returnToMenu.setFocusable(false);
+        returnToGame.setFocusable(false);
 
     }
 
@@ -170,7 +166,7 @@ public class SaveGame extends JFrame implements ActionListener {
         saveFileOneButton.setFont(BUTTON_TEXT_FONT);
         saveFileTwoButton.setFont(BUTTON_TEXT_FONT);
         saveFileThreeButton.setFont(BUTTON_TEXT_FONT);
-        returnToMenu.setFont(BUTTON_TEXT_FONT);
+        returnToGame.setFont(BUTTON_TEXT_FONT);
     }
 
     // MODIFIES: this
@@ -180,7 +176,7 @@ public class SaveGame extends JFrame implements ActionListener {
         saveFileOneButton.addActionListener(this);
         saveFileTwoButton.addActionListener(this);
         saveFileThreeButton.addActionListener(this);
-        returnToMenu.addActionListener(this);
+        returnToGame.addActionListener(this);
     }
 
     // MODIFIES: this
@@ -190,7 +186,7 @@ public class SaveGame extends JFrame implements ActionListener {
         saveFileOneButton.setBackground(BUTTON_BACKGROUND_COLOR);
         saveFileTwoButton.setBackground(BUTTON_BACKGROUND_COLOR);
         saveFileThreeButton.setBackground(BUTTON_BACKGROUND_COLOR);
-        returnToMenu.setBackground(BUTTON_BACKGROUND_COLOR);
+        returnToGame.setBackground(BUTTON_BACKGROUND_COLOR);
     }
 
     // MODIFIES: this
@@ -200,7 +196,7 @@ public class SaveGame extends JFrame implements ActionListener {
         saveFileOneButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_ONE_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
         saveFileTwoButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_TWO_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
         saveFileThreeButton.setBounds(COMMON_BUTTON_X, SAVE_FILE_THREE_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
-        returnToMenu.setBounds(COMMON_BUTTON_X,EXIT_GAME_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
+        returnToGame.setBounds(COMMON_BUTTON_X,EXIT_GAME_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT);
     }
 
     // MODIFIES: this
@@ -210,7 +206,7 @@ public class SaveGame extends JFrame implements ActionListener {
         saveFileOneButton.setText("Save File One");
         saveFileTwoButton.setText("Save File Two");
         saveFileThreeButton.setText("Save File Three");
-        returnToMenu.setText("Return To Menu");
+        returnToGame.setText("Return To Game");
     }
 
     // MODIFIES: this
@@ -254,8 +250,8 @@ public class SaveGame extends JFrame implements ActionListener {
             writeToSaveFile("2",JSON_STORE_SAVE_FILE_TWO);
         } else if (e.getSource() == saveFileThreeButton) {
             writeToSaveFile("3",JSON_STORE_SAVE_FILE_THREE);
-        } else if (e.getSource() == returnToMenu) {
-            // return to menu
+        } else if (e.getSource() == returnToGame) {
+
         }
     }
 

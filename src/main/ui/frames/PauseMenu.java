@@ -8,6 +8,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 // A frame for the pause menu
 public class PauseMenu extends JFrame implements ActionListener {
@@ -38,10 +40,11 @@ public class PauseMenu extends JFrame implements ActionListener {
     public static final int BUTTON_WIDTH = LABEL_WIDTH;
     public static final int BUTTON_HEIGHT = LABEL_HEIGHT / 2;
     public static final int COMMON_BUTTON_X = LABEL_X;
-    public static final int SAVE_GAME_BUTTON_Y = LABEL_Y + 4 * BUTTON_HEIGHT;
-    public static final int MAIN_MENU_BUTTON_Y = LABEL_Y + 6 * BUTTON_HEIGHT;
-    public static final int EXIT_GAME_BUTTON_Y = LABEL_Y + 8 * BUTTON_HEIGHT;
-    public static final int RETURN_TO_GAME_BUTTON_Y = LABEL_Y + 10 * BUTTON_HEIGHT;
+    public static final int SAVE_GAME_BUTTON_Y = LABEL_Y + 3 * BUTTON_HEIGHT;
+    public static final int MAIN_MENU_BUTTON_Y = LABEL_Y + 5 * BUTTON_HEIGHT;
+    public static final int EXIT_GAME_BUTTON_Y = LABEL_Y + 7 * BUTTON_HEIGHT;
+    public static final int CONTROLS_BUTTON_Y = LABEL_Y + 9 * BUTTON_HEIGHT;
+    public static final int RETURN_TO_GAME_BUTTON_Y = LABEL_Y + 11 * BUTTON_HEIGHT;
 
     //      CHARACTERISTICS
     public static final Color BUTTON_BACKGROUND_COLOR = Color.WHITE;
@@ -58,10 +61,15 @@ public class PauseMenu extends JFrame implements ActionListener {
 
     // MENU OBJECT DECLARATIONS
     private final JLabel pauseMenuLabel = new JLabel();
+
     private final JButton saveGameButton = new JButton();
-    private final JButton mainMenu = new JButton();
+    private final JButton mainMenuButton = new JButton();
     private final JButton exitGameButton = new JButton();
+    private final JButton controlsButton = new JButton();
     private final JButton returnToGameButton = new JButton();
+    private List<JButton> pauseMenuButtons = new ArrayList<>();
+
+    private JPanel controlsPanel;
 
     private RogueLikeGameGUI currentGameGuiObject;
     private Game currentGame;
@@ -99,15 +107,24 @@ public class PauseMenu extends JFrame implements ActionListener {
         add(pauseMenuLabel);
 
         // add the buttons
-        add(saveGameButton);
-        add(mainMenu);
-        add(exitGameButton);
-        add(returnToGameButton);
+        for (JButton button: pauseMenuButtons) {
+            add(button);
+        }
+//        add(saveGameButton);
+//        add(mainMenuButton);
+//        add(exitGameButton);
+//        add(returnToGameButton);
     }
 
     // MODIFIES: this
     // EFFECTS: Creates the menu buttons
     public void createMenuButtons() {
+        pauseMenuButtons.add(saveGameButton);
+        pauseMenuButtons.add(mainMenuButton);
+        pauseMenuButtons.add(exitGameButton);
+        pauseMenuButtons.add(controlsButton);
+        pauseMenuButtons.add(returnToGameButton);
+
         setMenuButtonTexts();
 
         setButtonBounds();
@@ -131,51 +148,68 @@ public class PauseMenu extends JFrame implements ActionListener {
         buttonBorder = BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED);
 
         // adding borders to the buttons
-        saveGameButton.setBorder(buttonBorder);
-        mainMenu.setBorder(buttonBorder);
-        exitGameButton.setBorder(buttonBorder);
-        returnToGameButton.setBorder(buttonBorder);
+        for (JButton button: pauseMenuButtons) {
+            button.setBorder(buttonBorder);
+        }
+//        saveGameButton.setBorder(buttonBorder);
+//        mainMenuButton.setBorder(buttonBorder);
+//        exitGameButton.setBorder(buttonBorder);
+//        returnToGameButton.setBorder(buttonBorder);
     }
 
     // MODIFIES: this
     // EFFECTS: Sets the buttons as non-focusable
     public void setButtonsFocusable() {
         // setting buttons to not be focusable (box around text)
-        saveGameButton.setFocusable(false);
-        mainMenu.setFocusable(false);
-        exitGameButton.setFocusable(false);
-        returnToGameButton.setFocusable(false);
-
+        for (JButton button: pauseMenuButtons) {
+            button.setFocusable(false);
+        }
+//        saveGameButton.setFocusable(false);
+//        mainMenuButton.setFocusable(false);
+//        exitGameButton.setFocusable(false);
+//        returnToGameButton.setFocusable(false);
     }
 
     // MODIFIES: this
     // EFFECTS: Sets the button text fonts
     public void setButtonTextFont() {
         // set button text font
-        saveGameButton.setFont(BUTTON_TEXT_FONT);
-        mainMenu.setFont(BUTTON_TEXT_FONT);
-        exitGameButton.setFont(BUTTON_TEXT_FONT);
-        returnToGameButton.setFont(BUTTON_TEXT_FONT);
+        for (JButton button: pauseMenuButtons) {
+            button.setFont(BUTTON_TEXT_FONT);
+        }
+//        saveGameButton.setFont(BUTTON_TEXT_FONT);
+//        mainMenuButton.setFont(BUTTON_TEXT_FONT);
+//        exitGameButton.setFont(BUTTON_TEXT_FONT);
+//        controlsButton.setFont(BUTTON_TEXT_FONT);
+//        returnToGameButton.setFont(BUTTON_TEXT_FONT);
     }
 
     // MODIFIES: this
     // EFFECTS: Makes the buttons listen to button clicks on the menu
     public void addActionListeners() {
         // add this as an action listener
-        saveGameButton.addActionListener(this);
-        mainMenu.addActionListener(this);
-        exitGameButton.addActionListener(this);
-        returnToGameButton.addActionListener(this);
+        for (JButton button: pauseMenuButtons) {
+            button.addActionListener(this);
+        }
+//        saveGameButton.addActionListener(this);
+//        mainMenuButton.addActionListener(this);
+//        exitGameButton.addActionListener(this);
+//        controlsButton.addActionListener(this);
+//        returnToGameButton.addActionListener(this);
     }
 
     // MODIFIES: this
     // EFFECTS: Sets the menu button backgrounds
     public void setBackgrounds() {
         // set backgrounds
-        saveGameButton.setBackground(BUTTON_BACKGROUND_COLOR);
-        mainMenu.setBackground(BUTTON_BACKGROUND_COLOR);
-        exitGameButton.setBackground(BUTTON_BACKGROUND_COLOR);
-        returnToGameButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        for (JButton button: pauseMenuButtons) {
+            button.setBackground(BUTTON_BACKGROUND_COLOR);
+        }
+//        saveGameButton.setBackground(BUTTON_BACKGROUND_COLOR);
+//        mainMenuButton.setBackground(BUTTON_BACKGROUND_COLOR);
+//        exitGameButton.setBackground(BUTTON_BACKGROUND_COLOR);
+//        controlsButton.setBackground(BUTTON_BACKGROUND_COLOR);
+//        returnToGameButton.setBackground(BUTTON_BACKGROUND_COLOR);
     }
 
     // MODIFIES: this
@@ -183,8 +217,9 @@ public class PauseMenu extends JFrame implements ActionListener {
     public void setButtonBounds() {
         // set border layouts
         saveGameButton.setBounds(COMMON_BUTTON_X, SAVE_GAME_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
-        mainMenu.setBounds(COMMON_BUTTON_X, MAIN_MENU_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
+        mainMenuButton.setBounds(COMMON_BUTTON_X, MAIN_MENU_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
         exitGameButton.setBounds(COMMON_BUTTON_X, EXIT_GAME_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
+        controlsButton.setBounds(COMMON_BUTTON_X, CONTROLS_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
         returnToGameButton.setBounds(COMMON_BUTTON_X, RETURN_TO_GAME_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
     }
 
@@ -193,8 +228,9 @@ public class PauseMenu extends JFrame implements ActionListener {
     public void setMenuButtonTexts() {
         // set the button texts
         saveGameButton.setText("Save Game");
-        mainMenu.setText("Main Menu");
+        mainMenuButton.setText("Main Menu");
         exitGameButton.setText("Exit Game");
+        controlsButton.setText("Controls");
         returnToGameButton.setText("Return to Game");
     }
 
@@ -232,16 +268,20 @@ public class PauseMenu extends JFrame implements ActionListener {
     // EFFECTS: An action listener for buttons
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.dispose();
         if (e.getSource() == saveGameButton) {
+            this.dispose();
             new SaveGame(currentGame);
-        } else if (e.getSource() == mainMenu) {
+        } else if (e.getSource() == mainMenuButton) {
+            this.dispose();
             currentGameGuiObject.dispose();
             new MainMenu();
         } else if (e.getSource() == exitGameButton) {
             System.exit(0);
+        } else if (e.getSource() == controlsButton) {
+            this.dispose();
+            new ControlsFrame(FRAME_WIDTH,FRAME_HEIGHT);
         } else if (e.getSource() == returnToGameButton) {
-            // dispose current menu
+            this.dispose();
         }
     }
 }

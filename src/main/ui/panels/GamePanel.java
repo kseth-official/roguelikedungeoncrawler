@@ -46,17 +46,17 @@ public class GamePanel extends JPanel {
 //                contentPaneHeight * 3 / 4);
 
         setBounds(
-                contentPaneWidth / 2 - contentPaneHeight * 3 / 8,
-                contentPaneHeight / 13,
-                contentPaneHeight * 3 / 4,
-                contentPaneHeight * 3 / 4
+                contentPaneWidth / 2 - contentPaneWidth / 4,
+                0,
+                contentPaneHeight,
+                contentPaneHeight
         );
 
         this.gameTerminalWidth = gameTerminalWidth;
         this.gameTerminalHeight = gameTerminalHeight;
         this.game = game;
         this.isLevelOver = false;
-        this.iconDimension = (contentPaneHeight * 3 / 4) / gameTerminalHeight;
+        this.iconDimension = contentPaneHeight / gameTerminalHeight;
         initializeLabelIcons();
     }
 
@@ -106,8 +106,8 @@ public class GamePanel extends JPanel {
     private void initializeExitPointIcon() {
         exitPointIcon = new ImageIcon(ExitPoint.EXIT_POINT_TILE_IMAGE_SOURCE);
         Image exitPointImage = exitPointIcon.getImage();
-        Image nexExitPointImage = exitPointImage.getScaledInstance(iconDimension,iconDimension,Image.SCALE_SMOOTH);
-        exitPointIcon = new ImageIcon(nexExitPointImage);
+        Image newExitPointImage = exitPointImage.getScaledInstance(iconDimension,iconDimension,Image.SCALE_SMOOTH);
+        exitPointIcon = new ImageIcon(newExitPointImage);
     }
 
     // MODIFIES: this

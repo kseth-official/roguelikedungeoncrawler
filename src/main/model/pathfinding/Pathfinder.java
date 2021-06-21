@@ -13,9 +13,41 @@ public class Pathfinder {
     // Uses Manhattan distance for calculations.
     public List<Position> shortestPathFrom(Position startPosition, Position endPosition, HashSet<Position> obstacles) throws PathNotFoundException {
         /*
-            PSEUDO CODE for shortestPathFrom
+            (PSEUDO CODE for shortestPathFrom)
+
+            START:
+            add the sourceNode to openNodes
+
+            loop
+                currentNode = node in OPEN with lowest f_cost
+                remove currentNode from openNodes
+                add currentNode to closedNodes
+
+                if currentNode == targetNode
+                    return pathFromTargetNodeToSourceNode(currentNode)
+
+                foreach neighbour in neighbours of the currentNode
+                    if neighbour is not traversable or neighbour is in closedNodes
+                        continue
+                    if new path to neighbour is shorter OR neighbour is not in openNodes
+                        calculate gCost of neighbour with shorter path
+                        calculate hCost of neighbour
+                        calculate new fCost of neighbour
+                        set neighbour's parent to currentNode
+
+                        if neighbour is not in openNodes
+                            add neighbour to openNodes
+            END:
+
             Definitions:
-            Node: A position on the map with a gCost, hCost, and fCost
+            Node: A position on the map with a gCost, hCost, and fCost.
+            sourceNode: The Node from where the shortest path to the targetNode should begin.
+            targetNode: The Node to which the shortest path needs to be found.
+            openNodes: The list of Nodes that are to be evaluated.
+            closedNodes: The list of Nodes that have been evaluated.
+            currentNode: The currentNode in openNodes being examined during iteration.
+            Neighbour: The Nodes above, below, to the left, and to the right of the currentNode who's positions's don't
+            collide with that of an obstacle.
         */
 
         List<Node> openNodes = new ArrayList<>();
@@ -54,15 +86,18 @@ public class Pathfinder {
                     continue;
                 }
 
-                int newMovementCostToNeighbour = currentNode.getGCost() + distanceBetween(currentNode,neighbourNode);
-                if (newMovementCostToNeighbour < neighbourNode.getGCost() || !openNodes.contains(neighbourNode)) {
-                    neighbourNode.setGCost(newMovementCostToNeighbour);
-                    neighbourNode.setParent(currentNode);
-                    neighbourNode.calculateFCost();
+                // COMMENTED CODE represents an adjustment code for 8 direction pathfinding. It is unrequired in 4
+                // direction pathfinding using Manhattan distance.
+//                int newMovementCostToNeighbour = currentNode.getGCost() + distanceBetween(currentNode,neighbourNode);
+                if (/* newMovementCostToNeighbour < neighbourNode.getGCost() || */ !openNodes.contains(neighbourNode)) {
+//                    neighbourNode.setGCost(newMovementCostToNeighbour);
+//                    neighbourNode.setParent(currentNode);
+//                    neighbourNode.calculateFCost();
 
-                    if (!openNodes.contains(neighbourNode)) {
-                        openNodes.add(neighbourNode);
-                    }
+//                    if (!openNodes.contains(neighbourNode)) {
+//                        openNodes.add(neighbourNode);
+//                    }
+                    openNodes.add(neighbourNode);
                 }
             }
         }

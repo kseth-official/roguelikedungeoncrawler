@@ -21,10 +21,11 @@ public class InventoryPanel extends JPanel {
         setBackground(Color.WHITE);
         setOpaque(true);
         setBounds(
-                frameContentPaneWidth - frameContentPaneWidth / 3,
-                frameContentPaneHeight - frameContentPaneHeight / 6,
-                frameContentPaneWidth / 3,
-                frameContentPaneHeight / 6);
+//                frameContentPaneWidth - frameContentPaneWidth / 3,
+                0,
+                frameContentPaneHeight / 15,
+                frameContentPaneWidth / 5,
+                frameContentPaneHeight / 11);
         setupCoinCountLabel();
         setupPotionCountLabel();
         add(coinCountLabel);
@@ -37,7 +38,7 @@ public class InventoryPanel extends JPanel {
         potionCountLabel = new JLabel();
         potionCountLabel.setBackground(Color.WHITE);
         potionCountLabel.setOpaque(true);
-        potionCountLabel.setFont(new Font("Times New Roman",Font.BOLD, 32));
+        potionCountLabel.setFont(new Font("Times New Roman",Font.BOLD, 20));
         potionCountLabel.setVerticalAlignment(JLabel.CENTER);
         potionCountLabel.setHorizontalAlignment(JLabel.CENTER);
         potionCountLabel.setBounds(
@@ -53,7 +54,7 @@ public class InventoryPanel extends JPanel {
         coinCountLabel = new JLabel();
         coinCountLabel.setBackground(Color.WHITE);
         coinCountLabel.setOpaque(true);
-        coinCountLabel.setFont(new Font("Times New Roman",Font.BOLD, 32));
+        coinCountLabel.setFont(new Font("Times New Roman",Font.BOLD, 20));
         coinCountLabel.setVerticalAlignment(JLabel.CENTER);
         coinCountLabel.setHorizontalAlignment(JLabel.CENTER);
         coinCountLabel.setBounds(

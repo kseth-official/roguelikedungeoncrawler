@@ -13,6 +13,14 @@ public class Radar {
         this.range = range;
     }
 
+    public Position getSource() {
+        return this.source;
+    }
+
+    public int getRange() {
+        return this.range;
+    }
+
     // EFFECTS: Checks if a target position is in the Radar's range.
     public boolean hasDetected(Position target) {
         int radarRightBoundary = this.source.getX() + this.range;

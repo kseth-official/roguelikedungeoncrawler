@@ -3,11 +3,9 @@ package ui.frames;
 import exceptions.CellAtMaximumOrMinimumException;
 import model.*;
 import model.tile.SmallHealthPotion;
-import persistence.JsonWriter;
 import ui.GameAudioPlayer;
-import ui.RogueLikeGameMainMenu;
 import ui.buttons.*;
-import ui.labels.ControlsAndInformation;
+import ui.labels.ControlsAndInformationLabel;
 import ui.panels.InventoryPanel;
 import ui.panels.GamePanel;
 import ui.progressbars.HealthProgressBar;
@@ -15,8 +13,6 @@ import ui.progressbars.HealthProgressBar;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 // A class that sets up the game's user interface.
 public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListener {
@@ -49,7 +45,9 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     private JButton useSmallHealthPotionButton;
     private JButton descendButton;
     private JButton buyPotionButton;
-    private JButton disposeCoinButton;
+//    private JButton disposeCoinButton;
+    private JButton inventoryButton;
+    private JButton shopButton;
 
     // PROGRESS BAR
     private JProgressBar healthBar;
@@ -77,7 +75,9 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         useSmallHealthPotionButton.addActionListener(this);
         descendButton.addActionListener(this);
         buyPotionButton.addActionListener(this);
-        disposeCoinButton.addActionListener(this);
+//        disposeCoinButton.addActionListener(this);
+        inventoryButton.addActionListener(this);
+        shopButton.addActionListener(this);
         addKeyListener(this);
     }
 
@@ -111,7 +111,7 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         initializeGamePanels();
 
         // LABELS
-        controlsAndInformationLabel = new ControlsAndInformation(frameContentPaneWidth, frameContentPaneHeight);
+        controlsAndInformationLabel = new ControlsAndInformationLabel(frameContentPaneWidth, frameContentPaneHeight);
 
         initializeGameButtons();
 
@@ -125,12 +125,14 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     // EFFECTS: adds the components to the current frame
     public void addComponentsToFrame() {
         add(gamePanel);
-        add(controlsAndInformationLabel);
+//        add(controlsAndInformationLabel);
         add(inventoryPanel);
         add(pauseButton);
         add(descendButton);
         add(buyPotionButton);
-        add(disposeCoinButton);
+//        add(disposeCoinButton);
+        add(inventoryButton);
+        add(shopButton);
         add(useSmallHealthPotionButton);
         add(healthBar);
     }
@@ -143,7 +145,9 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         useSmallHealthPotionButton = new UsePotionButton(frameContentPaneWidth,frameContentPaneHeight);
         descendButton = new DescendButton(frameContentPaneWidth, frameContentPaneHeight);
         buyPotionButton = new BuyPotionButton(frameContentPaneWidth, frameContentPaneHeight);
-        disposeCoinButton = new DisposeCoinButton(frameContentPaneWidth, frameContentPaneHeight);
+//        disposeCoinButton = new DisposeCoinButton(frameContentPaneWidth, frameContentPaneHeight);
+        inventoryButton = new InventoryButton(frameContentPaneWidth, frameContentPaneHeight);
+        shopButton = new ShopButton(frameContentPaneWidth, frameContentPaneHeight);
     }
 
     // MODIFIES: this
@@ -237,11 +241,12 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
             useSmallHealthPotionIfPossible();
         } else if (e.getSource() == buyPotionButton) {
             buyPotionIfPossible();
-        } else if (e.getSource() == disposeCoinButton) {
-            if (game.player().getWalletBalance() > 0) {
-                game.player().setWalletBalance(game.player().getWalletBalance() - 1);
-            }
         }
+//        } else if (e.getSource() == disposeCoinButton) {
+//            if (game.player().getWalletBalance() > 0) {
+//                game.player().setWalletBalance(game.player().getWalletBalance() - 1);
+//            }
+//        }
         repaint();
     }
 
@@ -270,7 +275,7 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         int walletBalance = game.player().getWallet().getBalance();
         boolean isPotionSetFull = game.player().getInventory().smallHealthPotionSetIsFull();
         if (walletBalance >= 10 && !isPotionSetFull) {
-            game.player().getWallet().setBalance(game.player().getWallet().getBalance() - 10);
+            game.player().getWallet().setBalance(walletBalance - 10);
             try {
                 game.player().getInventory().addOneSmallHealthPotion();
             } catch (CellAtMaximumOrMinimumException exception) {

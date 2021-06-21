@@ -214,8 +214,8 @@ public class Game implements Writable {
     // EFFECTS: sets up the enemy positions
     public void initializeEnemies() {
         enemy.addPosition(new Position(5,9));
-//        enemy.addPosition(new Position(10,1));
-//        enemy.addPosition(new Position(10,10));
+        enemy.addPosition(new Position(10,1));
+        enemy.addPosition(new Position(10,10));
         gameTiles.addAll(enemy.getPositionSet());
     }
 

@@ -35,3 +35,16 @@ Small Health Potion:
 
 Air (floor):
 https://i.pinimg.com/564x/11/a7/3c/11a73c083d31797fe216914dcdf26023.jpg
+
+Inventory Icon: 
+https://pixelartmaker-data-78746291193.nyc3.digitaloceanspaces.com/image/fdbf834856094ee.png
+
+Pause Button Icon One:
+https://www.pixilart.com/art/pause-button-2-22f5240ce52a5c4
+
+Puase Button Icon Two:
+https://www.pixilart.com/draw/pause-button-2-22f5240ce52a5c4
+(Manually Edited)
+
+Shop Icon:
+https://pixelartmaker-data-78746291193.nyc3.digitaloceanspaces.com/image/5158b0fdeef62b9.png

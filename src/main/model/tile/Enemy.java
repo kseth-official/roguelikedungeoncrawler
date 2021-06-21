@@ -42,7 +42,7 @@ public class Enemy extends MultipleTile {
 
         HashSet<Position> tempSet = new HashSet<>(enemyPositionSet);
 
-        // TODO: Work on smoothing enemy movement and collision
+        // TODO: Work on smoothing enemy movement and collision.
         for (Position enemyPosition : tempSet) {
             Radar enemyRadar = new Radar(enemyPosition,RADAR_SIZE);
             if (enemyRadar.hasDetected(playerPosition)) {
@@ -66,7 +66,7 @@ public class Enemy extends MultipleTile {
                         // do nothing
                     }
                 } catch (PathNotFoundException e) {
-                    // do nothing
+                    System.out.println("This was actually thrown!");
                 }
             }
         }

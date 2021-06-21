@@ -116,6 +116,9 @@ a procedural generation algorithm for the level so that it has high replayabilit
 - As a user, I want to have an enemy follow me around as I move.
 - As a user, I want to have multiple enemies follow me around as I move.
 
+**Other User Stories**
+- As a user, I want to be able to access an inventory where I can see my current items.
+
 Current Plan:
 Refactoring
 - 
