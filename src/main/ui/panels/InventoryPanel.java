@@ -7,8 +7,8 @@ import java.awt.*;
 
 // A panel that shows the player's coins + inventory items
 public class InventoryPanel extends JPanel {
-    private int frameContentPaneWidth;
-    private int frameContentPaneHeight;
+    private final int frameContentPaneWidth;
+    private final int frameContentPaneHeight;
     private JLabel coinCountLabel;
     private JLabel potionCountLabel;
     private Game game;
@@ -22,10 +22,11 @@ public class InventoryPanel extends JPanel {
         setOpaque(true);
         setBounds(
 //                frameContentPaneWidth - frameContentPaneWidth / 3,
-                0,
-                frameContentPaneHeight / 15,
+                frameContentPaneWidth - frameContentPaneWidth / 5,
+                frameContentPaneHeight - frameContentPaneHeight / 6,
                 frameContentPaneWidth / 5,
-                frameContentPaneHeight / 11);
+                frameContentPaneHeight / 6
+        );
         setupCoinCountLabel();
         setupPotionCountLabel();
         add(coinCountLabel);
@@ -38,7 +39,7 @@ public class InventoryPanel extends JPanel {
         potionCountLabel = new JLabel();
         potionCountLabel.setBackground(Color.WHITE);
         potionCountLabel.setOpaque(true);
-        potionCountLabel.setFont(new Font("Times New Roman",Font.BOLD, 20));
+        potionCountLabel.setFont(new Font("Times New Roman",Font.BOLD, 22));
         potionCountLabel.setVerticalAlignment(JLabel.CENTER);
         potionCountLabel.setHorizontalAlignment(JLabel.CENTER);
         potionCountLabel.setBounds(
@@ -54,7 +55,7 @@ public class InventoryPanel extends JPanel {
         coinCountLabel = new JLabel();
         coinCountLabel.setBackground(Color.WHITE);
         coinCountLabel.setOpaque(true);
-        coinCountLabel.setFont(new Font("Times New Roman",Font.BOLD, 20));
+        coinCountLabel.setFont(new Font("Times New Roman",Font.BOLD, 24));
         coinCountLabel.setVerticalAlignment(JLabel.CENTER);
         coinCountLabel.setHorizontalAlignment(JLabel.CENTER);
         coinCountLabel.setBounds(

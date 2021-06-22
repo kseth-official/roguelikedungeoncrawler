@@ -16,8 +16,8 @@ public class UsePotionButton extends JButton {
         setText(labelText);
         setBounds(
 //                frameContentPaneWidth - frameContentPaneWidth * 7 / 12,
-                0,
-                frameContentPaneHeight - frameContentPaneHeight / 2 - frameContentPaneHeight / 12,
+                frameContentPaneWidth - frameContentPaneWidth / 6,
+                frameContentPaneHeight / 6,
                 frameContentPaneWidth / 6,
                 frameContentPaneHeight / 6);
 

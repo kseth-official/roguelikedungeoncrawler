@@ -40,11 +40,11 @@ public class PauseMenu extends JFrame implements ActionListener {
     public static final int BUTTON_WIDTH = LABEL_WIDTH;
     public static final int BUTTON_HEIGHT = LABEL_HEIGHT / 2;
     public static final int COMMON_BUTTON_X = LABEL_X;
-    public static final int SAVE_GAME_BUTTON_Y = LABEL_Y + 3 * BUTTON_HEIGHT;
-    public static final int MAIN_MENU_BUTTON_Y = LABEL_Y + 5 * BUTTON_HEIGHT;
-    public static final int EXIT_GAME_BUTTON_Y = LABEL_Y + 7 * BUTTON_HEIGHT;
-    public static final int CONTROLS_BUTTON_Y = LABEL_Y + 9 * BUTTON_HEIGHT;
-    public static final int RETURN_TO_GAME_BUTTON_Y = LABEL_Y + 11 * BUTTON_HEIGHT;
+    public static final int SAVE_GAME_BUTTON_Y = LABEL_Y + 4 * BUTTON_HEIGHT;
+    public static final int MAIN_MENU_BUTTON_Y = LABEL_Y + 6 * BUTTON_HEIGHT;
+    public static final int EXIT_GAME_BUTTON_Y = LABEL_Y + 8 * BUTTON_HEIGHT;
+//    public static final int CONTROLS_BUTTON_Y = LABEL_Y + 9 * BUTTON_HEIGHT;
+    public static final int RETURN_TO_GAME_BUTTON_Y = LABEL_Y + 10 * BUTTON_HEIGHT;
 
     //      CHARACTERISTICS
     public static final Color BUTTON_BACKGROUND_COLOR = Color.WHITE;
@@ -122,7 +122,7 @@ public class PauseMenu extends JFrame implements ActionListener {
         pauseMenuButtons.add(saveGameButton);
         pauseMenuButtons.add(mainMenuButton);
         pauseMenuButtons.add(exitGameButton);
-        pauseMenuButtons.add(controlsButton);
+//        pauseMenuButtons.add(controlsButton);
         pauseMenuButtons.add(returnToGameButton);
 
         setMenuButtonTexts();
@@ -219,7 +219,7 @@ public class PauseMenu extends JFrame implements ActionListener {
         saveGameButton.setBounds(COMMON_BUTTON_X, SAVE_GAME_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
         mainMenuButton.setBounds(COMMON_BUTTON_X, MAIN_MENU_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
         exitGameButton.setBounds(COMMON_BUTTON_X, EXIT_GAME_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
-        controlsButton.setBounds(COMMON_BUTTON_X, CONTROLS_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
+//        controlsButton.setBounds(COMMON_BUTTON_X, CONTROLS_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
         returnToGameButton.setBounds(COMMON_BUTTON_X, RETURN_TO_GAME_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
     }
 
@@ -230,7 +230,7 @@ public class PauseMenu extends JFrame implements ActionListener {
         saveGameButton.setText("Save Game");
         mainMenuButton.setText("Main Menu");
         exitGameButton.setText("Exit Game");
-        controlsButton.setText("Controls");
+//        controlsButton.setText("Controls");
         returnToGameButton.setText("Return to Game");
     }
 
@@ -277,9 +277,9 @@ public class PauseMenu extends JFrame implements ActionListener {
             new MainMenu();
         } else if (e.getSource() == exitGameButton) {
             System.exit(0);
-        } else if (e.getSource() == controlsButton) {
-            this.dispose();
-            new ControlsFrame(FRAME_WIDTH,FRAME_HEIGHT);
+//        } else if (e.getSource() == controlsButton) {
+//            this.dispose();
+//            new ControlsFrame(FRAME_WIDTH,FRAME_HEIGHT);
         } else if (e.getSource() == returnToGameButton) {
             this.dispose();
         }

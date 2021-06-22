@@ -35,7 +35,7 @@ public class HealthProgressBar extends JProgressBar {
         setBounds(
                 0,
                 0,
-                frameContentPaneWidth / 5,
+                frameContentPaneWidth / 4,
                 frameContentPaneHeight / 16);
     }
 
