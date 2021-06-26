@@ -29,6 +29,19 @@ public class EnemyTest {
     }
 
     @Test
+    public void testMove() {
+        // perform correct setup
+        Game game = new Game();
+
+        // check for correct setup
+
+
+        // call the respective method
+        // check for expected output
+        // check if the expected output is the only output
+    }
+
+    @Test
     public void testToJson() {
         Game game = new Game();
         JSONObject jsonObject;

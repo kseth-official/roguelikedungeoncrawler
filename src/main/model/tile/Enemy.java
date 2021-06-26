@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 // A class representing the standard game enemy.
-// This enemy moves around within a set boundary and causes the player to die upon interaction.
+// This enemy moves around within a set boundary and causes the player to lose 25 health upon interaction.
 public class Enemy extends MultipleTile {
     private static final String ENEMY_CHARACTER_SYMBOL = "O";
     public static final String ENEMY_TILE_IMAGE_SOURCE = "./data/graphics/enemyCharacter1.jpg";
@@ -49,21 +49,16 @@ public class Enemy extends MultipleTile {
                 // Get path to target node
                 try {
                     pathToTargetNode = pathfinder.shortestPathFrom(enemyPosition,playerPosition,obstacles);
-                    if (pathToTargetNode != null && pathToTargetNode.size() > 1) {
-                        if (pathToTargetNode.get(1).equals(playerPosition)) {
-//                        game.player().getHealthBar().subtract(20);
-                        } else {
-                            if (enemyPositionSet.contains(pathToTargetNode.get(1))) {
-                                // do nothing
-                            } else {
-                                // Remove current enemy position from the enemy position set
-                                enemyPositionSet.remove(enemyPosition);
-                                // Add new enemy position in step towards shortest path to the position set
-                                enemyPositionSet.add(pathToTargetNode.get(1));
-                            }
-                        }
-                    } else {
-                        // do nothing
+                    boolean enemyMovementCondition =
+                            pathToTargetNode != null && pathToTargetNode.size() > 1
+                                    && !pathToTargetNode.get(1).equals(playerPosition)
+                                    && !enemyPositionSet.contains(pathToTargetNode.get(1));
+
+                    if (enemyMovementCondition) {
+                        // Remove current enemy position from the enemy position set
+                        enemyPositionSet.remove(enemyPosition);
+                        // Add new enemy position in step towards shortest path to the position set
+                        enemyPositionSet.add(pathToTargetNode.get(1));
                     }
                 } catch (PathNotFoundException e) {
                     System.out.println("This was actually thrown!");

@@ -12,7 +12,26 @@ import java.util.Set;
 
 // A class for modeling the Game
 public class Game implements Writable {
+    public static final int GAME_TERMINAL_WIDTH = MainMenu.GAME_TERMINAL_WIDTH;
+    public static final int GAME_TERMINAL_HEIGHT = MainMenu.GAME_TERMINAL_HEIGHT;
     private static final int NUMBER_OF_SPIKES = 50;
+    public static final int NUMBER_OF_COINS = 20;
+    public static final int NUMBER_OF_SMALL_HEALTH_POTIONS = 5;
+    public static final int NUMBER_OF_ENEMIES = 5;
+
+    // PROCEDURAL GENERATION
+    private static final int maxTunnelDepth = 10;
+    public static final int maxTurnsWhileGenerating = 10;
+    public static final Direction[] directions = Direction.values();
+
+    private Direction initialDirection;
+    private Direction currentDirection;
+    private Direction previousDirection;
+    private Position initialPosition;
+    private Position currentPosition;
+
+    private Set<Position> gameTiles = new HashSet<>();
+    private Set<Position> unoccupiedTiles = new HashSet<>();
 
     private Air air = new Air();
     private Wall wall = new Wall();
@@ -23,15 +42,94 @@ public class Game implements Writable {
     private Coin coin = new Coin();
     private Enemy enemy = new Enemy();
     private SmallHealthPotion smallHealthPotion = new SmallHealthPotion();
-    private Set<Position> gameTiles = new HashSet<>();
+
+    // FIXME: CPSC 210 Checkstyle Issues
+    //        LineLength has been moved from under TreeWalker to Checker in checkstyle.xml
+    //        based on fix from https://github.com/checkstyle/eclipse-cs/issues/190
+    //        Checkstyle is mostly working
+    //        However, MethodLength is counting commented out lines.
 
     // EFFECTS: sets up the initial game map
     public Game() {
+        /* PSEUDOCODE FOR PROCEDURAL GENERATION:
+        Create a Width x Height map of walls
+        DEFINE:
+        Position initialPosition = the initial position where map generation will begin
+        Position currentPosition = the current position where generation is occurring
+        choose a random position on the map and assign it to initialPosition and currentPosition
+        remove initialPosition from the wallTilePositionSet
+        add initialPosition to the set of unoccupiedTileSet
+
+        DEFINE:
+        int maxTunnelLength = maximum length of a tunnel that can be dug within a map
+        int maxTurnsWhileGenerating = the maximum turns that can be taken while generating the tunnels
+        Direction initialDirection = the initial digging direction
+        Direction previousDirection = the previous digging direction
+        Direction currentDirection = the current digging direction
+        Direction[] directions = the array of all possible directions
+
+        choose a random initial direction for digging and assign it to
+        initialDirection, previousDirection, and currentDirection
+        create an array of all possible directions you can travel called directions
+
+        for (int i = maxTurnsWhileGenerating; i >= 0; --i) {
+            while (true) {
+                choose a random number from 0 to maxTunnelLength to dig in the currentDirection = randomTunnelLength
+                if (isRandomTunnelLengthValid(initialPosition,
+                                              randomTunnelDepth,
+                                              MainMenu.gameTerminalWidth,
+                                              MainMenu.gameTerminalHeight) ) {
+                    break;
+                }
+            }
+            for (int j = 0; j < randomTunnelLength; ++j) {
+                currentPosition = generateNewPosition(currentDirection,currentPosition)
+                - use it to generate the next position for digging
+                Remove the currentPosition from the wallTilePositionSet
+                Add the currentPosition to a unoccupiedTilesSet
+            }
+            previousDirection = currentDirection
+            choose a random direction from directions != previousDirection and assign it to currentDirection
+        }
+
+        entryPointGeneration
+        set the entryPoint position to initialPosition
+        remove initialPosition from the unoccupiedTileSet
+
+        playerPositionGeneration
+        set the playerPosition to entryPointPosition
+
+        exitPointGeneration
+        choose a random position from the unoccupiedTileSet
+        set this position as the exitPointPosition
+        remove exitPointPosition from the unoccupiedTileSet
+
+        coinPositionGeneration
+        for (int i = 0;i < NUMBER_OF_COINS; ++i) {
+            choose a position from the unoccupiedTileSet at random
+            add that position to the coinSet
+            remove that position from the unoccupiedTileSet
+        }
+
+        smallHealthPositionGeneration
+        for (int i = 0;i < NUMBER_OF_SMALL_HEALTH_POTIONS; ++i) {
+            choose a position from the unoccupiedTileSet at random
+            add that position to the smallHealthPotionSet
+            remove that position from the unoccupiedTileSet
+        }
+
+        enemyPositionGeneration
+        for (int i = 0;i < NUMBER_OF_ENEMIES; ++i) {
+            choose a position from the unoccupiedTileSet at random
+            add that position to the enemyPositionSet
+            remove that position from the unoccupiedTileSet
+        } */
+
+        initializeWalls();
         initializePlayer(new Position(1, 6));
         initializeEntryPoint(new Position(1, 6));
         initializeExitPoint(new Position(11, 6));
         initializeCoins();
-        initializeWalls();
         initializeAir();
         initializeEnemies();
         initializeSmallHealthPotions();
@@ -180,6 +278,11 @@ public class Game implements Writable {
     // MODIFIES: this
     // EFFECTS: sets up the Wall positions
     public void initializeWalls() {
+//        for (int i = 0; i < GAME_TERMINAL_WIDTH; ++i) {
+//            for (int j = 0; j < GAME_TERMINAL_HEIGHT; ++i) {
+//                wall.addPosition(new Position(i,j));
+//            }
+//        }
         final int ZERO = 0;
         final int TWELVE = 12;
 

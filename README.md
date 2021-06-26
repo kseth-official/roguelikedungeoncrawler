@@ -117,7 +117,7 @@ a procedural generation algorithm for the level so that it has high replayabilit
 - As a user, I want to have multiple enemies follow me around as I move.
 
 ## *Phase 6*
-**Procedural Generation Implementation**
+**Procedural Generation Implementation Using A Random Walker Algorithm**
 - As a user, I want to have the level change completely every time I create a new game.
 - As a user, I want to have the level change every time I descend through the stairs.
 - As a user, I want the difficulty to increase every time I descend through the stairs to a new level.
