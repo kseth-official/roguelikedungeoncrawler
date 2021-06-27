@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.DistanceNegativeException;
 import org.json.JSONObject;
 import persistence.Writable;
 
@@ -22,6 +23,13 @@ public class Position implements Writable {
         this.ordinateCoordinate = y;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Copy Constructor that performs a shallow copy
+    public Position(Position clone) {
+        this.abscissaCoordinate = clone.getX();
+        this.ordinateCoordinate = clone.getY();
+    }
+
     public int getX() {
         return abscissaCoordinate;
     }
@@ -42,6 +50,38 @@ public class Position implements Writable {
     public void setPosition(Position position) {
         this.abscissaCoordinate = position.getX();
         this.ordinateCoordinate = position.getY();
+    }
+
+    // EFFECTS: Returns a new position one increment from this in the direction provided.
+    public Position generateNewPosition(Direction direction) {
+        if (direction == Direction.LEFT) {
+            return new Position(abscissaCoordinate - 1,ordinateCoordinate);
+        } else if (direction == Direction.RIGHT) {
+            return new Position(abscissaCoordinate + 1,ordinateCoordinate);
+        } else if (direction == Direction.UP) {
+            return new Position(abscissaCoordinate,ordinateCoordinate - 1);
+        }
+        // direction == DIRECTION.DOWN
+        return new Position(abscissaCoordinate,ordinateCoordinate + 1);
+    }
+
+
+    // EFFECTS: Returns a new position distance increments from this in the direction provided.
+    // Throws a DistanceNegativeException if the distance value is negative.
+    public Position generateNewPosition(Direction direction,int distance) throws DistanceNegativeException {
+        if (distance < 0) {
+            throw new DistanceNegativeException();
+        }
+
+        if (direction == Direction.LEFT) {
+            return new Position(abscissaCoordinate - distance,ordinateCoordinate);
+        } else if (direction == Direction.RIGHT) {
+            return new Position(abscissaCoordinate + distance,ordinateCoordinate);
+        } else if (direction == Direction.UP) {
+            return new Position(abscissaCoordinate,ordinateCoordinate - distance);
+        }
+        // direction == DIRECTION.DOWN
+        return new Position(abscissaCoordinate,ordinateCoordinate + distance);
     }
 
     // EFFECTS: Overrides the equals method of the Position HashSet and establishes that 2 positions
@@ -72,7 +112,4 @@ public class Position implements Writable {
         json.put("y", ordinateCoordinate);
         return json;
     }
-
-
-
 }

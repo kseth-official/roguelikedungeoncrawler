@@ -73,7 +73,7 @@ public class GameTest {
     void testInitializeWalls() {
         // check for required output, which is the setup
         for (int i = 0; i < gameTerminalWidth; ++i) {
-            for (int j = 0; j < gameTerminalHeight; ++i) {
+            for (int j = 0; j < gameTerminalHeight; ++j) {
                 assertTrue(game.wall().getPositionSet().contains(new Position(i,j)));
             }
         }

@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.DistanceNegativeException;
 import model.tile.Coin;
 import model.tile.*;
 import org.json.JSONObject;
@@ -14,15 +15,15 @@ import java.util.Set;
 public class Game implements Writable {
     public static final int GAME_TERMINAL_WIDTH = MainMenu.GAME_TERMINAL_WIDTH;
     public static final int GAME_TERMINAL_HEIGHT = MainMenu.GAME_TERMINAL_HEIGHT;
-    private static final int NUMBER_OF_SPIKES = 50;
-    public static final int NUMBER_OF_COINS = 20;
-    public static final int NUMBER_OF_SMALL_HEALTH_POTIONS = 5;
-    public static final int NUMBER_OF_ENEMIES = 5;
+    private static final int NUMBER_OF_SPIKES = 0;
+    public static final int NUMBER_OF_COINS = 15;
+    public static final int NUMBER_OF_SMALL_HEALTH_POTIONS = 3;
+    public static final int NUMBER_OF_ENEMIES = 3;
 
     // PROCEDURAL GENERATION
-    private static final int maxTunnelDepth = 10;
-    public static final int maxTurnsWhileGenerating = 10;
-    public static final Direction[] directions = Direction.values();
+    public static final int MAX_TUNNEL_LENGTH = 20;
+    public static final int MAX_TURNS_WHILE_GENERATING = 80;
+    public static final Direction[] DIRECTIONS = Direction.values();
 
     private Direction initialDirection;
     private Direction currentDirection;
@@ -68,9 +69,8 @@ public class Game implements Writable {
         Direction currentDirection = the current digging direction
         Direction[] directions = the array of all possible directions
 
-        choose a random initial direction for digging and assign it to
+        choose a random initial direction for digging from directions and assign it to
         initialDirection, previousDirection, and currentDirection
-        create an array of all possible directions you can travel called directions
 
         for (int i = maxTurnsWhileGenerating; i >= 0; --i) {
             while (true) {
@@ -123,17 +123,100 @@ public class Game implements Writable {
             choose a position from the unoccupiedTileSet at random
             add that position to the enemyPositionSet
             remove that position from the unoccupiedTileSet
+        }
+
+        spikePositionGeneration
+        for (int i = 0; i < NUMBER_OF_SPIKES; ++i) {
+            choose a position from the unoccupiedTileSet at random
+            add that position to the spikePositionSet
+            remove that position from the unoccupiedTileSet
         } */
 
-        initializeWalls();
-        initializePlayer(new Position(1, 6));
-        initializeEntryPoint(new Position(1, 6));
-        initializeExitPoint(new Position(11, 6));
+        procedurallyGenerateMap();
+        initializeEntryPoint(null);
+        initializePlayer(null);
+        initializeExitPoint(null);
         initializeCoins();
-        initializeAir();
-        initializeEnemies();
         initializeSmallHealthPotions();
+        initializeEnemies();
         initializeSpikes();
+//        initializeAir();
+    }
+
+    // EFFECTS: Procedurally Generates the Map
+    public void procedurallyGenerateMap() {
+        initializeWalls();
+        initialPosition = chooseInitialDiggingPosition();
+        currentPosition = new Position(initialPosition);
+        wall.getPositionSet().remove(initialPosition);
+        unoccupiedTiles.add(initialPosition);
+
+        Random random = new Random();
+
+        int index = Math.abs(random.nextInt()) % 4;
+        initialDirection = DIRECTIONS[index];
+        previousDirection = DIRECTIONS[index];
+        currentDirection = DIRECTIONS[index];
+
+        int randomTunnelLength;
+
+        for (int i = MAX_TURNS_WHILE_GENERATING; i >= 0; --i) {
+            while (true) {
+                randomTunnelLength = Math.abs(random.nextInt()) % (MAX_TUNNEL_LENGTH + 1);
+                if (isRandomTunnelLengthValid(randomTunnelLength)) {
+                    break;
+                }
+            }
+            for (int j = 0; j < randomTunnelLength; ++j) {
+                currentPosition = currentPosition.generateNewPosition(currentDirection);
+                wall.getPositionSet().remove(currentPosition);
+                unoccupiedTiles.add(currentPosition);
+            }
+            previousDirection = DIRECTIONS[currentDirection.ordinal()];
+
+            while (true) {
+
+                index = Math.abs(random.nextInt()) % 4;
+                if (index == previousDirection.ordinal()) {
+                    continue;
+                }
+                currentDirection = DIRECTIONS[index];
+                break;
+            }
+        }
+    }
+
+    // EFFECTS: Chooses an initial digging position on the map.
+    public Position chooseInitialDiggingPosition() {
+        Random randomX = new Random();
+        Random randomY = new Random();
+        return new Position(
+                Math.abs(randomX.nextInt()) % (GAME_TERMINAL_WIDTH - 1) + 1,
+                Math.abs(randomY.nextInt()) % (GAME_TERMINAL_HEIGHT - 1) + 1
+        );
+    }
+
+    /* EFFECTS: Returns false if digging a length equal to the randomTunnelLength in the currentDirection pushes the
+                miner off the map.
+                Also returns false if the randomTunnelLength is negative when it shouldn't be.
+                returns true otherwise
+     */
+    public boolean isRandomTunnelLengthValid(int randomTunnelLength) {
+        Position newPosition;
+        try {
+            newPosition = currentPosition.generateNewPosition(currentDirection,randomTunnelLength);
+        } catch (DistanceNegativeException e) {
+            // indicates that the tunnel length provided was negative indicating vector information although the length
+            // should be a scalar
+            return false;
+        }
+        if (newPosition.getX() > 0
+                && newPosition.getX() < GAME_TERMINAL_WIDTH
+                && newPosition.getY() > 0
+                && newPosition.getY() < GAME_TERMINAL_HEIGHT) {
+            return true;
+        }
+        return false;
     }
 
     // EFFECTS: initializes a game with all the given objects
@@ -193,36 +276,50 @@ public class Game implements Writable {
         return this.smallHealthPotion;
     }
 
+    // TODO: Fix parameter lists for single position initialization methods.
     // MODIFIES: this
     // EFFECTS: sets up the player's position
     public void initializePlayer(Position p) {
-        player.setPosition(p);
-        gameTiles.add(p);
+        player.setPosition(entryPoint.getPosition());
+        unoccupiedTiles.remove(player.getPosition());
     }
 
     // MODIFIES: this
     // EFFECTS: sets up the Entry Point's position
     public void initializeEntryPoint(Position p) {
-        entryPoint.setPosition(p);
-        gameTiles.add(p);
+        entryPoint.setPosition(initialPosition);
+        unoccupiedTiles.remove(entryPoint.getPosition());
+    }
+
+    // EFFECTS: Chooses a random position from the unoccupied tiles on the map
+    public Position chooseRandomPositionFromUnoccupiedTiles() {
+        Random random = new Random();
+        Position[] unoccupiedPositionsArray = unoccupiedTiles.toArray(new Position[0]);
+        int randomIndex = Math.abs(random.nextInt()) % unoccupiedTiles.size();
+        return unoccupiedPositionsArray[randomIndex];
     }
 
     // MODIFIES: this
     // EFFECTS: sets up the Exit Point's position
     public void initializeExitPoint(Position p) {
-        exitPoint.setPosition(p);
-        gameTiles.add(p);
+        exitPoint.setPosition(chooseRandomPositionFromUnoccupiedTiles());
+        unoccupiedTiles.remove(exitPoint.getPosition());
     }
 
     // MODIFIES: this
     // EFFECTS: sets up the Spike positions
     public void initializeSpikes() {
-
-        for (int i = 0;i < NUMBER_OF_SPIKES;++i) {
-            spike.addPosition(generateUsableMapPosition(gameTiles));
+        Position randomPosition;
+        for (int i = 0;i < NUMBER_OF_SPIKES; ++i) {
+            randomPosition = chooseRandomPositionFromUnoccupiedTiles();
+            spike.getPositionSet().add(randomPosition);
+            unoccupiedTiles.remove(randomPosition);
         }
-
-        gameTiles.addAll(spike.getPositionSet());
+//        for (int i = 0;i < NUMBER_OF_SPIKES;++i) {
+//            spike.addPosition(generateUsableMapPosition(gameTiles));
+//        }
+//
+//        gameTiles.addAll(spike.getPositionSet());
 
 //        spike.addPosition(new Position(9, 3));
 //        spike.addPosition(new Position(9, 4));
@@ -252,59 +349,65 @@ public class Game implements Writable {
     // MODIFIES: this
     // EFFECTS: sets up the Coin positions
     public void initializeCoins() {
-        coin.addPosition(new Position(2, 6));
-        coin.addPosition(new Position(3, 6));
-        coin.addPosition(new Position(4, 6));
-        coin.addPosition(new Position(4, 5));
-        coin.addPosition(new Position(4, 4));
-        coin.addPosition(new Position(4, 3));
-        coin.addPosition(new Position(4, 2));
-        coin.addPosition(new Position(4, 1));
-        coin.addPosition(new Position(5, 1));
-        coin.addPosition(new Position(6, 1));
-        coin.addPosition(new Position(7, 1));
-        coin.addPosition(new Position(7, 2));
-        coin.addPosition(new Position(7, 3));
-        coin.addPosition(new Position(7, 4));
-        coin.addPosition(new Position(7, 5));
-        coin.addPosition(new Position(7, 6));
-        coin.addPosition(new Position(8, 6));
-        coin.addPosition(new Position(9, 6));
-        coin.addPosition(new Position(10, 6));
-
-        gameTiles.addAll(coin.getPositionSet());
+        Position randomPosition;
+        for (int i = 0;i < NUMBER_OF_COINS; ++i) {
+            randomPosition = chooseRandomPositionFromUnoccupiedTiles();
+            coin.getPositionSet().add(randomPosition);
+            unoccupiedTiles.remove(randomPosition);
+        }
+//        coin.addPosition(new Position(2, 6));
+//        coin.addPosition(new Position(3, 6));
+//        coin.addPosition(new Position(4, 6));
+//        coin.addPosition(new Position(4, 5));
+//        coin.addPosition(new Position(4, 4));
+//        coin.addPosition(new Position(4, 3));
+//        coin.addPosition(new Position(4, 2));
+//        coin.addPosition(new Position(4, 1));
+//        coin.addPosition(new Position(5, 1));
+//        coin.addPosition(new Position(6, 1));
+//        coin.addPosition(new Position(7, 1));
+//        coin.addPosition(new Position(7, 2));
+//        coin.addPosition(new Position(7, 3));
+//        coin.addPosition(new Position(7, 4));
+//        coin.addPosition(new Position(7, 5));
+//        coin.addPosition(new Position(7, 6));
+//        coin.addPosition(new Position(8, 6));
+//        coin.addPosition(new Position(9, 6));
+//        coin.addPosition(new Position(10, 6));
+//
+//        gameTiles.addAll(coin.getPositionSet());
     }
 
     // MODIFIES: this
     // EFFECTS: sets up the Wall positions
     public void initializeWalls() {
-//        for (int i = 0; i < GAME_TERMINAL_WIDTH; ++i) {
-//            for (int j = 0; j < GAME_TERMINAL_HEIGHT; ++i) {
-//                wall.addPosition(new Position(i,j));
-//            }
-//        }
-        final int ZERO = 0;
-        final int TWELVE = 12;
-
-        // adding corners
-        wall.addPosition(new Position(ZERO, ZERO));
-        wall.addPosition(new Position(TWELVE, ZERO));
-        wall.addPosition(new Position(ZERO, TWELVE));
-        wall.addPosition(new Position(TWELVE, TWELVE));
-
-        // adding boundaries
-        for (int i = 1; i < 12; ++i) {
-            wall.addPosition(new Position(i, ZERO));
-            wall.addPosition(new Position(i, TWELVE));
-            wall.addPosition(new Position(ZERO, i));
-            if (i == 6) {
-                continue;
-            } else {
-                wall.addPosition(new Position(TWELVE, i));
+        for (int i = 0; i < GAME_TERMINAL_WIDTH; ++i) {
+            for (int j = 0; j < GAME_TERMINAL_HEIGHT; ++j) {
+                wall.addPosition(new Position(i,j));
             }
         }
-
-        gameTiles.addAll(wall.getPositionSet());
+//        final int ZERO = 0;
+//        final int TWELVE = 12;
+//
+//        // adding corners
+//        wall.addPosition(new Position(ZERO, ZERO));
+//        wall.addPosition(new Position(TWELVE, ZERO));
+//        wall.addPosition(new Position(ZERO, TWELVE));
+//        wall.addPosition(new Position(TWELVE, TWELVE));
+//
+//        // adding boundaries
+//        for (int i = 1; i < 12; ++i) {
+//            wall.addPosition(new Position(i, ZERO));
+//            wall.addPosition(new Position(i, TWELVE));
+//            wall.addPosition(new Position(ZERO, i));
+//            if (i == 6) {
+//                continue;
+//            } else {
+//                wall.addPosition(new Position(TWELVE, i));
+//            }
+//        }
+//
+//        gameTiles.addAll(wall.getPositionSet());
     }
 
     // MODIFIES: this
@@ -316,24 +419,36 @@ public class Game implements Writable {
     // MODIFIES: this
     // EFFECTS: sets up the enemy positions
     public void initializeEnemies() {
-        enemy.addPosition(new Position(5,9));
-        enemy.addPosition(new Position(10,1));
-        enemy.addPosition(new Position(10,10));
-        gameTiles.addAll(enemy.getPositionSet());
+        Position randomPosition;
+        for (int i = 0;i < NUMBER_OF_ENEMIES; ++i) {
+            randomPosition = chooseRandomPositionFromUnoccupiedTiles();
+            enemy.getPositionSet().add(randomPosition);
+            unoccupiedTiles.remove(randomPosition);
+        }
+//        enemy.addPosition(new Position(5,9));
+//        enemy.addPosition(new Position(10,1));
+//        enemy.addPosition(new Position(10,10));
+//        gameTiles.addAll(enemy.getPositionSet());
     }
 
     // MODIFIES: this
     // EFFECTS: sets up the enemy positions
     public void initializeSmallHealthPotions() {
-        smallHealthPotion.addPosition(new Position(11,1));
-        smallHealthPotion.addPosition(new Position(11,2));
-        smallHealthPotion.addPosition(new Position(11,9));
-        smallHealthPotion.addPosition(new Position(11,10));
-        smallHealthPotion.addPosition(new Position(6,6));
-        smallHealthPotion.addPosition(new Position(6,7));
-        smallHealthPotion.addPosition(new Position(6,5));
-
-        gameTiles.addAll(smallHealthPotion.getPositionSet());
+        Position randomPosition;
+        for (int i = 0;i < NUMBER_OF_SMALL_HEALTH_POTIONS; ++i) {
+            randomPosition = chooseRandomPositionFromUnoccupiedTiles();
+            smallHealthPotion.getPositionSet().add(randomPosition);
+            unoccupiedTiles.remove(randomPosition);
+        }
+//        smallHealthPotion.addPosition(new Position(11,1));
+//        smallHealthPotion.addPosition(new Position(11,2));
+//        smallHealthPotion.addPosition(new Position(11,9));
+//        smallHealthPotion.addPosition(new Position(11,10));
+//        smallHealthPotion.addPosition(new Position(6,6));
+//        smallHealthPotion.addPosition(new Position(6,7));
+//        smallHealthPotion.addPosition(new Position(6,5));
+//
+//        gameTiles.addAll(smallHealthPotion.getPositionSet());
     }
 
     @Override

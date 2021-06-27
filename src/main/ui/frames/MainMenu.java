@@ -13,8 +13,8 @@ import java.awt.event.ActionListener;
 // A frame for the Main Menu
 public class MainMenu extends JFrame implements ActionListener {
     // ROGUELIKEGAME WIDTH & HEIGHT
-    public static final int GAME_TERMINAL_WIDTH = 13;
-    public static final int GAME_TERMINAL_HEIGHT = 13;
+    public static final int GAME_TERMINAL_WIDTH = 21;
+    public static final int GAME_TERMINAL_HEIGHT = 21;
 
     // MENU FRAME
     //      DIMENSIONS AND POSITION

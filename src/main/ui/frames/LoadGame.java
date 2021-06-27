@@ -19,8 +19,8 @@ public class LoadGame extends JFrame implements ActionListener {
     private static final String JSON_STORE_SAVE_FILE_THREE = "./data/saveFileThree.json";
 
     // ROGUELIKEGAME WIDTH & HEIGHT
-    public static final int GAME_TERMINAL_WIDTH = 13;
-    public static final int GAME_TERMINAL_HEIGHT = 13;
+    public static final int GAME_TERMINAL_WIDTH = MainMenu.GAME_TERMINAL_WIDTH;
+    public static final int GAME_TERMINAL_HEIGHT = MainMenu.GAME_TERMINAL_HEIGHT;
 
     // MENU FRAME
     //      DIMENSIONS AND POSITION

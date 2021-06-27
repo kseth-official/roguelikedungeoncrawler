@@ -222,7 +222,6 @@ public class GamePanel extends JPanel {
 
                 } else {
                     add(createLabelWithIcon(airIcon));
-
                 }
             }
         }
