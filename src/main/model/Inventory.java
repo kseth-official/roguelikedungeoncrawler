@@ -5,9 +5,11 @@ import model.tile.SmallHealthPotion;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import java.io.Serializable;
+
 // A class to represent the player's inventory.
 // Each HashSet is a block in the inventory.
-public class Inventory implements Writable {
+public class Inventory implements Writable, Serializable {
     public static final int CELL_CAPACITY = 5;
     public static final int NUMBER_OF_INVENTORY_CELLS = 4;
     private int smallHealthPotions;

@@ -10,6 +10,16 @@ import java.util.HashSet;
 public abstract class MultipleTile extends Tile {
     protected HashSet<Position> positionSet = new HashSet<>();
 
+    // EFFECTS: Default Constructor
+    public MultipleTile() {
+
+    }
+
+    // EFFECTS: MultipleTile copy constructor
+    protected MultipleTile(MultipleTile tile) {
+        this.positionSet = new HashSet<>(tile.getPositionSet());
+    }
+
     public HashSet<Position> getPositionSet() {
         return this.positionSet;
     }

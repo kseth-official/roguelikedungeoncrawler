@@ -3,8 +3,10 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import java.io.Serializable;
+
 // a class to represent a health bar
-public class HealthBar implements Writable {
+public class HealthBar implements Writable, Serializable {
     public static final int MAX_HEALTH = 100;
     public static final int ZERO_HEALTH = 0;
     private int health;

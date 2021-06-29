@@ -19,15 +19,22 @@ public class GameTest {
     }
 
     @Test
+    void testCopyConstructor() {
+        Game clone = new Game(game);
+        assertFalse(clone == game);
+        // FIXME: Hashcode and equals not implemented for all subclasses of tile.
+        //        Needs to be implemented for test to be successful.
+//        assertTrue(game.equals(clone));
+    }
+
+    @Test
     void testInitializePlayer() {
-        game.initializePlayer(new Position(0,0));
-        assertEquals(game.player().getPosition(),new Position(0,0));
+        assertTrue(game.player().getPosition().equals(game.getInitialDiggingPosition()));
     }
 
     @Test
     void testInitializeEntryPoint() {
-        game.initializeEntryPoint(new Position(0,0));
-        assertEquals(game.entryPoint().getPosition(),new Position(0,0));
+        assertTrue(game.entryPoint().getPosition().equals(game.getInitialDiggingPosition()));
     }
 
     @Test
@@ -98,6 +105,22 @@ public class GameTest {
         testInitializeCoins();
         testInitializeSpikes();
         testInitializeWalls();
+    }
+
+    @Test
+    void testChooseInitialDiggingPosition() {
+        // save initial information
+        Game initialGame = new Game(game);
+        // call method and check setup
+        Position newInitialPosition = game.chooseInitialDiggingPosition();
+        assertNotNull(newInitialPosition);
+        // check for required outcome
+        boolean isValidXPosition = newInitialPosition.getX() > 0 && newInitialPosition.getX() < gameTerminalWidth - 1;
+        boolean isValidYPosition = newInitialPosition.getY() > 0 && newInitialPosition.getY() < gameTerminalHeight - 1;
+        assertTrue(isValidXPosition && isValidYPosition);
+        // check that only required outcome occurs
+        // FIXME: This is related to the previous fix on the hashcode and equals of the Game class.
+//        assertTrue(initialGame.equals(game));
     }
 
     @Test

@@ -3,9 +3,11 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import java.io.Serializable;
+
 // A class representing the game wallet.
 // A player may add coins to the wallet by moving into a tile with a Coin on it.
-public class Wallet implements Writable {
+public class Wallet implements Writable, Serializable {
     private int balance;
 
     // EFFECTS: Creates a new wallet with balance

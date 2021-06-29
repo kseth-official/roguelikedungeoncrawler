@@ -29,8 +29,7 @@ public class PositionTest {
     void testCopyConstructor() {
         Position clone = new Position(position);
         assertFalse(clone == position);
-        assertEquals(position.getX(),clone.getX());
-        assertEquals(position.getY(),clone.getY());
+        assertTrue(position.equals(clone));
     }
 
     @Test

@@ -7,31 +7,29 @@ import org.json.JSONObject;
 import persistence.Writable;
 import ui.frames.MainMenu;
 
+import java.io.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
 // A class for modeling the Game
-public class Game implements Writable {
+public class Game implements Writable, Serializable {
     public static final int GAME_TERMINAL_WIDTH = MainMenu.GAME_TERMINAL_WIDTH;
     public static final int GAME_TERMINAL_HEIGHT = MainMenu.GAME_TERMINAL_HEIGHT;
-    private static final int NUMBER_OF_SPIKES = 0;
+    private static final int NUMBER_OF_SPIKES = 5;
     public static final int NUMBER_OF_COINS = 15;
     public static final int NUMBER_OF_SMALL_HEALTH_POTIONS = 3;
     public static final int NUMBER_OF_ENEMIES = 3;
 
     // PROCEDURAL GENERATION
-    public static final int MAX_TUNNEL_LENGTH = 20;
+    public static final int MAX_TUNNEL_LENGTH = 25;
     public static final int MAX_TURNS_WHILE_GENERATING = 80;
     public static final Direction[] DIRECTIONS = Direction.values();
 
-    private Direction initialDirection;
-    private Direction currentDirection;
-    private Direction previousDirection;
-    private Position initialPosition;
-    private Position currentPosition;
+    private Direction initialDiggingDirection;
+    private Position initialDiggingPosition;
 
-    private Set<Position> gameTiles = new HashSet<>();
     private Set<Position> unoccupiedTiles = new HashSet<>();
 
     private Air air = new Air();
@@ -49,6 +47,40 @@ public class Game implements Writable {
     //        based on fix from https://github.com/checkstyle/eclipse-cs/issues/190
     //        Checkstyle is mostly working
     //        However, MethodLength is counting commented out lines.
+
+    // EFFECTS: Copy constructor for game
+    public Game(Game clone) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos;
+        try {
+            oos = new ObjectOutputStream(bos);
+            oos.writeObject(clone);
+            oos.flush();
+            byte[] bytes = bos.toByteArray();
+            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+            ObjectInputStream ois = new ObjectInputStream(bis);
+            Game toClone = (Game) ois.readObject();
+
+//            this.initialDiggingDirection = DIRECTIONS[toClone.getInitialDiggingDirection().ordinal()];
+//            this.initialDiggingPosition = new Position(toClone.getInitialDiggingPosition());
+//            this.unoccupiedTiles = new HashSet<>(toClone.getUnoccupiedTiles());
+//            this.air = new Air(toClone.air());
+            this.initialDiggingDirection = toClone.getInitialDiggingDirection();
+            this.initialDiggingPosition = toClone.getInitialDiggingPosition();
+            this.unoccupiedTiles = toClone.getUnoccupiedTiles();
+            this.air = toClone.air();
+            this.wall = toClone.wall();
+            this.entryPoint = toClone.entryPoint();
+            this.exitPoint = toClone.exitPoint();
+            this.player = toClone.player();
+            this.spike = toClone.spike();
+            this.coin = toClone.coin();
+            this.enemy = toClone.enemy();
+            this.smallHealthPotion = toClone.smallHealthPotion();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println(e.toString());
+        }
+    }
 
     // EFFECTS: sets up the initial game map
     public Game() {
@@ -133,7 +165,7 @@ public class Game implements Writable {
         } */
 
         procedurallyGenerateMap();
-        initializeEntryPoint(null);
+        initializeEntryPoint();
         initializePlayer(null);
         initializeExitPoint(null);
         initializeCoins();
@@ -145,42 +177,48 @@ public class Game implements Writable {
 
     // EFFECTS: Procedurally Generates the Map
     public void procedurallyGenerateMap() {
+        Direction currentDiggingDirection;
+        Direction previousDiggingDirection;
+        Position currentDiggingPosition;
+
         initializeWalls();
-        initialPosition = chooseInitialDiggingPosition();
-        currentPosition = new Position(initialPosition);
-        wall.getPositionSet().remove(initialPosition);
-        unoccupiedTiles.add(initialPosition);
+        initialDiggingPosition = chooseInitialDiggingPosition();
+        currentDiggingPosition = new Position(initialDiggingPosition);
+        wall.getPositionSet().remove(initialDiggingPosition);
+        unoccupiedTiles.add(initialDiggingPosition);
 
         Random random = new Random();
 
         int index = Math.abs(random.nextInt()) % 4;
-        initialDirection = DIRECTIONS[index];
-        previousDirection = DIRECTIONS[index];
-        currentDirection = DIRECTIONS[index];
+        initialDiggingDirection = DIRECTIONS[index];
+        currentDiggingDirection = DIRECTIONS[index];
 
         int randomTunnelLength;
 
         for (int i = MAX_TURNS_WHILE_GENERATING; i >= 0; --i) {
             while (true) {
                 randomTunnelLength = Math.abs(random.nextInt()) % (MAX_TUNNEL_LENGTH + 1);
-                if (isRandomTunnelLengthValid(randomTunnelLength)) {
+                if (isRandomTunnelLengthValid(
+                        randomTunnelLength,
+                        currentDiggingPosition,
+                        currentDiggingDirection)) {
                     break;
                 }
             }
             for (int j = 0; j < randomTunnelLength; ++j) {
-                currentPosition = currentPosition.generateNewPosition(currentDirection);
-                wall.getPositionSet().remove(currentPosition);
-                unoccupiedTiles.add(currentPosition);
+                currentDiggingPosition = currentDiggingPosition.generateNewPosition(currentDiggingDirection);
+                wall.getPositionSet().remove(currentDiggingPosition);
+                unoccupiedTiles.add(currentDiggingPosition);
             }
-            previousDirection = DIRECTIONS[currentDirection.ordinal()];
+            previousDiggingDirection = DIRECTIONS[currentDiggingDirection.ordinal()];
 
             while (true) {
 
                 index = Math.abs(random.nextInt()) % 4;
-                if (index == previousDirection.ordinal()) {
+                if (index == previousDiggingDirection.ordinal()) {
                     continue;
                 }
-                currentDirection = DIRECTIONS[index];
+                currentDiggingDirection = DIRECTIONS[index];
                 break;
             }
         }
@@ -191,8 +229,8 @@ public class Game implements Writable {
         Random randomX = new Random();
         Random randomY = new Random();
         return new Position(
-                Math.abs(randomX.nextInt()) % (GAME_TERMINAL_WIDTH - 1) + 1,
-                Math.abs(randomY.nextInt()) % (GAME_TERMINAL_HEIGHT - 1) + 1
+                Math.abs(randomX.nextInt()) % (GAME_TERMINAL_WIDTH - 1),
+                Math.abs(randomY.nextInt()) % (GAME_TERMINAL_HEIGHT - 1)
         );
     }
 
@@ -201,19 +239,21 @@ public class Game implements Writable {
                 Also returns false if the randomTunnelLength is negative when it shouldn't be.
                 returns true otherwise
      */
-    public boolean isRandomTunnelLengthValid(int randomTunnelLength) {
+    public boolean isRandomTunnelLengthValid(int randomTunnelLength,
+                                             Position currentDiggingPosition,
+                                             Direction currentDiggingDirection) {
         Position newPosition;
         try {
-            newPosition = currentPosition.generateNewPosition(currentDirection,randomTunnelLength);
+            newPosition = currentDiggingPosition.generateNewPosition(currentDiggingDirection,randomTunnelLength);
         } catch (DistanceNegativeException e) {
-            // indicates that the tunnel length provided was negative indicating vector information although the length
-            // should be a scalar
+            // Indicates that the tunnel length provided was negative, i.e.,
+            // vector information in distance measurement although distance is a scalar.
             return false;
         }
         if (newPosition.getX() > 0
-                && newPosition.getX() < GAME_TERMINAL_WIDTH
+                && newPosition.getX() < GAME_TERMINAL_WIDTH - 1
                 && newPosition.getY() > 0
-                && newPosition.getY() < GAME_TERMINAL_HEIGHT) {
+                && newPosition.getY() < GAME_TERMINAL_HEIGHT - 1) {
             return true;
         }
         return false;
@@ -276,18 +316,42 @@ public class Game implements Writable {
         return this.smallHealthPotion;
     }
 
+    public Direction getInitialDiggingDirection() {
+        return this.initialDiggingDirection;
+    }
+
+    public Position getInitialDiggingPosition() {
+        return this.initialDiggingPosition;
+    }
+
+    public Set<Position> getUnoccupiedTiles() {
+        return this.unoccupiedTiles;
+    }
+
+    public void setInitialDiggingDirection(Direction initialDiggingDirection) {
+        this.initialDiggingDirection = initialDiggingDirection;
+    }
+
+    public void setInitialDiggingPosition(Position initialDiggingPosition) {
+        this.initialDiggingPosition = initialDiggingPosition;
+    }
+
+    public void setUnoccupiedTiles(Set<Position> unoccupiedTiles) {
+        this.unoccupiedTiles = unoccupiedTiles;
+    }
+
     // TODO: Fix parameter lists for single position initialization methods.
     // MODIFIES: this
     // EFFECTS: sets up the player's position
     public void initializePlayer(Position p) {
         player.setPosition(entryPoint.getPosition());
-        unoccupiedTiles.remove(player.getPosition());
+//        unoccupiedTiles.remove(player.getPosition());
     }
 
     // MODIFIES: this
-    // EFFECTS: sets up the Entry Point's position
-    public void initializeEntryPoint(Position p) {
-        entryPoint.setPosition(initialPosition);
+    // EFFECTS: sets up the Entry Point's position and removes it from the unoccupied tiles set
+    public void initializeEntryPoint() {
+        entryPoint.setPosition(initialDiggingPosition);
         unoccupiedTiles.remove(entryPoint.getPosition());
     }
 
@@ -464,6 +528,46 @@ public class Game implements Writable {
         json.put("enemyTile", enemy.toJson());
         json.put("smallHealthPotionTile", smallHealthPotion.toJson());
         return json;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Game game = (Game) o;
+        return initialDiggingDirection == game.initialDiggingDirection
+                && initialDiggingPosition.equals(game.initialDiggingPosition)
+                && unoccupiedTiles.equals(game.unoccupiedTiles)
+                && air.equals(game.air)
+                && wall.equals(game.wall)
+                && entryPoint.equals(game.entryPoint)
+                && exitPoint.equals(game.exitPoint)
+                && player.equals(game.player)
+                && spike.equals(game.spike)
+                && coin.equals(game.coin)
+                && enemy.equals(game.enemy)
+                && smallHealthPotion.equals(game.smallHealthPotion);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                initialDiggingDirection,
+                initialDiggingPosition,
+                unoccupiedTiles,
+                air,
+                wall,
+                entryPoint,
+                exitPoint,
+                player,
+                spike,
+                coin,
+                enemy,
+                smallHealthPotion);
     }
 }
 

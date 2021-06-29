@@ -4,30 +4,31 @@ import exceptions.DistanceNegativeException;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import java.io.*;
 import java.util.List;
 import java.util.Objects;
 
 // Represents the (x,y) positions of members on the map
-public class Position implements Writable {
+public class Position implements Writable, Serializable {
     private int abscissaCoordinate;
     private int ordinateCoordinate;
 
     // EFFECTS: instantiates a position allowing later position assignment
     public Position() {
+
     }
 
-    // MODIFIES: this
     // EFFECTS: instantiates the position object with initial position (x,y)
     public Position(int x, int y) {
         this.abscissaCoordinate = x;
         this.ordinateCoordinate = y;
     }
 
-    // MODIFIES: this
-    // EFFECTS: Copy Constructor that performs a shallow copy
+    // EFFECTS: Copy Constructor
     public Position(Position clone) {
         this.abscissaCoordinate = clone.getX();
         this.ordinateCoordinate = clone.getY();
+
     }
 
     public int getX() {
