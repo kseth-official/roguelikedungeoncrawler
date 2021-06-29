@@ -12,19 +12,22 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
-
+// TODO: fix game crashing randomly when new game is pressed
+// TODO: fix player initial position inside border wall
+// TODO: fix initial staircase
+// TODO: fix make walking into health potion the cause for picking up and not walking over and across
 // A class for modeling the Game
 public class Game implements Writable, Serializable {
     public static final int GAME_TERMINAL_WIDTH = MainMenu.GAME_TERMINAL_WIDTH;
     public static final int GAME_TERMINAL_HEIGHT = MainMenu.GAME_TERMINAL_HEIGHT;
-    private static final int NUMBER_OF_SPIKES = 5;
-    public static final int NUMBER_OF_COINS = 15;
+    private static final int NUMBER_OF_SPIKES = 0;
+    public static final int NUMBER_OF_COINS = 20;
     public static final int NUMBER_OF_SMALL_HEALTH_POTIONS = 3;
     public static final int NUMBER_OF_ENEMIES = 3;
 
     // PROCEDURAL GENERATION
-    public static final int MAX_TUNNEL_LENGTH = 25;
-    public static final int MAX_TURNS_WHILE_GENERATING = 80;
+    public static final int MAX_TUNNEL_LENGTH = GAME_TERMINAL_WIDTH - 2;
+    public static final int MAX_TURNS_WHILE_GENERATING = 100;
     public static final Direction[] DIRECTIONS = Direction.values();
 
     private Direction initialDiggingDirection;
