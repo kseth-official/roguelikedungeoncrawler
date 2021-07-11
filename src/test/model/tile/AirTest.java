@@ -33,6 +33,7 @@ public class AirTest {
     @Test
     public void testToJson() {
         Game game = new Game();
+
         JSONObject jsonObject;
         JSONObject otherJsonObject = new JSONObject();
 

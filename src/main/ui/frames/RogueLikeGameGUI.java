@@ -220,20 +220,7 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         } else if (e.getSource() == descendButton) {
             boolean isLevelOver = game.player().interact("e", game);
             if (isLevelOver) {
-//                removeAll();
-//                add(new GameOverLabel(
-//                        "You've won!\nThank You For Playing!",
-//                        frameContentPaneWidth,
-//                        frameContentPaneHeight
-//                ));
-//                validate();
-//                repaint();
                 gameAudioPlayer.play(PLAYER_WON_SOUND);
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException interruptedException) {
-//                    System.out.println("This interrupt should not have occurred!");
-//                }
                 dispose();
                 new MainMenu();
             }
@@ -293,21 +280,7 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
 
         String keyPress = String.valueOf(e.getKeyChar());
         if (!gameIsRunning) {
-//            removeAll();
-//            JLabel gameOverLabel = new GameOverLabel(
-//                    "Game Over!",
-//                    frameContentPaneWidth,
-//                    frameContentPaneHeight
-//            );
-//            add(gameOverLabel);
-//            validate();
-//            repaint();
             gameAudioPlayer.play(PLAYER_IS_DEAD_SOUND);
-//            try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException interruptedException) {
-//                    System.out.println("This interrupt should not have occurred!");
-//                }
             dispose();
             new MainMenu();
         }
@@ -339,5 +312,4 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     public void keyReleased(KeyEvent e) {
 
     }
-
 }

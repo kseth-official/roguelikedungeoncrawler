@@ -5,17 +5,6 @@ public class Air extends MultipleTile {
     private static final String AIR_TILE_SYMBOL = " ";
     public static final String AIR_TILE_IMAGE_SOURCE = "./data/graphics/floor.jpg";
 
-
-    // EFFECTS: Default Constructor
-    public Air() {
-
-    }
-
-    // EFFECTS: Copy Constructor
-    public Air(Air air) {
-        super(air);
-    }
-
     // EFFECTS: displays the symbol for the air tile + an optional string
     public String display(String s) {
         return super.display(AIR_TILE_SYMBOL, s);

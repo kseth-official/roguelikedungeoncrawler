@@ -1,6 +1,6 @@
 package model;
 
-import exceptions.DistanceNegativeException;
+import exceptions.*;
 import model.tile.Coin;
 import model.tile.*;
 import org.json.JSONObject;
@@ -12,22 +12,24 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
-// TODO: fix game crashing randomly when new game is pressed
-// TODO: fix player initial position inside border wall
-// TODO: fix initial staircase
-// TODO: fix make walking into health potion the cause for picking up and not walking over and across
+// FIXME: Game crashing randomly when new game is pressed.
+// FIXME: Initial staircase.
+// TODO: make walking into health potion the cause for picking up and not walking over and across.
+// TODO: make walking into coin the cause for picking up and not walking over and across.
+// TODO: Create an empty constructor for game and another method called initializeGame to be called after creating an
+//       empty game object. This will improve code testability by providing access to a null game object.
 // A class for modeling the Game
 public class Game implements Writable, Serializable {
     public static final int GAME_TERMINAL_WIDTH = MainMenu.GAME_TERMINAL_WIDTH;
     public static final int GAME_TERMINAL_HEIGHT = MainMenu.GAME_TERMINAL_HEIGHT;
-    private static final int NUMBER_OF_SPIKES = 0;
+    public static final int NUMBER_OF_SPIKES = 0;
     public static final int NUMBER_OF_COINS = 20;
     public static final int NUMBER_OF_SMALL_HEALTH_POTIONS = 3;
-    public static final int NUMBER_OF_ENEMIES = 3;
+    public static final int NUMBER_OF_ENEMIES = 20;
 
     // PROCEDURAL GENERATION
     public static final int MAX_TUNNEL_LENGTH = GAME_TERMINAL_WIDTH - 2;
-    public static final int MAX_TURNS_WHILE_GENERATING = 100;
+    public static final int MAX_TUNNEL_TURNS = 500;
     public static final Direction[] DIRECTIONS = Direction.values();
 
     private Direction initialDiggingDirection;
@@ -51,8 +53,10 @@ public class Game implements Writable, Serializable {
     //        Checkstyle is mostly working
     //        However, MethodLength is counting commented out lines.
 
-    // EFFECTS: Copy constructor for game
+    // EFFECTS: Copy constructor for game.
+    //          TODO: Throw a new exception after catching IOException or ClassNotFoundException.
     public Game(Game clone) {
+//        Copy Constructor Using Java's Inbuilt Serialization
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream oos;
         try {
@@ -64,10 +68,6 @@ public class Game implements Writable, Serializable {
             ObjectInputStream ois = new ObjectInputStream(bis);
             Game toClone = (Game) ois.readObject();
 
-//            this.initialDiggingDirection = DIRECTIONS[toClone.getInitialDiggingDirection().ordinal()];
-//            this.initialDiggingPosition = new Position(toClone.getInitialDiggingPosition());
-//            this.unoccupiedTiles = new HashSet<>(toClone.getUnoccupiedTiles());
-//            this.air = new Air(toClone.air());
             this.initialDiggingDirection = toClone.getInitialDiggingDirection();
             this.initialDiggingPosition = toClone.getInitialDiggingPosition();
             this.unoccupiedTiles = toClone.getUnoccupiedTiles();
@@ -83,6 +83,19 @@ public class Game implements Writable, Serializable {
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e.toString());
         }
+//        Copy Constructor by creating deep copies of all objects using object copy constructors
+//        this.initialDiggingDirection = DIRECTIONS[toClone.getInitialDiggingDirection().ordinal()];
+//        this.initialDiggingPosition = new Position(toClone.getInitialDiggingPosition());
+//        this.unoccupiedTiles = new HashSet<>(toClone.getUnoccupiedTiles());
+//        this.air = new Air(toClone.air());
+//        this.wall = new Wall(toClone.wall());
+//        this.entryPoint = new EntryPoint(toClone.entryPoint());
+//        this.exitPoint = new ExitPoint(toClone.exitPoint());
+//        this.player = new Player(toClone.player());
+//        this.spike = new Spike(toClone.spike());
+//        this.coin = new Coin(toClone.coin());
+//        this.enemy = new Enemy(toClone.enemy());
+//        this.smallHealthPotion = new SmallHealthPotion(toClone.smallHealthPotion());
     }
 
     // EFFECTS: sets up the initial game map
@@ -169,97 +182,26 @@ public class Game implements Writable, Serializable {
 
         procedurallyGenerateMap();
         initializeEntryPoint();
-        initializePlayer(null);
-        initializeExitPoint(null);
-        initializeCoins();
-        initializeSmallHealthPotions();
-        initializeEnemies();
-        initializeSpikes();
-//        initializeAir();
-    }
-
-    // EFFECTS: Procedurally Generates the Map
-    public void procedurallyGenerateMap() {
-        Direction currentDiggingDirection;
-        Direction previousDiggingDirection;
-        Position currentDiggingPosition;
-
-        initializeWalls();
-        initialDiggingPosition = chooseInitialDiggingPosition();
-        currentDiggingPosition = new Position(initialDiggingPosition);
-        wall.getPositionSet().remove(initialDiggingPosition);
-        unoccupiedTiles.add(initialDiggingPosition);
-
-        Random random = new Random();
-
-        int index = Math.abs(random.nextInt()) % 4;
-        initialDiggingDirection = DIRECTIONS[index];
-        currentDiggingDirection = DIRECTIONS[index];
-
-        int randomTunnelLength;
-
-        for (int i = MAX_TURNS_WHILE_GENERATING; i >= 0; --i) {
-            while (true) {
-                randomTunnelLength = Math.abs(random.nextInt()) % (MAX_TUNNEL_LENGTH + 1);
-                if (isRandomTunnelLengthValid(
-                        randomTunnelLength,
-                        currentDiggingPosition,
-                        currentDiggingDirection)) {
-                    break;
-                }
-            }
-            for (int j = 0; j < randomTunnelLength; ++j) {
-                currentDiggingPosition = currentDiggingPosition.generateNewPosition(currentDiggingDirection);
-                wall.getPositionSet().remove(currentDiggingPosition);
-                unoccupiedTiles.add(currentDiggingPosition);
-            }
-            previousDiggingDirection = DIRECTIONS[currentDiggingDirection.ordinal()];
-
-            while (true) {
-
-                index = Math.abs(random.nextInt()) % 4;
-                if (index == previousDiggingDirection.ordinal()) {
-                    continue;
-                }
-                currentDiggingDirection = DIRECTIONS[index];
-                break;
-            }
-        }
-    }
-
-    // EFFECTS: Chooses an initial digging position on the map.
-    public Position chooseInitialDiggingPosition() {
-        Random randomX = new Random();
-        Random randomY = new Random();
-        return new Position(
-                Math.abs(randomX.nextInt()) % (GAME_TERMINAL_WIDTH - 1),
-                Math.abs(randomY.nextInt()) % (GAME_TERMINAL_HEIGHT - 1)
-        );
-    }
-
-    /* EFFECTS: Returns false if digging a length equal to the randomTunnelLength in the currentDirection pushes the
-                miner off the map.
-                Also returns false if the randomTunnelLength is negative when it shouldn't be.
-                returns true otherwise
-     */
-    public boolean isRandomTunnelLengthValid(int randomTunnelLength,
-                                             Position currentDiggingPosition,
-                                             Direction currentDiggingDirection) {
-        Position newPosition;
+        initializePlayer();
         try {
-            newPosition = currentDiggingPosition.generateNewPosition(currentDiggingDirection,randomTunnelLength);
-        } catch (DistanceNegativeException e) {
-            // Indicates that the tunnel length provided was negative, i.e.,
-            // vector information in distance measurement although distance is a scalar.
-            return false;
+            initializeExitPoint();
+            initializeCoins();
+            initializeSmallHealthPotions();
+            initializeEnemies();
+            initializeSpikes();
+        } catch (NoUnoccupiedTileForExitPointException e) {
+            System.out.println("No unoccupied tiles to allot ExitPoint!");
+        } catch (NoUnoccupiedTileForCoinException e) {
+            System.out.println("No unoccupied tiles to allot a Coin!");
+        } catch (NoUnoccupiedTileForSpikeException e) {
+            System.out.println("No unoccupied tiles to allot a Spike!");
+        } catch (NoUnoccupiedTileForSmallHealthPotionException e) {
+            System.out.println("No unoccupied tiles to allot a SmallHealthPotion!");
+        } catch (NoUnoccupiedTileForEnemyException e) {
+            System.out.println("No unoccupied tiles to allot an Enemy!");
         }
-        if (newPosition.getX() > 0
-                && newPosition.getX() < GAME_TERMINAL_WIDTH - 1
-                && newPosition.getY() > 0
-                && newPosition.getY() < GAME_TERMINAL_HEIGHT - 1) {
-            return true;
-        }
-        return false;
+
+//        initializeAir();
     }
 
     // EFFECTS: initializes a game with all the given objects
@@ -343,106 +285,218 @@ public class Game implements Writable, Serializable {
         this.unoccupiedTiles = unoccupiedTiles;
     }
 
-    // TODO: Fix parameter lists for single position initialization methods.
-    // MODIFIES: this
-    // EFFECTS: sets up the player's position
-    public void initializePlayer(Position p) {
-        player.setPosition(entryPoint.getPosition());
-//        unoccupiedTiles.remove(player.getPosition());
+    public void setAir(Air air) {
+        this.air = air;
+    }
+
+    public void setWall(Wall wall) {
+        this.wall = wall;
+    }
+
+    public void setEntryPoint(EntryPoint entryPoint) {
+        this.entryPoint = entryPoint;
+    }
+
+    public void setExitPoint(ExitPoint exitPoint) {
+        this.exitPoint = exitPoint;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setSpike(Spike spike) {
+        this.spike = spike;
+    }
+
+    public void setCoin(Coin coin) {
+        this.coin = coin;
+    }
+
+    public void setEnemy(Enemy enemy) {
+        this.enemy = enemy;
+    }
+
+    public void setSmallHealthPotion(SmallHealthPotion smallHealthPotion) {
+        this.smallHealthPotion = smallHealthPotion;
     }
 
     // MODIFIES: this
-    // EFFECTS: sets up the Entry Point's position and removes it from the unoccupied tiles set
+    // EFFECTS: Sets all of the game object's fields to null.
+    public void setFieldsToNull() {
+        this.initialDiggingDirection = null;
+        this.initialDiggingPosition = null;
+        this.unoccupiedTiles = null;
+        this.air = null;
+        this.wall = null;
+        this.entryPoint = null;
+        this.exitPoint = null;
+        this.player = null;
+        this.spike = null;
+        this.coin = null;
+        this.enemy = null;
+        this.smallHealthPotion = null;
+    }
+
+    // EFFECTS: Procedurally Generates the Map
+    public void procedurallyGenerateMap() {
+        Direction currentDiggingDirection;
+        Direction previousDiggingDirection;
+        Position currentDiggingPosition;
+
+        initializeWalls();
+        initialDiggingPosition = chooseInitialDiggingPosition();
+        currentDiggingPosition = new Position(initialDiggingPosition);
+        wall.getPositionSet().remove(initialDiggingPosition);
+        unoccupiedTiles.add(initialDiggingPosition);
+
+        Random random = new Random();
+
+        int index = Math.abs(random.nextInt()) % 4;
+        initialDiggingDirection = DIRECTIONS[index];
+        currentDiggingDirection = DIRECTIONS[index];
+
+        int randomTunnelLength;
+
+        for (int i = MAX_TUNNEL_TURNS; i >= 0; --i) {
+            while (true) {
+                randomTunnelLength = Math.abs(random.nextInt()) % (MAX_TUNNEL_LENGTH + 1);
+                if (isRandomTunnelLengthValid(
+                        randomTunnelLength,
+                        currentDiggingPosition,
+                        currentDiggingDirection)) {
+                    break;
+                }
+            }
+            for (int j = 0; j < randomTunnelLength; ++j) {
+                currentDiggingPosition = currentDiggingPosition.generateNewPosition(currentDiggingDirection);
+                wall.getPositionSet().remove(currentDiggingPosition);
+                unoccupiedTiles.add(currentDiggingPosition);
+            }
+            previousDiggingDirection = DIRECTIONS[currentDiggingDirection.ordinal()];
+
+            while (true) {
+                index = Math.abs(random.nextInt()) % 4;
+                if (index == previousDiggingDirection.ordinal()) {
+                    continue;
+                }
+                currentDiggingDirection = DIRECTIONS[index];
+                break;
+            }
+        }
+    }
+
+    // EFFECTS: Chooses an initial digging position on the map.
+    public Position chooseInitialDiggingPosition() {
+        Random randomX = new Random();
+        Random randomY = new Random();
+        return new Position(
+                Math.abs(randomX.nextInt()) % (GAME_TERMINAL_WIDTH - 2) + 1,
+                Math.abs(randomY.nextInt()) % (GAME_TERMINAL_HEIGHT - 2) + 1
+        );
+    }
+
+    /* EFFECTS: Returns false if digging a length equal to the randomTunnelLength in the currentDirection makes the
+                miner attempt to dig into the wall boundary of the map.
+                Also returns false if the randomTunnelLength is negative when it shouldn't be.
+                Returns true otherwise
+                Current Map Wall Boundaries:
+                Columns exist at indexes x = 0, Width - 1
+                Rows exist at indexes y = 0, Height - 1
+     */
+    public boolean isRandomTunnelLengthValid(int randomTunnelLength,
+                                             Position currentDiggingPosition,
+                                             Direction currentDiggingDirection) {
+        Position newPosition;
+        try {
+            newPosition = currentDiggingPosition.generateNewPosition(currentDiggingDirection,randomTunnelLength);
+        } catch (DistanceNegativeException e) {
+            // Indicates that the tunnel length provided was negative, i.e.,
+            // vector information in distance measurement although distance is a scalar.
+            return false;
+        }
+        if (newPosition.getX() > 0
+                && newPosition.getX() < GAME_TERMINAL_WIDTH - 1
+                && newPosition.getY() > 0
+                && newPosition.getY() < GAME_TERMINAL_HEIGHT - 1) {
+            return true;
+        }
+        return false;
+    }
+
+    // EFFECTS: Chooses a random position from the unoccupied tiles on the map.
+    //          Throws a NoUnoccupiedTilesException if there aren't any unoccupied tiles to choose from.
+    public Position chooseRandomPositionFromUnoccupiedTiles() throws NoUnoccupiedTilesException {
+        Random random = new Random();
+        Position[] unoccupiedPositionsArray = unoccupiedTiles.toArray(new Position[0]);
+        int numberOfUnoccupiedTiles = unoccupiedTiles.size();
+        if (numberOfUnoccupiedTiles == 0) {
+            throw new NoUnoccupiedTilesException();
+        }
+        int randomIndex = Math.abs(random.nextInt()) % numberOfUnoccupiedTiles;
+        return unoccupiedPositionsArray[randomIndex];
+    }
+
+    // TODO: Fix parameter lists for single position initialization methods.
+    // MODIFIES: this
+    // EFFECTS: sets the player's position to the initial digging position.
+    public void initializePlayer() {
+        player.setPosition(initialDiggingPosition);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets the Entry Point's position to the initial digging position and removes it from the unoccupied tiles
+    // set.
     public void initializeEntryPoint() {
         entryPoint.setPosition(initialDiggingPosition);
         unoccupiedTiles.remove(entryPoint.getPosition());
     }
 
-    // EFFECTS: Chooses a random position from the unoccupied tiles on the map
-    public Position chooseRandomPositionFromUnoccupiedTiles() {
-        Random random = new Random();
-        Position[] unoccupiedPositionsArray = unoccupiedTiles.toArray(new Position[0]);
-        int randomIndex = Math.abs(random.nextInt()) % unoccupiedTiles.size();
-        return unoccupiedPositionsArray[randomIndex];
+    // MODIFIES: this
+    // EFFECTS: Sets the ExitPoint's position by choosing a Position from the unoccupied tiles and removes the position
+    // from the unoccupied tiles. Throws a NoUnoccupiedTilesForExitPointException if no unoccupied tiles exist for the
+    // ExitPoint to be placed on.
+    public void initializeExitPoint() throws NoUnoccupiedTileForExitPointException {
+        try {
+            exitPoint.setPosition(chooseRandomPositionFromUnoccupiedTiles());
+            unoccupiedTiles.remove(exitPoint.getPosition());
+        } catch (NoUnoccupiedTilesException e) {
+            throw new NoUnoccupiedTileForExitPointException();
+        }
     }
 
     // MODIFIES: this
-    // EFFECTS: sets up the Exit Point's position
-    public void initializeExitPoint(Position p) {
-        exitPoint.setPosition(chooseRandomPositionFromUnoccupiedTiles());
-        unoccupiedTiles.remove(exitPoint.getPosition());
-    }
-
-    // MODIFIES: this
-    // EFFECTS: sets up the Spike positions
-    public void initializeSpikes() {
+    // EFFECTS: Sets the Spike tile positions by choosing Positions from the unoccupied tiles. Removes each spike
+    // position from the unoccupied tiles in the process. Throws a NoUnoccupiedTileForSpikeException if no unoccupied
+    // tiles exist for a Spike to be placed on.
+    public void initializeSpikes() throws NoUnoccupiedTileForSpikeException {
         Position randomPosition;
         for (int i = 0;i < NUMBER_OF_SPIKES; ++i) {
-            randomPosition = chooseRandomPositionFromUnoccupiedTiles();
-            spike.getPositionSet().add(randomPosition);
-            unoccupiedTiles.remove(randomPosition);
-        }
-//        for (int i = 0;i < NUMBER_OF_SPIKES;++i) {
-//            spike.addPosition(generateUsableMapPosition(gameTiles));
-//        }
-//
-//        gameTiles.addAll(spike.getPositionSet());
-
-//        spike.addPosition(new Position(9, 3));
-//        spike.addPosition(new Position(9, 4));
-//        spike.addPosition(new Position(9, 8));
-//        spike.addPosition(new Position(9, 9));
-    }
-
-    // EFFECTS: Generates a random position on the game map that is not already occupied by another tile.
-    private Position generateUsableMapPosition(Set<Position> gameTiles) {
-        Random random = new Random();
-        int abscissa;
-        int ordinate;
-        Position generatedPosition;
-
-        while (true) {
-            abscissa = Math.abs(random.nextInt()) % (MainMenu.GAME_TERMINAL_WIDTH - 2)  + 1;
-            ordinate = Math.abs(random.nextInt()) % (MainMenu.GAME_TERMINAL_HEIGHT - 2) + 1;
-            generatedPosition = new Position(abscissa,ordinate);
-            if (gameTiles.contains(generatedPosition)) {
-                continue;
-            } else {
-                return generatedPosition;
+            try {
+                randomPosition = chooseRandomPositionFromUnoccupiedTiles();
+                spike.getPositionSet().add(randomPosition);
+                unoccupiedTiles.remove(randomPosition);
+            } catch (NoUnoccupiedTilesException e) {
+                throw new NoUnoccupiedTileForSpikeException();
             }
         }
     }
 
     // MODIFIES: this
-    // EFFECTS: sets up the Coin positions
-    public void initializeCoins() {
+    // EFFECTS: Sets the Coin tile positions by choosing Positions from the unoccupied tiles. Removes each coin
+    // position from the unoccupied tiles in the process. Throws a NoUnoccupiedTileForCoinException if no unoccupied
+    // tiles exist for a Coin to be placed on.
+    public void initializeCoins() throws NoUnoccupiedTileForCoinException {
         Position randomPosition;
         for (int i = 0;i < NUMBER_OF_COINS; ++i) {
-            randomPosition = chooseRandomPositionFromUnoccupiedTiles();
-            coin.getPositionSet().add(randomPosition);
-            unoccupiedTiles.remove(randomPosition);
+            try {
+                randomPosition = chooseRandomPositionFromUnoccupiedTiles();
+                coin.getPositionSet().add(randomPosition);
+                unoccupiedTiles.remove(randomPosition);
+            } catch (NoUnoccupiedTilesException e) {
+                throw new NoUnoccupiedTileForCoinException();
+            }
         }
-//        coin.addPosition(new Position(2, 6));
-//        coin.addPosition(new Position(3, 6));
-//        coin.addPosition(new Position(4, 6));
-//        coin.addPosition(new Position(4, 5));
-//        coin.addPosition(new Position(4, 4));
-//        coin.addPosition(new Position(4, 3));
-//        coin.addPosition(new Position(4, 2));
-//        coin.addPosition(new Position(4, 1));
-//        coin.addPosition(new Position(5, 1));
-//        coin.addPosition(new Position(6, 1));
-//        coin.addPosition(new Position(7, 1));
-//        coin.addPosition(new Position(7, 2));
-//        coin.addPosition(new Position(7, 3));
-//        coin.addPosition(new Position(7, 4));
-//        coin.addPosition(new Position(7, 5));
-//        coin.addPosition(new Position(7, 6));
-//        coin.addPosition(new Position(8, 6));
-//        coin.addPosition(new Position(9, 6));
-//        coin.addPosition(new Position(10, 6));
-//
-//        gameTiles.addAll(coin.getPositionSet());
     }
 
     // MODIFIES: this
@@ -453,28 +507,6 @@ public class Game implements Writable, Serializable {
                 wall.addPosition(new Position(i,j));
             }
         }
-//        final int ZERO = 0;
-//        final int TWELVE = 12;
-//
-//        // adding corners
-//        wall.addPosition(new Position(ZERO, ZERO));
-//        wall.addPosition(new Position(TWELVE, ZERO));
-//        wall.addPosition(new Position(ZERO, TWELVE));
-//        wall.addPosition(new Position(TWELVE, TWELVE));
-//
-//        // adding boundaries
-//        for (int i = 1; i < 12; ++i) {
-//            wall.addPosition(new Position(i, ZERO));
-//            wall.addPosition(new Position(i, TWELVE));
-//            wall.addPosition(new Position(ZERO, i));
-//            if (i == 6) {
-//                continue;
-//            } else {
-//                wall.addPosition(new Position(TWELVE, i));
-//            }
-//        }
-//
-//        gameTiles.addAll(wall.getPositionSet());
     }
 
     // MODIFIES: this
@@ -484,38 +516,36 @@ public class Game implements Writable, Serializable {
     }
 
     // MODIFIES: this
-    // EFFECTS: sets up the enemy positions
-    public void initializeEnemies() {
+    // EFFECTS: Sets the Enemy tile positions by choosing Positions from the unoccupied tiles.
+    //          Throws a NoUnoccupiedTileForEnemyException if no unoccupied tiles exist for an Enemy to be placed on.
+    public void initializeEnemies() throws NoUnoccupiedTileForEnemyException {
         Position randomPosition;
         for (int i = 0;i < NUMBER_OF_ENEMIES; ++i) {
-            randomPosition = chooseRandomPositionFromUnoccupiedTiles();
-            enemy.getPositionSet().add(randomPosition);
-            unoccupiedTiles.remove(randomPosition);
+            try {
+                randomPosition = chooseRandomPositionFromUnoccupiedTiles();
+                enemy.getPositionSet().add(randomPosition);
+                unoccupiedTiles.remove(randomPosition);
+            } catch (NoUnoccupiedTilesException e) {
+                throw new NoUnoccupiedTileForEnemyException();
+            }
         }
-//        enemy.addPosition(new Position(5,9));
-//        enemy.addPosition(new Position(10,1));
-//        enemy.addPosition(new Position(10,10));
-//        gameTiles.addAll(enemy.getPositionSet());
     }
 
     // MODIFIES: this
-    // EFFECTS: sets up the enemy positions
-    public void initializeSmallHealthPotions() {
+    // EFFECTS: Sets the SmallHealthPotion tile positions by choosing Positions from the unoccupied tiles.
+    //          Throws a NoUnoccupiedTileForSmallHealthPotionException if no unoccupied tiles exist for a
+    //          SmallHealthPotion to be placed on.
+    public void initializeSmallHealthPotions() throws NoUnoccupiedTileForSmallHealthPotionException {
         Position randomPosition;
         for (int i = 0;i < NUMBER_OF_SMALL_HEALTH_POTIONS; ++i) {
-            randomPosition = chooseRandomPositionFromUnoccupiedTiles();
-            smallHealthPotion.getPositionSet().add(randomPosition);
-            unoccupiedTiles.remove(randomPosition);
+            try {
+                randomPosition = chooseRandomPositionFromUnoccupiedTiles();
+                smallHealthPotion.getPositionSet().add(randomPosition);
+                unoccupiedTiles.remove(randomPosition);
+            } catch (NoUnoccupiedTilesException e) {
+                throw new NoUnoccupiedTileForSmallHealthPotionException();
+            }
         }
-//        smallHealthPotion.addPosition(new Position(11,1));
-//        smallHealthPotion.addPosition(new Position(11,2));
-//        smallHealthPotion.addPosition(new Position(11,9));
-//        smallHealthPotion.addPosition(new Position(11,10));
-//        smallHealthPotion.addPosition(new Position(6,6));
-//        smallHealthPotion.addPosition(new Position(6,7));
-//        smallHealthPotion.addPosition(new Position(6,5));
-//
-//        gameTiles.addAll(smallHealthPotion.getPositionSet());
     }
 
     @Override

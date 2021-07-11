@@ -5,20 +5,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 // Represents tiles which have multiple positions. This class holds their set and corresponding operations.
 public abstract class MultipleTile extends Tile {
     protected HashSet<Position> positionSet = new HashSet<>();
-
-    // EFFECTS: Default Constructor
-    public MultipleTile() {
-
-    }
-
-    // EFFECTS: MultipleTile copy constructor
-    protected MultipleTile(MultipleTile tile) {
-        this.positionSet = new HashSet<>(tile.getPositionSet());
-    }
 
     public HashSet<Position> getPositionSet() {
         return this.positionSet;
@@ -51,5 +42,22 @@ public abstract class MultipleTile extends Tile {
         JSONObject json = new JSONObject();
         json.put("positions", jsonArray);
         return json;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MultipleTile that = (MultipleTile) o;
+        return Objects.equals(positionSet, that.positionSet);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(positionSet);
     }
 }

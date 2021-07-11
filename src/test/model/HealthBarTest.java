@@ -61,5 +61,4 @@ public class HealthBarTest {
         healthBar.setIsZero(true);
         assertTrue(healthBar.isZero());
     }
-
 }
