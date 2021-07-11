@@ -5,9 +5,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import exceptions.CellAtMaximumOrMinimumException;
+import model.Direction;
 import model.Game;
 import model.tile.Coin;
 import model.tile.MultipleTile;
@@ -52,6 +54,9 @@ public class JsonReader {
 
     // EFFECTS: parses game from JSON object and returns it
     private Game parseGame(JSONObject jsonObject) throws CellAtMaximumOrMinimumException {
+        Direction initialDiggingDirection;
+        Position initialDiggingPosition;
+        Set<Position> unoccupiedTiles = new HashSet<>();
         Air air;
         Wall wall;
         EntryPoint entryPoint;
@@ -62,6 +67,9 @@ public class JsonReader {
         Enemy enemy;
         SmallHealthPotion smallHealthPotion;
 
+        initialDiggingDirection = deserializeInitialDiggingDirection();
+        initialDiggingPosition = deserializeInitialDiggingPosition();
+        unoccupiedTiles = deserializeUnoccupiedTiles();
         air = deserializeAir(jsonObject);
         wall = deserializeWall(jsonObject);
         entryPoint = deserializeEntryPoint(jsonObject);
@@ -72,7 +80,35 @@ public class JsonReader {
         enemy = deserializeEnemy(jsonObject);
         smallHealthPotion = deserializeSmallHealthPotion(jsonObject);
 
-        return new Game(air,wall,entryPoint,exitPoint,player,spike,coin,enemy,smallHealthPotion);
+        return new Game(
+                initialDiggingDirection,
+                initialDiggingPosition,
+                unoccupiedTiles,
+                air,
+                wall,
+                entryPoint,
+                exitPoint,
+                player,
+                spike,
+                coin,
+                enemy,
+                smallHealthPotion
+        );
+    }
+
+    // EFFECTS: parses the initialDiggingDirection from JSON object and returns it as a Direction object
+    private Direction deserializeInitialDiggingDirection() {
+        return null; // stub
+    }
+
+    // EFFECTS: parses the initialDiggingPosition from JSON object and returns it as a Position object
+    private Position deserializeInitialDiggingPosition() {
+        return null; // stub
+    }
+
+    // EFFECTS: parses the unoccupiedTiles from JSON object and returns it as a HashSet of positions
+    private Set<Position> deserializeUnoccupiedTiles() {
+        return null; // stub
     }
 
     // EFFECTS: parses airTiles from JSON object and returns it as an air object

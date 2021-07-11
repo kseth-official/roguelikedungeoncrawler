@@ -3,6 +3,7 @@ package model;
 import exceptions.*;
 import model.tile.Coin;
 import model.tile.*;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 import ui.frames.MainMenu;
@@ -12,17 +13,17 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
-// FIXME: Game crashing randomly when new game is pressed.
 // FIXME: Initial staircase.
 // TODO: make walking into health potion the cause for picking up and not walking over and across.
 // TODO: make walking into coin the cause for picking up and not walking over and across.
-// TODO: Create an empty constructor for game and another method called initializeGame to be called after creating an
-//       empty game object. This will improve code testability by providing access to a null game object.
+// -T-O-D-O-: Create an empty constructor for game and another method called initializeGame to be called after creating
+// an empty game object. This will improve code testability by providing access to a null game object. - Not doing this
+
 // A class for modeling the Game
 public class Game implements Writable, Serializable {
     public static final int GAME_TERMINAL_WIDTH = MainMenu.GAME_TERMINAL_WIDTH;
     public static final int GAME_TERMINAL_HEIGHT = MainMenu.GAME_TERMINAL_HEIGHT;
-    public static final int NUMBER_OF_SPIKES = 0;
+    public static final int NUMBER_OF_SPIKES = 1;
     public static final int NUMBER_OF_COINS = 20;
     public static final int NUMBER_OF_SMALL_HEALTH_POTIONS = 3;
     public static final int NUMBER_OF_ENEMIES = 20;
@@ -200,12 +201,15 @@ public class Game implements Writable, Serializable {
         } catch (NoUnoccupiedTileForEnemyException e) {
             System.out.println("No unoccupied tiles to allot an Enemy!");
         }
-
-//        initializeAir();
+        initializeAir();
     }
 
+    // TODO: Update Game Constructor Test
     // EFFECTS: initializes a game with all the given objects
-    public Game(Air air,
+    public Game(Direction initialDiggingDirection,
+                Position initialDiggingPosition,
+                Set<Position> unoccupiedTiles,
+                Air air,
                 Wall wall,
                 EntryPoint entryPoint,
                 ExitPoint exitPoint,
@@ -214,6 +218,9 @@ public class Game implements Writable, Serializable {
                 Coin coin,
                 Enemy enemy,
                 SmallHealthPotion smallHealthPotion) {
+        this.initialDiggingDirection = initialDiggingDirection;
+        this.initialDiggingPosition = initialDiggingPosition;
+        this.unoccupiedTiles = unoccupiedTiles;
         this.air = air;
         this.wall = wall;
         this.entryPoint = entryPoint;
@@ -516,8 +523,9 @@ public class Game implements Writable, Serializable {
     }
 
     // MODIFIES: this
-    // EFFECTS: Sets the Enemy tile positions by choosing Positions from the unoccupied tiles.
-    //          Throws a NoUnoccupiedTileForEnemyException if no unoccupied tiles exist for an Enemy to be placed on.
+    // EFFECTS: Sets the Enemy tile positions by choosing Positions from the unoccupied tiles. Removes each Enemy
+    // position from the unoccupied tiles in the process. Throws a NoUnoccupiedTileForEnemyException if no unoccupied
+    // tiles exist for an Enemy to be placed on.
     public void initializeEnemies() throws NoUnoccupiedTileForEnemyException {
         Position randomPosition;
         for (int i = 0;i < NUMBER_OF_ENEMIES; ++i) {
@@ -532,9 +540,10 @@ public class Game implements Writable, Serializable {
     }
 
     // MODIFIES: this
-    // EFFECTS: Sets the SmallHealthPotion tile positions by choosing Positions from the unoccupied tiles.
-    //          Throws a NoUnoccupiedTileForSmallHealthPotionException if no unoccupied tiles exist for a
-    //          SmallHealthPotion to be placed on.
+    // EFFECTS: Sets the SmallHealthPotion tile positions by choosing Positions from the unoccupied tiles. Removes each
+    // SmallHealthPotion position from the unoccupied tiles in the process. Throws a
+    // NoUnoccupiedTileForSmallHealthPotionException if no unoccupied tiles exist for a SmallHealthPotion to be placed
+    // on.
     public void initializeSmallHealthPotions() throws NoUnoccupiedTileForSmallHealthPotionException {
         Position randomPosition;
         for (int i = 0;i < NUMBER_OF_SMALL_HEALTH_POTIONS; ++i) {
@@ -551,6 +560,9 @@ public class Game implements Writable, Serializable {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
+        json.put("initialDiggingDirectionIndex", initialDiggingDirection.toJson());
+        json.put("initialDiggingPosition",initialDiggingPosition.toJson());
+        json.put("unoccupiedTiles", new JSONArray(unoccupiedTiles));
         json.put("airTile", air.toJson());
         json.put("wallTile", wall.toJson());
         json.put("entryPointTile", entryPoint.toJson());

@@ -1,13 +1,7 @@
 package model;
 
-import exceptions.NoUnoccupiedTileForCoinException;
-import exceptions.NoUnoccupiedTileForExitPointException;
-import exceptions.NoUnoccupiedTileForSpikeException;
-import exceptions.NoUnoccupiedTilesException;
-import model.tile.Coin;
-import model.tile.ExitPoint;
-import model.tile.Spike;
-import model.tile.Wall;
+import exceptions.*;
+import model.tile.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ui.frames.MainMenu;
@@ -263,9 +257,106 @@ public class GameTest {
     }
 
     @Test
-    void testInitializeCoins() {
-//        game.initializeCoins();
+    void testInitializeEnemyUnoccupiedTilesUnavailable() {
+        // save initial information
+        Game initialGame = new Game(game);
+        Set<Position> initialSet = game.getUnoccupiedTiles();
+        // setup unoccupiedTiles
+        Set<Position> setWithSomeTiles = new HashSet<>();
+        game.setUnoccupiedTiles(setWithSomeTiles);
+        try {
+            game.initializeEnemies();
+            fail("An exception for coin tile allocation when no unoccupied tiles exist was not caught!");
+        } catch (NoUnoccupiedTileForEnemyException e) {
+            // this is good
+        }
+        // check that nothing else happens other than the exception
+        game.setUnoccupiedTiles(initialSet);
+        assertTrue(initialGame.equals(game));
     }
+
+    @Test
+    void testInitializeEnemyUnoccupiedTilesAvailable() {
+        // save initial information
+        Game initialGame = new Game(game);
+        Set<Position> initialSet = game.getUnoccupiedTiles();
+        Enemy initialEnemy = game.enemy();
+        // setup unoccupiedTiles
+        Set<Position> setWithEnoughUnoccupiedTilesForAllocation = new HashSet<>();
+        for (int i = 0; i < (Game.NUMBER_OF_ENEMIES + 2); ++i) {
+            setWithEnoughUnoccupiedTilesForAllocation.add(new Position(i,i));
+        }
+        game.setUnoccupiedTiles(new HashSet<>(setWithEnoughUnoccupiedTilesForAllocation));
+        game.enemy().getPositionSet().clear();
+        // call appropriate method
+        try {
+            game.initializeEnemies();
+            List<Position> enemyPositionList = new ArrayList<>(game.enemy().getPositionSet());
+            for (int i = 0; i < Game.NUMBER_OF_ENEMIES; ++i) {
+                assertTrue(setWithEnoughUnoccupiedTilesForAllocation.contains(enemyPositionList.get(i)));
+                assertFalse(game.getUnoccupiedTiles().contains(enemyPositionList.get(i)));
+            }
+        } catch (NoUnoccupiedTileForEnemyException e) {
+            fail("An exception for no unoccupied tiles while allocating a coin position " +
+                    "when there are unoccupied tiles was thrown!");
+        }
+        game.setUnoccupiedTiles(initialSet);
+        game.setEnemy(initialEnemy);
+        game.equals(initialGame);
+    }
+
+    @Test
+    void testInitializeSmallHealthPotionUnoccupiedTilesUnavailable() {
+        // save initial information
+        Game initialGame = new Game(game);
+        Set<Position> initialSet = game.getUnoccupiedTiles();
+        // setup unoccupiedTiles
+        Set<Position> setWithSomeTiles = new HashSet<>();
+        game.setUnoccupiedTiles(setWithSomeTiles);
+        try {
+            game.initializeSmallHealthPotions();
+            fail("An exception for coin tile allocation when no unoccupied tiles exist was not caught!");
+        } catch (NoUnoccupiedTileForSmallHealthPotionException e) {
+            // this is good
+        }
+        // check that nothing else happens other than the exception
+        game.setUnoccupiedTiles(initialSet);
+        assertTrue(initialGame.equals(game));
+    }
+
+    @Test
+    void testInitializeSmallHealthPotionUnoccupiedTilesAvailable() {
+        // save initial information
+        Game initialGame = new Game(game);
+        Set<Position> initialSet = game.getUnoccupiedTiles();
+        SmallHealthPotion initialSmallHealthPotion = game.smallHealthPotion();
+        // setup unoccupiedTiles
+        Set<Position> setWithEnoughUnoccupiedTilesForAllocation = new HashSet<>();
+        for (int i = 0; i < (Game.NUMBER_OF_SMALL_HEALTH_POTIONS + 2); ++i) {
+            setWithEnoughUnoccupiedTilesForAllocation.add(new Position(i,i));
+        }
+        game.setUnoccupiedTiles(new HashSet<>(setWithEnoughUnoccupiedTilesForAllocation));
+        game.smallHealthPotion().getPositionSet().clear();
+        // call appropriate method
+        try {
+            game.initializeSmallHealthPotions();
+            List<Position> smallHealthPotionPositionList = new ArrayList<>(game.smallHealthPotion().getPositionSet());
+            for (int i = 0; i < Game.NUMBER_OF_SMALL_HEALTH_POTIONS; ++i) {
+                // check for required output
+                assertTrue(setWithEnoughUnoccupiedTilesForAllocation.contains(smallHealthPotionPositionList.get(i)));
+                assertFalse(game.getUnoccupiedTiles().contains(smallHealthPotionPositionList.get(i)));
+            }
+        } catch (NoUnoccupiedTileForSmallHealthPotionException e) {
+            fail("An exception for no unoccupied tiles while allocating a coin position " +
+                    "when there are unoccupied tiles was thrown!");
+        }
+        // check only required output occurs
+        game.setUnoccupiedTiles(initialSet);
+        game.setSmallHealthPotion(initialSmallHealthPotion);
+        game.equals(initialGame);
+    }
+
+    // TODO: ENEMY AND SMALL HEALTH POTION TESTS
 
     @Test
     void testInitializeWalls() {

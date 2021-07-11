@@ -37,21 +37,22 @@ class JsonWriterTest {
     @Test
     public void testWriter() {
         try {
-            Game game = new Game();
+            Game initialGame = new Game();
             JsonWriter writer = new JsonWriter(JSON_STORE_TEST_JSON_WRITER);
             writer.open();
-            writer.write(game);
+            writer.write(initialGame);
             writer.close();
 
             JsonReader reader = new JsonReader(JSON_STORE_TEST_JSON_WRITER);
-            game = reader.read();
-            testAirTileReadCorrectly(game);
-            testCoinTileReadCorrectly(game);
-            testEntryPointReadCorrectly(game);
-            testExitPointReadCorrectly(game);
-            testPlayerReadCorrectly(game);
-            testSpikeTileReadCorrectly(game);
-            testWallTileReadCorrectly(game);
+            Game game = reader.read();
+            assertTrue(initialGame.equals(game));
+//            testAirTileReadCorrectly(game);
+//            testCoinTileReadCorrectly(game);
+//            testEntryPointReadCorrectly(game);
+//            testExitPointReadCorrectly(game);
+//            testPlayerReadCorrectly(game);
+//            testSpikeTileReadCorrectly(game);
+//            testWallTileReadCorrectly(game);
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }

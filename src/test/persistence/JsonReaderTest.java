@@ -1,9 +1,13 @@
 package persistence;
+import model.Direction;
 import model.Game;
 import model.Position;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
@@ -34,6 +38,9 @@ class JsonReaderTest {
         JsonReader reader = new JsonReader(JSON_STORE_TEST_JSON_READER);
         try {
             Game game = reader.read();
+            testInitialDiggingDirectionReadCorrectly(game);
+            testInitialDiggingPositionReadCorrectly(game);
+            testUnoccupiedTilesReadCorrectly(game);
             testAirTileReadCorrectly(game);
             testCoinTileReadCorrectly(game);
             testEntryPointReadCorrectly(game);
@@ -46,6 +53,21 @@ class JsonReaderTest {
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
+    }
+
+    private void testInitialDiggingDirectionReadCorrectly(Game game) {
+        assertEquals(game.getInitialDiggingDirection(), Direction.LEFT);
+    }
+
+    private void testInitialDiggingPositionReadCorrectly(Game game) {
+        assertTrue(game.getInitialDiggingPosition().equals(new Position(-1,-1)));
+    }
+
+    private void testUnoccupiedTilesReadCorrectly(Game game) {
+        Set<Position> unoccupiedTiles = new HashSet<>();
+        unoccupiedTiles.add(new Position(-2,-2));
+        unoccupiedTiles.add(new Position(-3,-3));
+        assertTrue(game.getUnoccupiedTiles().equals(unoccupiedTiles));
     }
 
     private void testSmallHealthPositionTileReadCorrectly(Game game) {
