@@ -23,14 +23,14 @@ import java.util.Set;
 public class Game implements Writable, Serializable {
     public static final int GAME_TERMINAL_WIDTH = MainMenu.GAME_TERMINAL_WIDTH;
     public static final int GAME_TERMINAL_HEIGHT = MainMenu.GAME_TERMINAL_HEIGHT;
-    public static final int NUMBER_OF_SPIKES = 1;
+    public static final int NUMBER_OF_SPIKES = 3;
     public static final int NUMBER_OF_COINS = 20;
     public static final int NUMBER_OF_SMALL_HEALTH_POTIONS = 3;
-    public static final int NUMBER_OF_ENEMIES = 20;
+    public static final int NUMBER_OF_ENEMIES = 3;
 
     // PROCEDURAL GENERATION
     public static final int MAX_TUNNEL_LENGTH = GAME_TERMINAL_WIDTH - 2;
-    public static final int MAX_TUNNEL_TURNS = 500;
+    public static final int MAX_TUNNEL_TURNS = 100;
     public static final Direction[] DIRECTIONS = Direction.values();
 
     private Direction initialDiggingDirection;
@@ -204,7 +204,6 @@ public class Game implements Writable, Serializable {
         initializeAir();
     }
 
-    // TODO: Update Game Constructor Test
     // EFFECTS: initializes a game with all the given objects
     public Game(Direction initialDiggingDirection,
                 Position initialDiggingPosition,
@@ -560,7 +559,7 @@ public class Game implements Writable, Serializable {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("initialDiggingDirectionIndex", initialDiggingDirection.toJson());
+        json.put("initialDiggingDirection", initialDiggingDirection.toJson());
         json.put("initialDiggingPosition",initialDiggingPosition.toJson());
         json.put("unoccupiedTiles", new JSONArray(unoccupiedTiles));
         json.put("airTile", air.toJson());

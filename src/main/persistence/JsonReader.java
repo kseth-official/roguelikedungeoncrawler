@@ -16,6 +16,7 @@ import model.tile.MultipleTile;
 import model.Position;
 import model.tile.SingleTile;
 import model.tile.*;
+import netscape.javascript.JSObject;
 import org.json.*;
 
 // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
@@ -56,7 +57,7 @@ public class JsonReader {
     private Game parseGame(JSONObject jsonObject) throws CellAtMaximumOrMinimumException {
         Direction initialDiggingDirection;
         Position initialDiggingPosition;
-        Set<Position> unoccupiedTiles = new HashSet<>();
+        Set<Position> unoccupiedTiles;
         Air air;
         Wall wall;
         EntryPoint entryPoint;
@@ -67,9 +68,9 @@ public class JsonReader {
         Enemy enemy;
         SmallHealthPotion smallHealthPotion;
 
-        initialDiggingDirection = deserializeInitialDiggingDirection();
-        initialDiggingPosition = deserializeInitialDiggingPosition();
-        unoccupiedTiles = deserializeUnoccupiedTiles();
+        initialDiggingDirection = deserializeInitialDiggingDirection(jsonObject);
+        initialDiggingPosition = deserializeInitialDiggingPosition(jsonObject);
+        unoccupiedTiles = deserializeUnoccupiedTiles(jsonObject);
         air = deserializeAir(jsonObject);
         wall = deserializeWall(jsonObject);
         entryPoint = deserializeEntryPoint(jsonObject);
@@ -97,18 +98,27 @@ public class JsonReader {
     }
 
     // EFFECTS: parses the initialDiggingDirection from JSON object and returns it as a Direction object
-    private Direction deserializeInitialDiggingDirection() {
-        return null; // stub
+    private Direction deserializeInitialDiggingDirection(JSONObject jsonObject) {
+        Direction[] directions = Direction.values();
+        return directions[jsonObject.getJSONObject("initialDiggingDirection").getInt("directionIndex")];
     }
 
     // EFFECTS: parses the initialDiggingPosition from JSON object and returns it as a Position object
-    private Position deserializeInitialDiggingPosition() {
-        return null; // stub
+    private Position deserializeInitialDiggingPosition(JSONObject jsonObject) {
+        JSONObject jsonPositionObject = jsonObject.getJSONObject("initialDiggingPosition");
+        return new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
     }
 
     // EFFECTS: parses the unoccupiedTiles from JSON object and returns it as a HashSet of positions
-    private Set<Position> deserializeUnoccupiedTiles() {
-        return null; // stub
+    private Set<Position> deserializeUnoccupiedTiles(JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("unoccupiedTiles");
+        HashSet<Position> temporaryHashSet = new HashSet<>();
+        for (Object json : jsonArray) {
+            JSONObject jsonPositionObject = (JSONObject) json;
+            Position position = new Position(jsonPositionObject.getInt("x"),jsonPositionObject.getInt("y"));
+            temporaryHashSet.add(position);
+        }
+        return temporaryHashSet;
     }
 
     // EFFECTS: parses airTiles from JSON object and returns it as an air object

@@ -2,7 +2,7 @@ package model.pathfinding;
 
 import model.Position;
 
-// A class modelling a radar with a source and range.
+// A class modelling a radar with a source position and range of detection.
 public class Radar {
     private Position source;
     private int range;

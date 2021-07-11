@@ -1,4 +1,19 @@
 {
+    "unoccupiedTiles": [
+        {
+            "x": -2,
+            "y": -2
+        },
+        {
+            "x": -3,
+            "y": -3
+        }
+    ],
+    "initialDiggingDirection": {"directionIndex": 2},
+    "initialDiggingPosition": {
+        "x": -1,
+        "y": -1
+    },
     "entryPointTile": {"position": {
         "x": 1,
         "y": 6
