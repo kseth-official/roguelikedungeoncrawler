@@ -8,10 +8,12 @@ import java.util.*;
 
 // A class that contains all pathfinding related functionality.
 public class Pathfinder {
+
     // REQUIRES: startPosition and endPosition must be positions on the current game map
     // EFFECTS: Produces the shortest path from the startPosition to the endPosition while navigating obstacles.
     // Uses Manhattan distance for calculations.
-    public List<Position> shortestPathFrom(Position startPosition, Position endPosition, HashSet<Position> obstacles) throws PathNotFoundException {
+    public List<Position> shortestPathFrom(Position startPosition, Position endPosition, HashSet<Position> obstacles)
+            throws PathNotFoundException {
         /*
             (PSEUDO CODE for shortestPathFrom)
 
@@ -106,15 +108,16 @@ public class Pathfinder {
     }
 
     // EFFECTS: Calculates the Manhattan distance between two Nodes.
-    private int distanceBetween(Node currentNode, Node neighbourNode) {
+    public int distanceBetween(Node currentNode, Node neighbourNode) {
         int horizontalDistance = Math.abs(currentNode.getPosition().getX() - neighbourNode.getPosition().getX());
         int verticalDistance = Math.abs(currentNode.getPosition().getY() - neighbourNode.getPosition().getY());
         return horizontalDistance + verticalDistance;
     }
 
     // EFFECTS: Returns a list of all the positions from the source to the target. Does so by reversing the path
-    // generated from backtracking from the target Node to the source Node.
-    private List<Position> pathFromSourceToTarget(Node currentNode) {
+    // generated from backtracking from the target Node to the source Node. The source's and target's positions are
+    // included.
+    public List<Position> pathFromSourceToTarget(Node currentNode) {
         List<Position> pathFromTargetToSource = new ArrayList<>();
         while (currentNode != null) {
             pathFromTargetToSource.add(currentNode.getPosition());
@@ -124,7 +127,8 @@ public class Pathfinder {
         return pathFromTargetToSource;
     }
 
-    // EFFECTS: Finds all the neighbours of the current node that are valid.
+    // EFFECTS: Finds all the neighbours of the current node that are valid. A valid node is one who's position is not
+    // the same as an obstacle.
     public Set<Node> findNeighboursOfCurrentNode(Node currentNode, Position targetPosition, Set<Position> obstacles) {
         Set<Node> neighbours = new HashSet<>();
         int currentNodeX = currentNode.getPosition().getX();
@@ -145,13 +149,14 @@ public class Pathfinder {
                 positionAbove,
                 positionBelow,
                 positionToLeft,
-                positionToRight);
+                positionToRight
+        );
 
         return neighbours;
     }
 
     // EFFECTS: Adds all the valid neighbours to the set of neighbours provided.
-    private void addValidNeighbours(
+    public void addValidNeighbours(
             Node currentNode,
             Position targetPosition,
             Set<Position> obstacles,
