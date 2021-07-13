@@ -352,45 +352,4 @@ public class PathfinderTest {
         assertFalse(neighbours.contains(nodeRight));
         assertFalse(neighbours.contains(nodeLeft));
     }
-
-//    @Test
-//    void testShortestPathFromHasSolution() {
-//        List<Position> path = pathfinder.shortestPathFrom(startPosition,endPosition,obstacles);
-//        for (Position p: path) {
-//            System.out.println(p.getX() + "," + p.getY());
-//        }
-//    }
-//
-//    @Test
-//    void testShortestPathFromHasNoSolution() {
-//        // goes into infinite loop if position you're trying to reach is unreachable
-//        obstacles.add(new Position(4,2));
-//        assertNull(pathfinder.shortestPathFrom(startPosition,endPosition,obstacles));
-//    }
-//
-//    @Test
-//    void testNodeInOpenWithLowestFCost() {
-//        List<Node> openNodes = new ArrayList<>();
-//        Node parentNode = new Node(new Position(0,3),null,endPosition);
-//        Node node1 = new Node(new Position(0,2),parentNode,endPosition);
-//        Node node2 = new Node(new Position(1,3),parentNode,endPosition);
-//
-//        openNodes.add(node1);
-//        openNodes.add(node2);
-//        pathfinder.setOpenNodes(openNodes);
-//        assertTrue(node2.equals(pathfinder.nodeWithLowestFCost(openNodes)));
-//    }
-//
-//    @Test
-//    void testFindNeighboursOfCurrentNode() {
-//        Node currentNode = new Node(new Position(2,1),null,endPosition);
-//        Set<Node> expectedSet = new HashSet<>();
-//        expectedSet.add(new Node(new Position(1,1),null,endPosition));
-//        expectedSet.add(new Node(new Position(2,0),null,endPosition));
-////        for (Node node: pathfinder.findNeighboursOfCurrentNode(currentNode,endPosition,obstacles)) {
-////            System.out.println(node.getPosition().getX() + "," + node.getPosition().getY());
-////        }
-//        assertTrue(expectedSet.equals(pathfinder.findNeighboursOfCurrentNode(currentNode,endPosition,obstacles)));
-//
-//    }
 }
