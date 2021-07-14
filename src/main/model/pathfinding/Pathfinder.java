@@ -69,7 +69,7 @@ public class Pathfinder {
 
         while (!openNodes.isEmpty()) {
             try {
-                currentNode = nodeWithLowestFCost(openNodes);
+                currentNode = findNodeWithLowestFCost(openNodes);
             } catch (NodeListEmptyException e) {
                 throw new PathNotFoundException();
             }
@@ -185,9 +185,9 @@ public class Pathfinder {
         }
     }
 
-    // EFFECTS: Finds the Node in the list with the lowest fCost.
-    // Produces null if there are no Nodes in the list.
-    public Node nodeWithLowestFCost(List<Node> nodes) throws NodeListEmptyException {
+    // EFFECTS: Finds the Node in the list with the lowest fCost. Throws a NodeListEmptyException if there are no nodes
+    // in the list to choose from. If two Nodes have the same fCost, the method returns the first one found.
+    public Node findNodeWithLowestFCost(List<Node> nodes) throws NodeListEmptyException {
         if (nodes.isEmpty()) {
             throw new NodeListEmptyException();
         }

@@ -352,4 +352,28 @@ public class PathfinderTest {
         assertFalse(neighbours.contains(nodeRight));
         assertFalse(neighbours.contains(nodeLeft));
     }
+
+    @Test
+    void testFindNodeWithSmallestFCostNodeListEmpty() {
+        // setup
+        // check setup
+        // call appropriate method
+        // check for expected outcome
+    }
+
+    @Test
+    void testFindNodeWithSmallestFCostNodeListNotEmpty() {
+        // setup
+        // check setup
+        // call appropriate method
+        // check for expected outcome
+    }
+
+    @Test
+    void testFindNodeWithSmallestFCostNodeListContainsMultipleNodesWithSameFCost() {
+        // setup
+        // check setup
+        // call appropriate method
+        // check for expected outcome
+    }
 }

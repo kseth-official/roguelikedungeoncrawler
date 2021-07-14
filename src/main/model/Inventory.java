@@ -24,7 +24,6 @@ public class Inventory implements Writable, Serializable {
         return smallHealthPotions;
     }
 
-
     // EFFECTS: Adds a number of Small Health Potions to the inventory.
     // Throws a CellAtMaximumOrMinimumException if adding the number of Small Health Potions will cause the number
     // of Small Health Potions to be > CELL_CAPACITY

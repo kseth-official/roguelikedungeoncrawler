@@ -26,7 +26,7 @@ public class Game implements Writable, Serializable {
     public static final int NUMBER_OF_SPIKES = 3;
     public static final int NUMBER_OF_COINS = 20;
     public static final int NUMBER_OF_SMALL_HEALTH_POTIONS = 3;
-    public static final int NUMBER_OF_ENEMIES = 3;
+    public static final int NUMBER_OF_ENEMIES = 20;
 
     // PROCEDURAL GENERATION
     public static final int MAX_TUNNEL_LENGTH = GAME_TERMINAL_WIDTH - 2;
