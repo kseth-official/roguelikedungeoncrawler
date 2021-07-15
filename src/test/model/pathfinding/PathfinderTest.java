@@ -1,5 +1,7 @@
 package model.pathfinding;
 
+import exceptions.NodeListEmptyException;
+import exceptions.PathNotFoundException;
 import model.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -356,24 +358,174 @@ public class PathfinderTest {
     @Test
     void testFindNodeWithSmallestFCostNodeListEmpty() {
         // setup
+        List<Node> nodeList = new ArrayList<>();
         // check setup
+        assertTrue(nodeList.isEmpty());
         // call appropriate method
-        // check for expected outcome
+        assertNull(pathfinder.findNodeWithLowestFCost(nodeList));
     }
 
     @Test
-    void testFindNodeWithSmallestFCostNodeListNotEmpty() {
+    void testFindNodeWithSmallestFCostNodeListNotEmptyNodesWithSameFCostDoNotExist() {
         // setup
+        List<Node> nodeList = new ArrayList<>();
+        Node nodeA = new Node();
+        Node nodeB = new Node();
+        Node nodeC = new Node();
+        nodeA.setFCost(1);
+        nodeB.setFCost(2);
+        nodeC.setFCost(3);
+        nodeList.add(nodeA);
+        nodeList.add(nodeB);
+        nodeList.add(nodeC);
+
         // check setup
+        assertFalse(nodeList.isEmpty());
+        assertEquals(nodeList.size(),3);
+
         // call appropriate method
+        Node lowestFCostNode = pathfinder.findNodeWithLowestFCost(nodeList);
         // check for expected outcome
+        assertEquals(nodeA,lowestFCostNode);
     }
 
     @Test
     void testFindNodeWithSmallestFCostNodeListContainsMultipleNodesWithSameFCost() {
         // setup
+        List<Node> nodeList = new ArrayList<>();
+        Node nodeA = new Node();
+        Node nodeB = new Node();
+        Node nodeC = new Node();
+        Node nodeD = new Node();
+        nodeA.setFCost(3);
+        nodeB.setFCost(1);
+        nodeC.setFCost(2);
+        nodeD.setFCost(2);
+        nodeList.add(nodeA);
+        nodeList.add(nodeB);
+        nodeList.add(nodeC);
+        nodeList.add(nodeD);
+
         // check setup
+        assertFalse(nodeList.isEmpty());
+        assertEquals(nodeList.size(),4);
+
         // call appropriate method
+        Node lowestFCostNode = pathfinder.findNodeWithLowestFCost(nodeList);
         // check for expected outcome
+        assertEquals(nodeC,lowestFCostNode);
+    }
+
+    @Test
+    void testShortestPathFoundExceptionalInputsStartPositionInObstacles() {
+        // setup
+        obstacles.add(startPosition);
+        // check setup
+        assertTrue(obstacles.contains(startPosition));
+        assertFalse(obstacles.contains(endPosition));
+
+        // call appropriate method
+        try {
+            pathfinder.shortestPathFrom(startPosition,endPosition,obstacles);
+            fail("An exception for path not being found because the start position is in an obstacle was not thrown!");
+        } catch (PathNotFoundException e) {
+            // check for expected outcome
+            // this is good
+        }
+    }
+
+    @Test
+    void testShortestPathFoundExceptionalInputsEndPositionInObstacles() {
+        // setup
+        obstacles.add(endPosition);
+        // check setup
+        assertTrue(obstacles.contains(endPosition));
+        assertFalse(obstacles.contains(startPosition));
+
+        // call appropriate method
+        try {
+            pathfinder.shortestPathFrom(startPosition,endPosition,obstacles);
+            fail("An exception for path not being found because the start position is in an obstacle was not thrown!");
+        } catch (PathNotFoundException e) {
+            // check for expected outcome
+            // this is good
+        }
+    }
+
+    @Test
+    void testShortestPathFoundExceptionalInputsStartPositionAndEndPositionInObstacles() {
+        // setup
+        obstacles.add(startPosition);
+        obstacles.add(endPosition);
+        // check setup
+        assertTrue(obstacles.contains(startPosition));
+        assertTrue(obstacles.contains(endPosition));
+
+        // call appropriate method
+        try {
+            pathfinder.shortestPathFrom(startPosition,endPosition,obstacles);
+            fail("An exception for path not being found because the start position is in an obstacle was not thrown!");
+        } catch (PathNotFoundException e) {
+            // check for expected outcome
+            // this is good
+        }
+    }
+
+    @Test
+    void testShortestPathFound() {
+        // setup
+        List<Position> shortestPathA = new ArrayList<>();
+        shortestPathA.add(startPosition);
+        shortestPathA.add(new Position(1,1));
+        shortestPathA.add(new Position(2,1));
+        shortestPathA.add(new Position(3,1));
+        shortestPathA.add(new Position(3,2));
+        shortestPathA.add(new Position(3,3));
+        shortestPathA.add(endPosition);
+
+        List<Position> shortestPathB = new ArrayList<>();
+        shortestPathB.add(startPosition);
+        shortestPathB.add(new Position(1,1));
+        shortestPathB.add(new Position(1,2));
+        shortestPathB.add(new Position(1,3));
+        shortestPathB.add(new Position(2,3));
+        shortestPathB.add(new Position(3,3));
+        shortestPathB.add(endPosition);
+
+        List<Position> shortestPathC = new ArrayList<>();
+        shortestPathC.add(startPosition);
+        shortestPathC.add(new Position(1,1));
+        shortestPathC.add(new Position(1,2));
+        shortestPathC.add(new Position(1,3));
+        shortestPathC.add(new Position(2,3));
+        shortestPathC.add(new Position(2,4));
+        shortestPathC.add(endPosition);
+
+        List<Position> shortestPathD = new ArrayList<>();
+        shortestPathD.add(startPosition);
+        shortestPathD.add(new Position(1,1));
+        shortestPathD.add(new Position(1,2));
+        shortestPathD.add(new Position(1,3));
+        shortestPathD.add(new Position(1,4));
+        shortestPathD.add(new Position(2,4));
+        shortestPathD.add(endPosition);
+
+        // check setup
+
+        try {
+            for (int i = 0;i < 10000; ++i) {
+                // call appropriate method
+                List<Position> calculatedShortestPath = pathfinder.shortestPathFrom(startPosition,endPosition,obstacles);
+                // check for expected outcome
+
+                assertTrue(calculatedShortestPath.equals(shortestPathB));
+                assertFalse(calculatedShortestPath.equals(shortestPathD));
+                assertFalse(calculatedShortestPath.equals(shortestPathA));
+                assertFalse(calculatedShortestPath.equals(shortestPathC));
+            }
+        } catch (PathNotFoundException e) {
+            fail("A PathNotFoundException was thrown when it shouldn't have been!");
+        }
+
     }
 }

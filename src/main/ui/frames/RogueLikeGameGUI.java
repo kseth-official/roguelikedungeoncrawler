@@ -5,8 +5,8 @@ import model.*;
 import model.tile.SmallHealthPotion;
 import ui.GameAudioPlayer;
 import ui.buttons.*;
-import ui.labels.ControlsAndInformationLabel;
-import ui.panels.InventoryPanel;
+import ui.labels.ControlsLabel;
+import ui.panels.GameInformationPanel;
 import ui.panels.GamePanel;
 import ui.progressbars.HealthProgressBar;
 
@@ -19,18 +19,20 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     private static final int FRAME_WIDTH = MainMenu.FRAME_WIDTH;
     private static final int FRAME_HEIGHT = MainMenu.FRAME_HEIGHT;
 
-    private int frameContentPaneWidth;
-    private int frameContentPaneHeight;
-
     private static final int BASIC_COIN_WORTH = 1;
+    public static final int GAME_FINAL_LEVEL = 3;
     private static final String PLAYER_IS_DEAD_SOUND = "./data/audio/mixkit-spooky-game-over-1948.wav";
     private static final String PLAYER_WON_SOUND = "./data/audio/mixkit-game-level-completed-2059.wav";
 
     private static int gameTerminalWidth;
     private static int gameTerminalHeight;
 
+    private int frameContentPaneWidth;
+    private int frameContentPaneHeight;
+
     private Game game;
     private GameAudioPlayer gameAudioPlayer;
+    private int levelCount;
 
     // COMPONENTS
     // PANELS
@@ -111,7 +113,10 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
         initializeGamePanels();
 
         // LABELS
-        controlsAndInformationLabel = new ControlsAndInformationLabel(frameContentPaneWidth, frameContentPaneHeight);
+        controlsAndInformationLabel = new ControlsLabel(
+                frameContentPaneWidth,
+                frameContentPaneHeight
+        );
 
         initializeGameButtons();
 
@@ -161,7 +166,7 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
                 gameTerminalHeight,
                 game);
 
-        inventoryPanel = new InventoryPanel(
+        inventoryPanel = new GameInformationPanel(
                 frameContentPaneWidth,
                 frameContentPaneHeight,
                 game);
@@ -219,10 +224,14 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
             new PauseMenu(this,game);
         } else if (e.getSource() == descendButton) {
             boolean isLevelOver = game.player().interact("e", game);
+            boolean isGameOver = isLevelOver && (game.getLevelNumber() == GAME_FINAL_LEVEL);
             if (isLevelOver) {
-                gameAudioPlayer.play(PLAYER_WON_SOUND);
-                dispose();
-                new MainMenu();
+                if (isGameOver) {
+                    gameAudioPlayer.play(PLAYER_WON_SOUND);
+                    dispose();
+                    new MainMenu();
+                }
+                game.generateLevel(game.getLevelNumber() + 1,game.player());
             }
         } else if (e.getSource() == useSmallHealthPotionButton) {
             useSmallHealthPotionIfPossible();
@@ -250,7 +259,6 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
             }
         } else {
             System.out.println("Player has no Small Health Potions!");
-            // ???
         }
     }
 

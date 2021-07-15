@@ -9,9 +9,10 @@ import java.util.*;
 // A class that contains all pathfinding related functionality.
 public class Pathfinder {
 
-    // REQUIRES: startPosition and endPosition must be positions on the current game map
-    // EFFECTS: Produces the shortest path from the startPosition to the endPosition while navigating obstacles.
-    // Uses Manhattan distance for calculations.
+    // EFFECTS: Produces the shortest path from the startPosition to the endPosition (both positions included) while
+    // navigating obstacles. Throws a PathNotFoundException if the startPosition is in the obstacles, if the endPosition
+    // is in the obstacles, or if both are in the obstacles. Uses Manhattan Distance (i.e., Taxicab Geometry)
+    // for distance calculations.
     public List<Position> shortestPathFrom(Position startPosition, Position endPosition, HashSet<Position> obstacles)
             throws PathNotFoundException {
         /*
@@ -48,7 +49,7 @@ public class Pathfinder {
             openNodes: The list of Nodes that are to be evaluated.
             closedNodes: The list of Nodes that have been evaluated.
             currentNode: The currentNode in openNodes being examined during iteration.
-            Neighbour: The Nodes above, below, to the left, and to the right of the currentNode who's positions's don't
+            Neighbour: The Nodes above, below, to the left, and to the right of the currentNode who's positions don't
             collide with that of an obstacle.
         */
 
@@ -68,11 +69,7 @@ public class Pathfinder {
         Set<Node> neighbours;
 
         while (!openNodes.isEmpty()) {
-            try {
-                currentNode = findNodeWithLowestFCost(openNodes);
-            } catch (NodeListEmptyException e) {
-                throw new PathNotFoundException();
-            }
+            currentNode = findNodeWithLowestFCost(openNodes);
 
             openNodes.remove(currentNode);
             closedNodes.add(currentNode);
@@ -185,13 +182,12 @@ public class Pathfinder {
         }
     }
 
-    // EFFECTS: Finds the Node in the list with the lowest fCost. Throws a NodeListEmptyException if there are no nodes
-    // in the list to choose from. If two Nodes have the same fCost, the method returns the first one found.
-    public Node findNodeWithLowestFCost(List<Node> nodes) throws NodeListEmptyException {
+    // EFFECTS: Finds the Node in the list with the lowest fCost. Returns null if there are no nodes to choose from.
+    // If two Nodes have the same fCost, the method returns the first one found.
+    public Node findNodeWithLowestFCost(List<Node> nodes) {
         if (nodes.isEmpty()) {
-            throw new NodeListEmptyException();
+            return null;
         }
-
         Node smallestFCostNode = nodes.get(0);
         for (Node node: nodes) {
             if (node.getFCost() < smallestFCostNode.getFCost()) {

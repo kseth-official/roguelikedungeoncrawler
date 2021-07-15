@@ -38,6 +38,7 @@ class JsonReaderTest {
         JsonReader reader = new JsonReader(JSON_STORE_TEST_JSON_READER);
         try {
             Game game = reader.read();
+            testLevelNumberReadCorrectly(game);
             testInitialDiggingDirectionReadCorrectly(game);
             testInitialDiggingPositionReadCorrectly(game);
             testUnoccupiedTilesReadCorrectly(game);
@@ -53,6 +54,10 @@ class JsonReaderTest {
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
+    }
+
+    private void testLevelNumberReadCorrectly(Game game) {
+        assertEquals(game.getLevelNumber(),3);
     }
 
     private void testInitialDiggingDirectionReadCorrectly(Game game) {

@@ -55,6 +55,7 @@ public class JsonReader {
 
     // EFFECTS: parses game from JSON object and returns it
     private Game parseGame(JSONObject jsonObject) throws CellAtMaximumOrMinimumException {
+        int levelNumber;
         Direction initialDiggingDirection;
         Position initialDiggingPosition;
         Set<Position> unoccupiedTiles;
@@ -68,6 +69,7 @@ public class JsonReader {
         Enemy enemy;
         SmallHealthPotion smallHealthPotion;
 
+        levelNumber = deserializeLevelNumber(jsonObject);
         initialDiggingDirection = deserializeInitialDiggingDirection(jsonObject);
         initialDiggingPosition = deserializeInitialDiggingPosition(jsonObject);
         unoccupiedTiles = deserializeUnoccupiedTiles(jsonObject);
@@ -82,6 +84,7 @@ public class JsonReader {
         smallHealthPotion = deserializeSmallHealthPotion(jsonObject);
 
         return new Game(
+                levelNumber,
                 initialDiggingDirection,
                 initialDiggingPosition,
                 unoccupiedTiles,
@@ -95,6 +98,11 @@ public class JsonReader {
                 enemy,
                 smallHealthPotion
         );
+    }
+
+    // EFFECTS: parses the levelNumber from JSON object and returns it as an integer
+    private int deserializeLevelNumber(JSONObject jsonObject) {
+        return jsonObject.getInt("levelNumber");
     }
 
     // EFFECTS: parses the initialDiggingDirection from JSON object and returns it as a Direction object

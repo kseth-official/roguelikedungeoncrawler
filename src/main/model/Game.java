@@ -26,27 +26,29 @@ public class Game implements Writable, Serializable {
     public static final int NUMBER_OF_SPIKES = 3;
     public static final int NUMBER_OF_COINS = 20;
     public static final int NUMBER_OF_SMALL_HEALTH_POTIONS = 3;
-    public static final int NUMBER_OF_ENEMIES = 20;
+    public static final int NUMBER_OF_ENEMIES = 3;
 
     // PROCEDURAL GENERATION
     public static final int MAX_TUNNEL_LENGTH = GAME_TERMINAL_WIDTH - 2;
     public static final int MAX_TUNNEL_TURNS = 100;
     public static final Direction[] DIRECTIONS = Direction.values();
 
+    private int levelNumber;
+
     private Direction initialDiggingDirection;
     private Position initialDiggingPosition;
 
-    private Set<Position> unoccupiedTiles = new HashSet<>();
+    private Set<Position> unoccupiedTiles;
 
-    private Air air = new Air();
-    private Wall wall = new Wall();
-    private EntryPoint entryPoint = new EntryPoint();
-    private ExitPoint exitPoint = new ExitPoint();
-    private Player player = new Player();
-    private Spike spike = new Spike();
-    private Coin coin = new Coin();
-    private Enemy enemy = new Enemy();
-    private SmallHealthPotion smallHealthPotion = new SmallHealthPotion();
+    private Air air;
+    private Wall wall;
+    private EntryPoint entryPoint;
+    private ExitPoint exitPoint;
+    private Player player;
+    private Spike spike;
+    private Coin coin;
+    private Enemy enemy;
+    private SmallHealthPotion smallHealthPotion;
 
     // FIXME: CPSC 210 Checkstyle Issues
     //        LineLength has been moved from under TreeWalker to Checker in checkstyle.xml
@@ -69,6 +71,7 @@ public class Game implements Writable, Serializable {
             ObjectInputStream ois = new ObjectInputStream(bis);
             Game toClone = (Game) ois.readObject();
 
+            this.levelNumber = toClone.getLevelNumber();
             this.initialDiggingDirection = toClone.getInitialDiggingDirection();
             this.initialDiggingPosition = toClone.getInitialDiggingPosition();
             this.unoccupiedTiles = toClone.getUnoccupiedTiles();
@@ -99,7 +102,7 @@ public class Game implements Writable, Serializable {
 //        this.smallHealthPotion = new SmallHealthPotion(toClone.smallHealthPotion());
     }
 
-    // EFFECTS: sets up the initial game map
+    // EFFECTS: Sets up the initial game map creating a new player and setting the level to one.
     public Game() {
         /* PSEUDOCODE FOR PROCEDURAL GENERATION:
         Create a Width x Height map of walls
@@ -181,6 +184,58 @@ public class Game implements Writable, Serializable {
             remove that position from the unoccupiedTileSet
         } */
 
+        generateLevel(1,new Player());
+    }
+
+    // EFFECTS: initializes a game with all the given objects
+    public Game(int levelNumber,
+                Direction initialDiggingDirection,
+                Position initialDiggingPosition,
+                Set<Position> unoccupiedTiles,
+                Air air,
+                Wall wall,
+                EntryPoint entryPoint,
+                ExitPoint exitPoint,
+                Player player,
+                Spike spike,
+                Coin coin,
+                Enemy enemy,
+                SmallHealthPotion smallHealthPotion) {
+        this.levelNumber = levelNumber;
+        this.initialDiggingDirection = initialDiggingDirection;
+        this.initialDiggingPosition = initialDiggingPosition;
+        this.unoccupiedTiles = unoccupiedTiles;
+        this.air = air;
+        this.wall = wall;
+        this.entryPoint = entryPoint;
+        this.exitPoint = exitPoint;
+        this.player = player;
+        this.spike = spike;
+        this.coin = coin;
+        this.enemy = enemy;
+        this.smallHealthPotion = smallHealthPotion;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Generates a new level assigning a player to that level and generating the map around it.
+    public void generateLevel(int levelNumber, Player player) {
+        this.levelNumber = levelNumber;
+
+        this.initialDiggingDirection = null;
+        this.initialDiggingPosition = null;
+        this.unoccupiedTiles = new HashSet<>();
+        this.air = new Air();
+        this.wall = new Wall();
+        this.entryPoint = new EntryPoint();
+        this.exitPoint = new ExitPoint();
+
+        this.player = player;
+
+        this.spike = new Spike();
+        this.coin = new Coin();
+        this.enemy = new Enemy();
+        this.smallHealthPotion = new SmallHealthPotion();
+
         procedurallyGenerateMap();
         initializeEntryPoint();
         initializePlayer();
@@ -202,33 +257,6 @@ public class Game implements Writable, Serializable {
             System.out.println("No unoccupied tiles to allot an Enemy!");
         }
         initializeAir();
-    }
-
-    // EFFECTS: initializes a game with all the given objects
-    public Game(Direction initialDiggingDirection,
-                Position initialDiggingPosition,
-                Set<Position> unoccupiedTiles,
-                Air air,
-                Wall wall,
-                EntryPoint entryPoint,
-                ExitPoint exitPoint,
-                Player player,
-                Spike spike,
-                Coin coin,
-                Enemy enemy,
-                SmallHealthPotion smallHealthPotion) {
-        this.initialDiggingDirection = initialDiggingDirection;
-        this.initialDiggingPosition = initialDiggingPosition;
-        this.unoccupiedTiles = unoccupiedTiles;
-        this.air = air;
-        this.wall = wall;
-        this.entryPoint = entryPoint;
-        this.exitPoint = exitPoint;
-        this.player = player;
-        this.spike = spike;
-        this.coin = coin;
-        this.enemy = enemy;
-        this.smallHealthPotion = smallHealthPotion;
     }
 
     public Wall wall() {
@@ -277,6 +305,14 @@ public class Game implements Writable, Serializable {
 
     public Set<Position> getUnoccupiedTiles() {
         return this.unoccupiedTiles;
+    }
+
+    public int getLevelNumber() {
+        return this.levelNumber;
+    }
+
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
     }
 
     public void setInitialDiggingDirection(Direction initialDiggingDirection) {
@@ -559,6 +595,7 @@ public class Game implements Writable, Serializable {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
+        json.put("levelNumber",levelNumber);
         json.put("initialDiggingDirection", initialDiggingDirection.toJson());
         json.put("initialDiggingPosition",initialDiggingPosition.toJson());
         json.put("unoccupiedTiles", new JSONArray(unoccupiedTiles));
@@ -583,23 +620,25 @@ public class Game implements Writable, Serializable {
             return false;
         }
         Game game = (Game) o;
-        return initialDiggingDirection == game.initialDiggingDirection
-                && initialDiggingPosition.equals(game.initialDiggingPosition)
-                && unoccupiedTiles.equals(game.unoccupiedTiles)
-                && air.equals(game.air)
-                && wall.equals(game.wall)
-                && entryPoint.equals(game.entryPoint)
-                && exitPoint.equals(game.exitPoint)
-                && player.equals(game.player)
-                && spike.equals(game.spike)
-                && coin.equals(game.coin)
-                && enemy.equals(game.enemy)
-                && smallHealthPotion.equals(game.smallHealthPotion);
+        return levelNumber == game.levelNumber
+                && initialDiggingDirection == game.initialDiggingDirection
+                && Objects.equals(initialDiggingPosition, game.initialDiggingPosition)
+                && Objects.equals(unoccupiedTiles, game.unoccupiedTiles)
+                && Objects.equals(air, game.air)
+                && Objects.equals(wall, game.wall)
+                && Objects.equals(entryPoint, game.entryPoint)
+                && Objects.equals(exitPoint, game.exitPoint)
+                && Objects.equals(player, game.player)
+                && Objects.equals(spike, game.spike)
+                && Objects.equals(coin, game.coin)
+                && Objects.equals(enemy, game.enemy)
+                && Objects.equals(smallHealthPotion, game.smallHealthPotion);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
+                levelNumber,
                 initialDiggingDirection,
                 initialDiggingPosition,
                 unoccupiedTiles,
@@ -611,7 +650,8 @@ public class Game implements Writable, Serializable {
                 spike,
                 coin,
                 enemy,
-                smallHealthPotion);
+                smallHealthPotion
+        );
     }
 }
 
