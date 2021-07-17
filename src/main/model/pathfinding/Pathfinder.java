@@ -11,8 +11,8 @@ public class Pathfinder {
 
     // EFFECTS: Produces the shortest path from the startPosition to the endPosition (both positions included) while
     // navigating obstacles. Throws a PathNotFoundException if the startPosition is in the obstacles, if the endPosition
-    // is in the obstacles, or if both are in the obstacles. Uses Manhattan Distance (i.e., Taxicab Geometry)
-    // for distance calculations.
+    // is in the obstacles, if both are in the obstacles, or if there is not path from the start position to the end position.
+    // Uses Manhattan Distance (i.e., Taxicab Geometry) for distance calculations.
     public List<Position> shortestPathFrom(Position startPosition, Position endPosition, HashSet<Position> obstacles)
             throws PathNotFoundException {
         /*
@@ -100,8 +100,7 @@ public class Pathfinder {
                 }
             }
         }
-
-        return null;
+        throw new PathNotFoundException();
     }
 
     // EFFECTS: Calculates the Manhattan distance between two Nodes.

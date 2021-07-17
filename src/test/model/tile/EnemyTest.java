@@ -32,13 +32,9 @@ public class EnemyTest {
     public void testMove() {
         // perform correct setup
         Game game = new Game();
+        for (int i = 0;i < Game.NUMBER_OF_ENEMIES;++i) {
 
-        // check for correct setup
-
-
-        // call the respective method
-        // check for expected output
-        // check if the expected output is the only output
+        }
     }
 
     @Test

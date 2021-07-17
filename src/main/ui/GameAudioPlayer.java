@@ -27,6 +27,7 @@ public class GameAudioPlayer implements LineListener {
                 }
             }
             audioClip.close();
+            soundPlayCompleted = false;
         } catch (UnsupportedAudioFileException ex) {
             System.out.println("The specified audio file is not supported.");
         } catch (LineUnavailableException ex) {

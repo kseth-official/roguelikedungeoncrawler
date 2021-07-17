@@ -31,6 +31,23 @@ public class CoinTest {
     }
 
     @Test
+    void testRemovePosition() {
+        // setup
+        coin.addPosition(new Position(1,2));
+        coin.addPosition(new Position(3,4));
+        // call method and check for expected outcome
+        coin.removePosition(new Position(1,2));
+        assertTrue(coin.getPositionSet().contains(new Position(3,4)));
+        assertFalse(coin.getPositionSet().contains(new Position(1,2)));
+    }
+
+    @Test
+    void testEqualsReferencesSame() {
+        coin.addPosition(new Position(4,5));
+        assertTrue(coin.equals(coin));
+    }
+
+    @Test
     public void testToJson() {
         Game game = new Game();
         JSONObject jsonObject;

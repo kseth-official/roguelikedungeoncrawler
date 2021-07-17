@@ -30,6 +30,25 @@ public class EntryPointTest {
     }
 
     @Test
+    void testSingleTileEqualsReferencesSame() {
+        assertTrue(entryPoint.equals(entryPoint));
+    }
+
+    @Test
+    void testSingleTileEqualsClassesDifferent() {
+        // setup
+        ExitPoint exitPoint = new ExitPoint();
+        // call appropriate method and check for expected outcome
+        assertFalse(entryPoint.equals(exitPoint));
+    }
+
+    @Test
+    void testSingleTileEqualsObjectBeingEquatedToIsNull() {
+        EntryPoint entryPoint2 = null;
+        assertFalse(entryPoint.equals(entryPoint2));
+    }
+
+    @Test
     public void testToJson() {
         Game game = new Game();
         JSONObject jsonObject;

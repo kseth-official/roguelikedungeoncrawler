@@ -33,8 +33,15 @@ public class PositionTest {
     }
 
     @Test
-    void testSetPosition() {
+    void testSetPositionXY() {
         position.setPosition(4,5);
+        assertEquals(position.getX(), 4);
+        assertEquals(position.getY(), 5);
+    }
+
+    @Test
+    void testSetPositionNewPosition() {
+        position.setPosition(new Position(4,5));
         assertEquals(position.getX(), 4);
         assertEquals(position.getY(), 5);
     }

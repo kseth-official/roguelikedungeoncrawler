@@ -1,6 +1,7 @@
 package model.pathfinding;
 
 import model.Position;
+import model.tile.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -172,5 +173,23 @@ public class NodeTest {
         assertEquals(testNode.getTarget(),target);
         assertEquals(testNode.getGCost(),5);
         assertEquals(testNode.getHCost(),7);
+    }
+
+    @Test
+    void testEqualsObjectBeingEquatedToNull() {
+        Node node = null;
+        assertFalse(testNode.equals(node));
+    }
+
+    @Test
+    void testEqualsClassesDifferent() {
+        Player player = new Player();
+        assertFalse(testNode.equals(player));
+    }
+
+    @Test
+    void testSetHCost() {
+        testNode.setHCost(3);
+        assertEquals(testNode.getHCost(),3);
     }
 }

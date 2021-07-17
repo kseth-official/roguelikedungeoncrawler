@@ -4,9 +4,6 @@
 in playing a rogue-like dungeon crawler that 
 provides an adequate challenge.**
 
-**Currently the procedural generation has not been implemented, and will
-be done after Phase 4 of this project.**
-
 ![](GameMapImage.png)
 
 ## *Game Specification*
@@ -120,9 +117,8 @@ a procedural generation algorithm for the level so that it has high replayabilit
 **Procedural Generation Implementation Using A Random Walker Algorithm**
 - As a user, I want to have the level change completely every time I create a new game.
 - As a user, I want to have the level change every time I descend through the stairs.
-- As a user, I want the difficulty to increase every time I descend through the stairs to a new level.
-- As a user, I want the player I'm controlling to be centred on the screen and the surroundings scroll based off of my
-movements.
+- As a user, I want to be able to descend through 3 dungeon levels before descending again to finish the game.
+
 
 
 

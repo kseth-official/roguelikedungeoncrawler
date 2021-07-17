@@ -49,7 +49,7 @@ public class Enemy extends MultipleTile {
                 try {
                     pathToTargetNode = pathfinder.shortestPathFrom(enemyPosition,playerPosition,obstacles);
                     boolean enemyMovementCondition =
-                            pathToTargetNode != null && pathToTargetNode.size() > 1
+                            pathToTargetNode.size() > 2
                                     && !pathToTargetNode.get(1).equals(playerPosition)
                                     && !enemyPositionSet.contains(pathToTargetNode.get(1));
 
@@ -60,7 +60,7 @@ public class Enemy extends MultipleTile {
                         enemyPositionSet.add(pathToTargetNode.get(1));
                     }
                 } catch (PathNotFoundException e) {
-                    System.out.println("This was actually thrown!");
+                    // do not move enemy
                 }
             }
         }

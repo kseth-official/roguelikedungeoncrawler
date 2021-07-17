@@ -23,6 +23,7 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
     public static final int GAME_FINAL_LEVEL = 3;
     private static final String PLAYER_IS_DEAD_SOUND = "./data/audio/mixkit-spooky-game-over-1948.wav";
     private static final String PLAYER_WON_SOUND = "./data/audio/mixkit-game-level-completed-2059.wav";
+    private static final String LEVEL_OVER_SOUND = "./data/audio/mixkit-long-pop-2358.wav";
 
     private static int gameTerminalWidth;
     private static int gameTerminalHeight;
@@ -230,7 +231,9 @@ public class RogueLikeGameGUI extends JFrame implements ActionListener, KeyListe
                     gameAudioPlayer.play(PLAYER_WON_SOUND);
                     dispose();
                     new MainMenu();
+                    return;
                 }
+                gameAudioPlayer.play(LEVEL_OVER_SOUND);
                 game.generateLevel(game.getLevelNumber() + 1,game.player());
             }
         } else if (e.getSource() == useSmallHealthPotionButton) {
