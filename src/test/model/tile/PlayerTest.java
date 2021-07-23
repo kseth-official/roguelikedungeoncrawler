@@ -1,6 +1,7 @@
 package model.tile;
 
 import exceptions.CellAtMaximumOrMinimumException;
+import model.Direction;
 import model.Game;
 import model.Position;
 import org.json.JSONObject;
@@ -121,18 +122,53 @@ public class PlayerTest {
 //        assertFalse(game.player().move("q",game));
 //    }
 //
-//    @Test
-//    public void testInteract() {
-//        assertFalse(game.player().interact("i",game));
-//        game.initializePlayer(new Position(2,2));
-//        game.initializeExitPoint(new Position(2,2));
-//        assertTrue(game.player().interact("e",game));
-//        assertFalse(game.player().interact("k",game));
-//        game.initializePlayer(new Position(2,2));
-//        game.initializeExitPoint(new Position(2,3));
-//        assertFalse(game.player().interact("e",game));
-//        assertFalse(game.player().interact("k",game));
-//    }
+    @Test
+    void testInteractTrueOutcomePlayerOnExitPoint() {
+        // setup
+        Player initialPlayer = new Player();
+        initialPlayer.setPosition(new Position(player.getPosition()));
+        initialPlayer.getHealthBar().setHealth(player.getHealthBar().getHealth());
+        initialPlayer.setWalletBalance(player.getWalletBalance());
+
+        player.setPosition(game.exitPoint().getPosition());
+        // check setup
+        assertTrue(player.getPosition().equals(game.exitPoint().getPosition()));
+        // call appropriate method and check for required output
+        assertTrue(player.interact("e",game));
+        // see that nothing else changes
+        player.setPosition(new Position(0,0));
+        assertTrue(initialPlayer.getPosition().equals(player.getPosition()));
+        assertEquals(initialPlayer.getHealthBar().getHealth(),player.getHealthBar().getHealth());
+        assertEquals(
+                initialPlayer.getInventory().getNumberOfSmallHealthPotions(),
+                player.getInventory().getNumberOfSmallHealthPotions()
+        );
+        assertEquals(initialPlayer.getWalletBalance(),player.getWalletBalance());
+    }
+
+    @Test
+    void testInteractFalseOutcomePlayerNotOnExitPoint() {
+        // setup
+        Player initialPlayer = new Player();
+        initialPlayer.setPosition(new Position(player.getPosition()));
+        initialPlayer.getHealthBar().setHealth(player.getHealthBar().getHealth());
+        initialPlayer.setWalletBalance(player.getWalletBalance());
+
+        player.setPosition(game.exitPoint().getPosition().generateNewPosition(Direction.UP));
+        // check setup
+        assertTrue(player.getPosition().equals(game.exitPoint().getPosition().generateNewPosition(Direction.UP)));
+        // call appropriate method and check for required output
+        assertFalse(player.interact("e",game));
+        // see that nothing else changes
+        player.setPosition(new Position(0,0));
+        assertTrue(initialPlayer.getPosition().equals(player.getPosition()));
+        assertEquals(initialPlayer.getHealthBar().getHealth(),player.getHealthBar().getHealth());
+        assertEquals(
+                initialPlayer.getInventory().getNumberOfSmallHealthPotions(),
+                player.getInventory().getNumberOfSmallHealthPotions()
+        );
+        assertEquals(initialPlayer.getWalletBalance(),player.getWalletBalance());
+    }
 
     @Test
     public void testAddToWallet() {
@@ -147,7 +183,7 @@ public class PlayerTest {
 
         player.setPosition(game.player().getPosition());
         player.setWalletBalance(game.player().getWalletBalance());
-        player.getHealthBar().set(22);
+        player.getHealthBar().setHealth(22);
         player.getHealthBar().setIsZero(false);
         try {
             player.getInventory().addSmallHealthPotions(3);

@@ -84,16 +84,15 @@ GUI Implemetation:
    with the ExitPoint to complete a level. (check)
 - As a user, I want to be able to access menus with menu items that allow me
    to load and save the game. (check)
-- As a user, I want to be able to be able to hear a sound when I die or complete the level. (check)
+- As a user, I want to be able to be able to hear a sound when I die or complete the game. (check)
 
 ### *Post Phase 3*
 - As a user, I want to be able to see graphical images to represent the game sprites. 
 
 ### *Phase 4*
 #### *Phase 4: Task 2*
-I have chosen to implement a class in my model package that is robust. It contains 
-three methods that are tested for a checked exception, both when the exception is 
-thrown and not thrown.
+I have chosen to implement a robust class in my model package. It contains 
+three methods that are tested for a checked exception, both when the exception is thrown and not thrown.
 
 Class Name: Inventory
 
@@ -118,7 +117,8 @@ a procedural generation algorithm for the level so that it has high replayabilit
 - As a user, I want to have the level change completely every time I create a new game.
 - As a user, I want to have the level change every time I descend through the stairs.
 - As a user, I want to be able to descend through 3 dungeon levels before descending again to finish the game.
-
+**Extras**
+- As a user, I want to be able to hear a sound every time I complete a level.
 
 
 

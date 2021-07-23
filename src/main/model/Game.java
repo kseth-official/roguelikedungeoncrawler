@@ -85,7 +85,7 @@ public class Game implements Writable, Serializable {
             this.enemy = toClone.enemy();
             this.smallHealthPotion = toClone.smallHealthPotion();
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
 //        Copy Constructor by creating deep copies of all objects using object copy constructors
 //        this.initialDiggingDirection = DIRECTIONS[toClone.getInitialDiggingDirection().ordinal()];
@@ -104,7 +104,42 @@ public class Game implements Writable, Serializable {
 
     // EFFECTS: Sets up the initial game map creating a new player and setting the level to one.
     public Game() {
-        /* PSEUDOCODE FOR PROCEDURAL GENERATION:
+        generateLevel(1,new Player());
+    }
+
+    // EFFECTS: initializes a game with all the given objects
+    public Game(int levelNumber,
+                Direction initialDiggingDirection,
+                Position initialDiggingPosition,
+                Set<Position> unoccupiedTiles,
+                Air air,
+                Wall wall,
+                EntryPoint entryPoint,
+                ExitPoint exitPoint,
+                Player player,
+                Spike spike,
+                Coin coin,
+                Enemy enemy,
+                SmallHealthPotion smallHealthPotion) {
+        this.levelNumber = levelNumber;
+        this.initialDiggingDirection = initialDiggingDirection;
+        this.initialDiggingPosition = initialDiggingPosition;
+        this.unoccupiedTiles = unoccupiedTiles;
+        this.air = air;
+        this.wall = wall;
+        this.entryPoint = entryPoint;
+        this.exitPoint = exitPoint;
+        this.player = player;
+        this.spike = spike;
+        this.coin = coin;
+        this.enemy = enemy;
+        this.smallHealthPotion = smallHealthPotion;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Generates a new level assigning a player to that level and generating the map around it.
+    public void generateLevel(int levelNumber, Player player) {
+         /* PSEUDOCODE FOR PROCEDURAL GENERATION:
         Create a Width x Height map of walls
         DEFINE:
         Position initialPosition = the initial position where map generation will begin
@@ -184,41 +219,6 @@ public class Game implements Writable, Serializable {
             remove that position from the unoccupiedTileSet
         } */
 
-        generateLevel(1,new Player());
-    }
-
-    // EFFECTS: initializes a game with all the given objects
-    public Game(int levelNumber,
-                Direction initialDiggingDirection,
-                Position initialDiggingPosition,
-                Set<Position> unoccupiedTiles,
-                Air air,
-                Wall wall,
-                EntryPoint entryPoint,
-                ExitPoint exitPoint,
-                Player player,
-                Spike spike,
-                Coin coin,
-                Enemy enemy,
-                SmallHealthPotion smallHealthPotion) {
-        this.levelNumber = levelNumber;
-        this.initialDiggingDirection = initialDiggingDirection;
-        this.initialDiggingPosition = initialDiggingPosition;
-        this.unoccupiedTiles = unoccupiedTiles;
-        this.air = air;
-        this.wall = wall;
-        this.entryPoint = entryPoint;
-        this.exitPoint = exitPoint;
-        this.player = player;
-        this.spike = spike;
-        this.coin = coin;
-        this.enemy = enemy;
-        this.smallHealthPotion = smallHealthPotion;
-    }
-
-    // MODIFIES: this
-    // EFFECTS: Generates a new level assigning a player to that level and generating the map around it.
-    public void generateLevel(int levelNumber, Player player) {
         this.levelNumber = levelNumber;
 
         this.initialDiggingDirection = null;
@@ -542,7 +542,7 @@ public class Game implements Writable, Serializable {
     }
 
     // MODIFIES: this
-    // EFFECTS: sets up the Wall positions
+    // EFFECTS: Creates a solid X x Y map of walls.
     public void initializeWalls() {
         for (int i = 0; i < GAME_TERMINAL_WIDTH; ++i) {
             for (int j = 0; j < GAME_TERMINAL_HEIGHT; ++j) {

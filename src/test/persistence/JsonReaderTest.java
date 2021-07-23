@@ -52,7 +52,7 @@ class JsonReaderTest {
             testEnemyTileReadCorrectly(game);
             testSmallHealthPositionTileReadCorrectly(game);
         } catch (IOException e) {
-            fail("Couldn't read from file");
+            fail("Couldn't read from file!");
         }
     }
 

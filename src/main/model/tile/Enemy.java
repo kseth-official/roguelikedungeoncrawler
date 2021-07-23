@@ -23,7 +23,9 @@ public class Enemy extends MultipleTile {
     }
 
     // MODIFIES: this
-    // EFFECTS: moves every enemy that detects the player on its radar towards the player
+    // EFFECTS: Moves every enemy that detects the player on its radar towards the player. Does not move the enemy if
+    // it is already right next to the player, if it is on the same position as the player, if another enemy exists on
+    // the next position on the shortest path to the player, or if there is no path to the player.
     public void move(Game game) {
         Pathfinder pathfinder = new Pathfinder();
         Position playerPosition = game.player().getPosition();
@@ -37,8 +39,8 @@ public class Enemy extends MultipleTile {
             }
         };
 
-        // The path to the target node
-        List<Position> pathToTargetNode;
+        // The path to the player
+        List<Position> pathToPlayer;
 
         HashSet<Position> tempSet = new HashSet<>(enemyPositionSet);
 
@@ -47,20 +49,23 @@ public class Enemy extends MultipleTile {
             if (enemyRadar.hasDetected(playerPosition)) {
                 // Get path to target node
                 try {
-                    pathToTargetNode = pathfinder.shortestPathFrom(enemyPosition,playerPosition,obstacles);
+                    pathToPlayer = pathfinder.shortestPathFrom(enemyPosition,playerPosition,obstacles);
                     boolean enemyMovementCondition =
-                            pathToTargetNode.size() > 2
-                                    && !pathToTargetNode.get(1).equals(playerPosition)
-                                    && !enemyPositionSet.contains(pathToTargetNode.get(1));
+                            // move if you're more than one block away from the player or don't
+                            pathToPlayer.size() > 2
+                                    && !pathToPlayer.get(1).equals(playerPosition)
+                                    // don't move if another enemy exists at the next position on the shortest path to
+                                    // the player
+                                    && !enemyPositionSet.contains(pathToPlayer.get(1));
 
                     if (enemyMovementCondition) {
                         // Remove current enemy position from the enemy position set
                         enemyPositionSet.remove(enemyPosition);
-                        // Add new enemy position in step towards shortest path to the position set
-                        enemyPositionSet.add(pathToTargetNode.get(1));
+                        // Add new enemy position to the enemyPositionSet
+                        enemyPositionSet.add(pathToPlayer.get(1));
                     }
                 } catch (PathNotFoundException e) {
-                    // do not move enemy
+                    // do not move the enemy
                 }
             }
         }

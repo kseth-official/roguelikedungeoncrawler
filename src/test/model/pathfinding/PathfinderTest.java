@@ -95,7 +95,7 @@ public class PathfinderTest {
         // setup
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),4);
         assertTrue(neighbours.contains(nodeAbove));
@@ -112,7 +112,7 @@ public class PathfinderTest {
         obstacles.add(new Position(1,2));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),3);
         assertFalse(neighbours.contains(nodeAbove));
@@ -127,7 +127,7 @@ public class PathfinderTest {
         obstacles.add(new Position(1,0));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),3);
         assertTrue(neighbours.contains(nodeAbove));
@@ -142,7 +142,7 @@ public class PathfinderTest {
         obstacles.add(new Position(2,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),3);
         assertTrue(neighbours.contains(nodeAbove));
@@ -157,7 +157,7 @@ public class PathfinderTest {
         obstacles.add(new Position(0,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),3);
         assertTrue(neighbours.contains(nodeAbove));
@@ -176,7 +176,7 @@ public class PathfinderTest {
 
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),2);
         assertFalse(neighbours.contains(nodeAbove));
@@ -192,7 +192,7 @@ public class PathfinderTest {
         obstacles.add(new Position(2,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),2);
         assertFalse(neighbours.contains(nodeAbove));
@@ -208,7 +208,7 @@ public class PathfinderTest {
         obstacles.add(new Position(0,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),2);
         assertFalse(neighbours.contains(nodeAbove));
@@ -224,7 +224,7 @@ public class PathfinderTest {
         obstacles.add(new Position(2,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),2);
         assertTrue(neighbours.contains(nodeAbove));
@@ -240,7 +240,7 @@ public class PathfinderTest {
         obstacles.add(new Position(0,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),2);
         assertTrue(neighbours.contains(nodeAbove));
@@ -256,7 +256,7 @@ public class PathfinderTest {
         obstacles.add(new Position(0,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),2);
         assertTrue(neighbours.contains(nodeAbove));
@@ -275,7 +275,7 @@ public class PathfinderTest {
         obstacles.add(new Position(2,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),1);
         assertFalse(neighbours.contains(nodeAbove));
@@ -292,7 +292,7 @@ public class PathfinderTest {
         obstacles.add(new Position(0,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),1);
         assertTrue(neighbours.contains(nodeAbove));
@@ -309,7 +309,7 @@ public class PathfinderTest {
         obstacles.add(new Position(0,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),1);
         assertFalse(neighbours.contains(nodeAbove));
@@ -326,7 +326,7 @@ public class PathfinderTest {
         obstacles.add(new Position(0,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),1);
         assertFalse(neighbours.contains(nodeAbove));
@@ -346,7 +346,7 @@ public class PathfinderTest {
         obstacles.add(new Position(0,1));
 
         // call appropriate method
-        Set<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
+        List<Node> neighbours = pathfinder.findNeighboursOfCurrentNode(nodeToFindNeighbours,endPosition,obstacles);
         // check for expected output
         assertEquals(neighbours.size(),0);
         assertFalse(neighbours.contains(nodeAbove));
@@ -417,7 +417,7 @@ public class PathfinderTest {
     }
 
     @Test
-    void testShortestPathFoundExceptionalInputsStartPositionInObstacles() {
+    void testShortestPathFromExceptionalInputsStartPositionInObstacles() {
         // setup
         obstacles.add(startPosition);
         // check setup
@@ -435,7 +435,7 @@ public class PathfinderTest {
     }
 
     @Test
-    void testShortestPathFoundExceptionalInputsEndPositionInObstacles() {
+    void testShortestPathFromExceptionalInputsEndPositionInObstacles() {
         // setup
         obstacles.add(endPosition);
         // check setup
@@ -453,7 +453,7 @@ public class PathfinderTest {
     }
 
     @Test
-    void testShortestPathFoundExceptionalInputsStartPositionAndEndPositionInObstacles() {
+    void testShortestPathFromExceptionalInputsStartPositionAndEndPositionInObstacles() {
         // setup
         obstacles.add(startPosition);
         obstacles.add(endPosition);
@@ -465,6 +465,25 @@ public class PathfinderTest {
         try {
             pathfinder.shortestPathFrom(startPosition,endPosition,obstacles);
             fail("An exception for path not being found because the start position is in an obstacle was not thrown!");
+        } catch (PathNotFoundException e) {
+            // check for expected outcome
+            // this is good
+        }
+    }
+
+    @Test
+    void testShortestPathFromExceptionalInputsNoPathFromStartPositionToEndPosition() {
+        // setup
+        obstacles.add(new Position(1,-1));
+        obstacles.add(new Position(1,1));
+        // check setup
+        assertTrue(obstacles.contains(new Position(1,-1)));
+        assertTrue(obstacles.contains(new Position(1,1)));
+
+        // call appropriate method
+        try {
+            pathfinder.shortestPathFrom(startPosition,endPosition,obstacles);
+            fail("An exception for path not being found because there is none was not thrown!");
         } catch (PathNotFoundException e) {
             // check for expected outcome
             // this is good
@@ -501,6 +520,7 @@ public class PathfinderTest {
         shortestPathC.add(new Position(2,4));
         shortestPathC.add(endPosition);
 
+        // this path shows priority and should be the correctly returned path
         List<Position> shortestPathD = new ArrayList<>();
         shortestPathD.add(startPosition);
         shortestPathD.add(new Position(1,1));
@@ -510,22 +530,19 @@ public class PathfinderTest {
         shortestPathD.add(new Position(2,4));
         shortestPathD.add(endPosition);
 
-        // check setup
-
         try {
             for (int i = 0;i < 10000; ++i) {
                 // call appropriate method
                 List<Position> calculatedShortestPath = pathfinder.shortestPathFrom(startPosition,endPosition,obstacles);
                 // check for expected outcome
 
-                assertTrue(calculatedShortestPath.equals(shortestPathB));
-                assertFalse(calculatedShortestPath.equals(shortestPathD));
+                assertTrue(calculatedShortestPath.equals(shortestPathD));
+                assertFalse(calculatedShortestPath.equals(shortestPathB));
                 assertFalse(calculatedShortestPath.equals(shortestPathA));
                 assertFalse(calculatedShortestPath.equals(shortestPathC));
             }
         } catch (PathNotFoundException e) {
-            fail("A PathNotFoundException was thrown when it shouldn't have been!");
+            fail("A PathNotFoundException was thrown when there is a path!");
         }
-
     }
 }

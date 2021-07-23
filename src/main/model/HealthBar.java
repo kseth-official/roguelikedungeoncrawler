@@ -42,7 +42,7 @@ public class HealthBar implements Writable, Serializable {
     // REQUIRES: value > 0
     // MODIFIES: this
     // EFFECTS: sets the health bar to a particular value
-    public void set(int value) {
+    public void setHealth(int value) {
         this.health = value;
     }
 
@@ -51,7 +51,7 @@ public class HealthBar implements Writable, Serializable {
      *          if addition of value causes healthBar to go above MAX_HEALTH
      *              constrains the healthBar such that health = MAX_HEALTH
      */
-    public void add(int value) {
+    public void addHealth(int value) {
         this.health += value;
         if (this.health >= MAX_HEALTH) {
             this.health = MAX_HEALTH;
@@ -64,7 +64,7 @@ public class HealthBar implements Writable, Serializable {
      *              constrains the healthBar such that the health = ZERO_HEALTH
      *              sets isZero to true
      */
-    public void subtract(int value) {
+    public void subtractHealth(int value) {
         this.health -= value;
         if (this.health <= ZERO_HEALTH) {
             this.health = ZERO_HEALTH;

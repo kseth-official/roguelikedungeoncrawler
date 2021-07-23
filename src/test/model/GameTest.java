@@ -69,6 +69,38 @@ public class GameTest {
     }
 
     @Test
+    void testSetAir() {
+        Air air = new Air();
+        assertNotEquals(game.air(),air);
+        game.setAir(air);
+        assertEquals(game.air(),air);
+    }
+
+    @Test
+    void testSetEntryPoint() {
+        EntryPoint entryPoint = new EntryPoint();
+        assertNotEquals(game.entryPoint(),entryPoint);
+        game.setEntryPoint(entryPoint);
+        assertEquals(game.entryPoint(),entryPoint);
+    }
+
+    @Test
+    void testSetPlayer() {
+        Player player = new Player();
+        assertNotEquals(game.player(),player);
+        game.setPlayer(player);
+        assertEquals(game.player(),player);
+    }
+
+    @Test
+    void testSetLevelNumber() {
+        int levelNumber = 30;
+        assertNotEquals(game.getLevelNumber(),levelNumber);
+        game.setLevelNumber(levelNumber);
+        assertEquals(game.getLevelNumber(),levelNumber);
+    }
+
+    @Test
     void testInitializePlayer() {
         // check pre-setup
         assertNotNull(game.player().getPosition());

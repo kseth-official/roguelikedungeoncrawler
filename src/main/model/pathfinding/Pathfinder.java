@@ -11,8 +11,10 @@ public class Pathfinder {
 
     // EFFECTS: Produces the shortest path from the startPosition to the endPosition (both positions included) while
     // navigating obstacles. Throws a PathNotFoundException if the startPosition is in the obstacles, if the endPosition
-    // is in the obstacles, if both are in the obstacles, or if there is not path from the start position to the end position.
-    // Uses Manhattan Distance (i.e., Taxicab Geometry) for distance calculations.
+    // is in the obstacles, if both are in the obstacles, or if there is no path from the start position to the end
+    // position. Uses Manhattan Distance (i.e., Taxicab Geometry) for distance calculations. If equivalent shortest
+    // paths exist, chooses paths by prioritizing decreasing y-value first, increasing y-value second, decreasing
+    // x-value third, and increasing x-value fourth.
     public List<Position> shortestPathFrom(Position startPosition, Position endPosition, HashSet<Position> obstacles)
             throws PathNotFoundException {
         /*
@@ -66,7 +68,7 @@ public class Pathfinder {
         openNodes.add(sourceNode);
 
         Node currentNode;
-        Set<Node> neighbours;
+        List<Node> neighbours;
 
         while (!openNodes.isEmpty()) {
             currentNode = findNodeWithLowestFCost(openNodes);
@@ -100,6 +102,7 @@ public class Pathfinder {
                 }
             }
         }
+        // no path found
         throw new PathNotFoundException();
     }
 
@@ -125,8 +128,8 @@ public class Pathfinder {
 
     // EFFECTS: Finds all the neighbours of the current node that are valid. A valid node is one who's position is not
     // the same as an obstacle.
-    public Set<Node> findNeighboursOfCurrentNode(Node currentNode, Position targetPosition, Set<Position> obstacles) {
-        Set<Node> neighbours = new HashSet<>();
+    public List<Node> findNeighboursOfCurrentNode(Node currentNode, Position targetPosition, Set<Position> obstacles) {
+        List<Node> neighbours = new ArrayList<>();
         int currentNodeX = currentNode.getPosition().getX();
         int currentNodeY = currentNode.getPosition().getY();
 
@@ -156,7 +159,7 @@ public class Pathfinder {
             Node currentNode,
             Position targetPosition,
             Set<Position> obstacles,
-            Set<Node> neighbours,
+            List<Node> neighbours,
             int currentNodeX,
             int currentNodeY,
             Position positionAbove,

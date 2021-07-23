@@ -25,15 +25,15 @@ public class HealthBarTest {
         // set health to particular value
         // add health that does not require the method to constrain health
         // check if health has been added
-        healthBar.set(50);
-        healthBar.add(25);
+        healthBar.setHealth(50);
+        healthBar.addHealth(25);
         assertEquals(healthBar.getHealth(),75);
 
         // set health to a particular value
         // add health that requires the method to constrain health
         // check if health = MAX_HEALTH
-        healthBar.set(50);
-        healthBar.add(75);
+        healthBar.setHealth(50);
+        healthBar.addHealth(75);
         assertEquals(healthBar.getHealth(),maxHealth);
     }
 
@@ -42,16 +42,16 @@ public class HealthBarTest {
         // set health to particular value
         // subtract health that does not require the method to constrain health
         // check if health has been subtracted
-        healthBar.set(50);
-        healthBar.subtract(25);
+        healthBar.setHealth(50);
+        healthBar.subtractHealth(25);
         assertEquals(healthBar.getHealth(),25);
 
         // set health to a particular value
         // subtract health that requires the method to constrain health
         // check if health = ZERO_HEALTH and isZero is true
-        healthBar.set(50);
+        healthBar.setHealth(50);
         assertFalse(healthBar.isZero());
-        healthBar.subtract(75);
+        healthBar.subtractHealth(75);
         assertTrue(healthBar.isZero());
     }
 

@@ -16,7 +16,6 @@ import model.tile.MultipleTile;
 import model.Position;
 import model.tile.SingleTile;
 import model.tile.*;
-import netscape.javascript.JSObject;
 import org.json.*;
 
 // Code citation: JsonSerializationDemo (CPSC 210; The University of British Columbia, Vancouver)
@@ -168,7 +167,7 @@ public class JsonReader {
         player.setWalletBalance(jsonWalletObject.getInt("walletBalance"));
 
         JSONObject jsonHealthBarObject = jsonPlayerObject.getJSONObject("healthBar");
-        player.getHealthBar().set(jsonHealthBarObject.getInt("health"));
+        player.getHealthBar().setHealth(jsonHealthBarObject.getInt("health"));
         player.getHealthBar().setIsZero(jsonHealthBarObject.getBoolean("isZero"));
 
         JSONObject jsonInventoryObject = jsonPlayerObject.getJSONObject("inventory");

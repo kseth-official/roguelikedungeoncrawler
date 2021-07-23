@@ -1,8 +1,9 @@
 package model.tile;
 
-import exceptions.CellAtMaximumOrMinimumException;
 import model.*;
 import org.json.JSONObject;
+
+import java.util.Objects;
 
 // A class for modeling the player on the map.
 // This player may move around, pick up coins, and interact with the exit.
@@ -31,6 +32,23 @@ public class Player extends SingleTile {
 
     public Inventory getInventory() {
         return this.inventory;
+    }
+
+    public Wallet getWallet() {
+        return this.wallet;
+    }
+
+    // EFFECTS: returns the player's current wallet balance
+    public int getWalletBalance() {
+        return wallet.getBalance();
+    }
+
+    public void setWalletBalance(int balance) {
+        this.wallet.setBalance(balance);
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     // EFFECTS: displays the symbol for the player character + an optional string
@@ -79,11 +97,11 @@ public class Player extends SingleTile {
         boolean playerHitASpike = game.spike().getPositionSet().contains(positionToRight);
         boolean playerWalkedIntoEnemy = game.enemy().getPositionSet().contains(positionToRight);
         if (playerWalkedIntoEnemy) {
-            this.healthBar.subtract(20);
+            this.healthBar.subtractHealth(20);
             return;
         }
         if (playerHitASpike) {
-            this.healthBar.subtract(100);
+            this.healthBar.subtractHealth(100);
             return;
         }
         if (!playerIsInWall) {
@@ -107,11 +125,11 @@ public class Player extends SingleTile {
         boolean playerHitASpike = game.spike().getPositionSet().contains(positionBelow);
         boolean playerWalkedIntoEnemy = game.enemy().getPositionSet().contains(positionBelow);
         if (playerWalkedIntoEnemy) {
-            this.healthBar.subtract(20);
+            this.healthBar.subtractHealth(20);
             return;
         }
         if (playerHitASpike) {
-            this.healthBar.subtract(100);
+            this.healthBar.subtractHealth(100);
             return;
         }
         if (!playerIsInWall) {
@@ -135,11 +153,11 @@ public class Player extends SingleTile {
         boolean playerHitASpike = game.spike().getPositionSet().contains(positionToLeft);
         boolean playerWalkedIntoEnemy = game.enemy().getPositionSet().contains(positionToLeft);
         if (playerWalkedIntoEnemy) {
-            this.healthBar.subtract(20);
+            this.healthBar.subtractHealth(20);
             return;
         }
         if (playerHitASpike) {
-            this.healthBar.subtract(100);
+            this.healthBar.subtractHealth(100);
             return;
         }
         if (!playerIsInWall) {
@@ -164,11 +182,11 @@ public class Player extends SingleTile {
         boolean playerWalkedIntoEnemy = game.enemy().getPositionSet().contains(positionAbove);
 
         if (playerWalkedIntoEnemy) {
-            this.healthBar.subtract(20);
+            this.healthBar.subtractHealth(20);
             return;
         }
         if (playerHitASpike) {
-            this.healthBar.subtract(100);
+            this.healthBar.subtractHealth(100);
             return;
         }
         if (!playerIsInWall) {
@@ -189,19 +207,6 @@ public class Player extends SingleTile {
             }
         }
         return false;
-    }
-
-    public Wallet getWallet() {
-        return this.wallet;
-    }
-
-    // EFFECTS: returns the player's current wallet balance
-    public int getWalletBalance() {
-        return wallet.getBalance();
-    }
-
-    public void setWalletBalance(int balance) {
-        this.wallet.setBalance(balance);
     }
 
     // MODIFIES: this
