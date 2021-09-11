@@ -11,9 +11,13 @@ small health potions, and coins.
 
 ![](GameMapImage.png)
 
+### *Enemies*
+
 The enemies follow you around regardless of how many there are.
 
 ![](EnemiesFollowYouAround.gif)
+
+### *Random Map Generation*
 
 The level changes each time you descend through the stairs.
 
