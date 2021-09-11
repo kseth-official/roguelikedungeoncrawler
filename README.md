@@ -1,4 +1,4 @@
-# ***Deep Dungeon - a procedurally generated roguelike dungeon***
+# ***Deep Dungeon***
 
 **This application is designed for anyone interested 
 in playing a rogue-like dungeon crawler that 
