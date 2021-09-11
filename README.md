@@ -1,19 +1,27 @@
-# ***A Procedurally Generated Rogue-like Dungeon***
+# ***Deep Dungeon - a procedurally generated roguelike dungeon***
 
 **This application is designed for anyone interested 
 in playing a rogue-like dungeon crawler that 
 provides an adequate challenge.**
 
-![](GameMapImage.png)
-
 ## *Game Specification*
 ### *Map*
-The game generates a *map* with walls, a single entry point, a single exit point, obstacles (spikes), an enemy,
+The game generates a *map* with walls, a single entry point, a single exit point, spikes, enemies,
 small health potions, and coins.
+
+![](GameMapImage.png)
+
+The enemies follow you around regardless of how many there are.
+
+![](EnemiesFollowYouAround.gif)
+
+The level changes each time you descend through the stairs.
+
+![](LevelChangesEachTime.gif)
  
 ### *Objective*
-The player starts at the entry point and must circumvent all obstacles and the enemy to reach the exit point 
-and descend to the next level. 
+The player starts at the entry point and must circumvent all spikes and enemies to reach the exit point 
+and descend to the next level. Upon descending through 3 levels the game is over.  
 
 ### *Mechanics*
 - The player has a single life.
@@ -31,19 +39,19 @@ bar reaches zero.
 
 I've played several Rogue-like dungeon games before:
 
-- *The Pokemon Mystery Dungeon Games*
-- *The Enchanted Cave 2*
-- *Hades*
+- *Hades (2018)*
+- *The Enchanted Cave 2 (2015)*
+- *Pokemon Mystery Dungeon: Blue Rescue Team (2005)*
 
-I’ve always wondered about how the games were made. 
+I’ve always wondered about how these games were made. 
 
-This project will allow me to explore this curiosity 
-of mine, while simultaneously implementing a pathfinding
-algorithm in a game-like context and also a procedural generation algorithm.
+This project allowed me to explore this curiosity 
+of mine, while simultaneously implementing an A* pathfinding algorithm for enemy AI and
+a Random Walker Algorithm for procedural map generation.
 
 ## *User Stories*
-### *Phase 1*`
-The following user stories have been implemented in phase 1.
+### *Phase 1*
+The following user stories were implemented in phase 1:
 
 - As a user, I want to be able to navigate a room using WASD. (check)
 - As a user, I want to be able to interact with the exit point to complete the level. (check) 
@@ -51,7 +59,7 @@ The following user stories have been implemented in phase 1.
 - As a user, I want to be able to add coins to my wallet as a count of my score. (check)
 
 ### *Phase 2*
-The following user stories have been implemented in phase 2.
+The following user stories were implemented in phase 2:
 
 - As a user, I want to be able to access a menu on starting the application. (check)
 - As a user, I want to be able to start a new game or load a saved game from a save file. (check)
@@ -59,7 +67,7 @@ The following user stories have been implemented in phase 2.
 - As a user, I want to have access to at least 3 save files. (check)
 
 ### *Post Phase 2*
-The following user stories have been implemented post phase 2 before beginning phase 3:
+The following user stories were implemented post phase 2 before beginning phase 3:
 
 - As a user, I want to be able to see an enemy on the map. (check)
 - As a user, I want to be able to pause the game and access a menu with options to
@@ -72,8 +80,8 @@ The following user stories have been implemented post phase 2 before beginning p
 - As a user, I want to be able to use Small Health Potions in my inventory to increase my health by 25. (check)
 
 ### *Phase 3*
-The following user stories will be implemented in phase 3.
-GUI Implemetation:
+The following user stories were implemented in phase 3:
+#### GUI Implemetation:
 - As a user, I want to be able to see a panel where all the Coins that have been
    added to the Player's Wallet are displayed. (check)
 - As a user, I want to be able to click a button to reduce 10 coins (Xs) in my wallet (Y) and buy a Small Health Potion. 
@@ -88,11 +96,14 @@ GUI Implemetation:
 - As a user, I want to be able to be able to hear a sound when I die or complete the game. (check)
 
 ### *Post Phase 3*
+The following user stories were implemented post phase 3 before beginning phase 4:
 - As a user, I want to be able to see graphical images to represent the game sprites. 
 
 ### *Phase 4*
+This phase involved increasing code robustness and refactoring to implement design patterns.
+
 #### *Phase 4: Task 2*
-I have chosen to implement a robust class in my model package. It contains 
+I chose to implement a robust class named Inventory in my model package. It contains 
 three methods that are tested for a checked exception, both when the exception is thrown and not thrown.
 
 Class Name: Inventory
@@ -100,6 +111,8 @@ Class Name: Inventory
 Method Names: addSmallHealthPotions(), addOneSmallHealthPotion(), addOneSmallHealthPotion()
 
 #### *Phase 4: Task 3*
+This is a discussion of future refactoring possibilities. 
+
 I would refactor the MainMenu, LoadGame, SaveGame, and PauseMenu classes so that they all extend
 an abstract menu class that implements the ActionListener interface. I would then override
 the actionPerformed() method belonging to that interface so that these subclasses would only have
@@ -108,14 +121,16 @@ the required additional functionality, and a large portion of repetitive code wo
 In future improvements of this project, I hope to use a pathfinding algorithm to allow enemies to follow the player, and
 a procedural generation algorithm for the level so that it has high replayability.
 
-## *Phase 5*
-**Pathfinding Implementation**
+### *Phase 5*
+The following user stories were implemented in phase 5:
+#### **Pathfinding Implementation**
 - As a user, I want to have an enemy follow me around as I move.
 - As a user, I want to have multiple enemies follow me around as I move.
 - As a user, I want to be able to be trapped by enemies so that I'm forced to either quit or die to lose the game.
 
-## *Phase 6*
-**Procedural Generation Implementation Using A Random Walker Algorithm**
+### *Phase 6*
+The following user stories were implemented in phase 6:
+#### **Procedural Generation Implementation Using A Random Walker Algorithm**
 - As a user, I want to have the level change completely every time I create a new game.
 - As a user, I want to have the level change every time I descend through the stairs.
 - As a user, I want to be able to descend through 3 dungeon levels before descending again to finish the game.
