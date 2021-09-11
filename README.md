@@ -45,28 +45,28 @@ algorithm in a game-like context and also a procedural generation algorithm.
 ### *Phase 1*`
 The following user stories have been implemented in phase 1.
 
-- As a user, I want to be able to navigate a room using the arrow keys.
-- As a user, I want to be able to interact with the exit point to complete the level. 
-- As a user, I want to be able to be able to die (lose all health) if I walk into an obstacle.  
-- As a user, I want to be able to add coins to my wallet as a count of my score.
+- As a user, I want to be able to navigate a room using WASD. (check)
+- As a user, I want to be able to interact with the exit point to complete the level. (check) 
+- As a user, I want to be able to be able to die (lose all health) if I walk into a spike. (check)  
+- As a user, I want to be able to add coins to my wallet as a count of my score. (check)
 
 ### *Phase 2*
-
 The following user stories have been implemented in phase 2.
-- As a user, I want to be able to access a menu on starting the application.
-- As a user, I want to be able to start a new game or load a saved game from a save file.
-- As a user, I want to be able to save the current game to a save file.
-- As a user, I want to have access to at least 3 save files.
+
+- As a user, I want to be able to access a menu on starting the application. (check)
+- As a user, I want to be able to start a new game or load a saved game from a save file. (check)
+- As a user, I want to be able to save the current game to a save file. (check)
+- As a user, I want to have access to at least 3 save files. (check)
 
 ### *Post Phase 2*
 The following user stories have been implemented post phase 2 before beginning phase 3:
 
 - As a user, I want to be able to see an enemy on the map. (check)
 - As a user, I want to be able to pause the game and access a menu with options to
-  return back to the game, return back to the main menu without saving, save the
+  return to the game, return to the main menu without saving, save the
   game, and exit the game. (check)
 - As a user, I want to be able to see my current health. (check)
-- As a user, I want to be able to lose 20 health upon walking into an enemy, 
+- As a user, I want to be able to lose 20 health upon walking into an enemy 
   and not be able to walk through them. (check)
 - As a user, I want to be able to add Small Health Potions to my inventory. (check)
 - As a user, I want to be able to use Small Health Potions in my inventory to increase my health by 25. (check)
@@ -76,8 +76,9 @@ The following user stories will be implemented in phase 3.
 GUI Implemetation:
 - As a user, I want to be able to see a panel where all the Coins that have been
    added to the Player's Wallet are displayed. (check)
-- As a user, I want to be able to click a button to reduce 10 coins (Xs) in my wallet (Y) and buy a Small Health Potion.
-- As a user, I want to be able to click a button to dispose a coin, i.e., drop one coin (X) from my wallet (Y).
+- As a user, I want to be able to click a button to reduce 10 coins (Xs) in my wallet (Y) and buy a Small Health Potion. 
+   (check)
+- As a user, I want to be able to click a button to dispose a coin, i.e., drop one coin (X) from my wallet (Y). (check)
 - As a user, I want to be able to click on a Use Small Health Potion Button to use a SmallHealthPotion and 
    add health to my HealthBar. (check)
 - As a user, I want to be able to click on a Descend Button to make the Player interact
@@ -102,7 +103,7 @@ Method Names: addSmallHealthPotions(), addOneSmallHealthPotion(), addOneSmallHea
 I would refactor the MainMenu, LoadGame, SaveGame, and PauseMenu classes so that they all extend
 an abstract menu class that implements the ActionListener interface. I would then override
 the actionPerformed() method belonging to that interface so that these subclasses would only have
-the required additional functionality, and a large portion of reptitive code would be removed. 
+the required additional functionality, and a large portion of repetitive code would be removed consequently. 
 
 In future improvements of this project, I hope to use a pathfinding algorithm to allow enemies to follow the player, and
 a procedural generation algorithm for the level so that it has high replayability.
@@ -111,13 +112,15 @@ a procedural generation algorithm for the level so that it has high replayabilit
 **Pathfinding Implementation**
 - As a user, I want to have an enemy follow me around as I move.
 - As a user, I want to have multiple enemies follow me around as I move.
+- As a user, I want to be able to be trapped by enemies so that I'm forced to either quit or die to lose the game.
 
 ## *Phase 6*
 **Procedural Generation Implementation Using A Random Walker Algorithm**
 - As a user, I want to have the level change completely every time I create a new game.
 - As a user, I want to have the level change every time I descend through the stairs.
 - As a user, I want to be able to descend through 3 dungeon levels before descending again to finish the game.
-**Extras**
+
+### *Extras*
 - As a user, I want to be able to hear a sound every time I complete a level.
 
 

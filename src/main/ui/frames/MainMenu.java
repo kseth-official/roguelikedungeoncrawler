@@ -96,7 +96,6 @@ public class MainMenu extends JFrame implements ActionListener {
     public void addComponentsToFrame() {
         // adds the label to the frame
         add(mainMenuLabel);
-
         // add the buttons
         add(newGameButton);
         add(loadGameButton);

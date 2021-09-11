@@ -122,6 +122,7 @@ public class PlayerTest {
 //        assertFalse(game.player().move("q",game));
 //    }
 //
+
     @Test
     void testInteractTrueOutcomePlayerOnExitPoint() {
         // setup

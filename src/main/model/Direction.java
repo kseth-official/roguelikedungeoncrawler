@@ -3,7 +3,6 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
-// TODO: DirectionTest
 // An enum to model the direction a tile is facing
 public enum Direction implements Writable {
     UP, DOWN, LEFT, RIGHT;
