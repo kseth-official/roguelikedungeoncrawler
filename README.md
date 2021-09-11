@@ -1,4 +1,4 @@
-# ***Deep Dungeon***
+# ***Deep Dungeon - a roguelike dungeon crawler***
 
 **This application is designed for anyone interested 
 in playing a rogue-like dungeon crawler that 
