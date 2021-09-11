@@ -29,6 +29,8 @@ and descend to the next level. Upon descending through 3 levels the game is over
 bar reaches zero.
 - The player has a wallet for coin storage.
 - The player may collect coins by walking on to coin tiles.
+- The player loses 25 health upon walking into an enemy.
+- The player loses 100 health upon walking into a spike.
 - The player may collect small health potions.
 - The player may buy a small health potion for 10 coins.
 - The player may use the small health potion to gain 25 health.
@@ -137,10 +139,3 @@ The following user stories were implemented in phase 6:
 
 ### *Extras*
 - As a user, I want to be able to hear a sound every time I complete a level.
-
-
-
-
-
-
-	
