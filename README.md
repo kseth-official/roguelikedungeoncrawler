@@ -1,7 +1,7 @@
 # ***Deep Dungeon - a roguelike dungeon crawler***
 
 **This application is designed for anyone interested 
-in playing a rogue-like dungeon crawler that 
+in playing a roguelike dungeon crawler game that 
 provides an adequate challenge.**
 
 ## *Game Specification*
