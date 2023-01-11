@@ -1,20 +1,15 @@
 # ***Deep Dungeon - a roguelike dungeon crawler***
 
-**This project is a Java Desktop application with frontend implemented using Java Swing with over 29 user stories and 171 unit tests written in JUnit. The game provides a fun challenge and consists of 3 levels with random map generation and A\* search for enemy AI**
+**This project is a Java-based desktop application that features a user interface implemented using the Java Swing library. It comprises of over 29 user stories and the game is thoroughly tested with 171 unit tests written in JUnit. The game offers an engaging challenge, consisting of 3 levels that feature randomly generated maps and utilize the A* search algorithm for enemy AI.**
 
 ## *Inspiration*
 
-I've played several Rogue-like dungeon games before:
+I have prior experience with playing various rogue-like dungeon games such as 
+- Hades (2018), 
+- The Enchanted Cave 2 (2015), and 
+- Pokemon Mystery Dungeon: Blue Rescue Team (2005). 
 
-- *Hades (2018)*
-- *The Enchanted Cave 2 (2015)*
-- *Pokemon Mystery Dungeon: Blue Rescue Team (2005)*
-
-I’ve always wondered how these games were made. 
-
-This project allowed me to explore this curiosity 
-of mine, while simultaneously implementing an A* pathfinding algorithm for enemy AI and
-a Random Walker Algorithm for procedural map generation, while practicing Unit Testing for game frontend.
+I have always been curious about the development of these games. This project gave me the opportunity to indulge that curiosity.
 
 ## *Game Specification*
 ### *Map*
