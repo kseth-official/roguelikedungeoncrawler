@@ -1,6 +1,6 @@
 # ***Deep Dungeon - a roguelike dungeon crawler***
 
-**This project is a Java-based desktop application that features a user interface implemented using the Java Swing library. It comprises of over 29 user stories and the game is thoroughly tested with 171 unit tests written in JUnit. The game offers an engaging challenge, consisting of 3 levels that feature randomly generated maps and utilize the A* search algorithm for enemy AI.**
+**This project is a Java-based desktop application that features a user interface implemented using the Java Swing library. It comprises of over 29 user stories and the game is thoroughly tested with 171 unit tests written in JUnit. The game offers an engaging challenge, consisting of 3 levels that feature randomly generated maps and utilize the A\* search algorithm for enemy AI.**
 
 ## *Inspiration*
 
